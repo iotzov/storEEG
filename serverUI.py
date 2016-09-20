@@ -1,6 +1,6 @@
 import npyscreen as nps
 
-class dataSetForm(nps.ActionForm):
+class dataSetEditForm(nps.ActionForm):
     """Data entry form for the dataSet class
        Allows user to update data for existing sets or enter data for new sets
        Created and called by the mainMenu"""
@@ -29,8 +29,9 @@ class setDisplay(nps.FormMutt):
 
     def beforeEditing(self):
         self.updateDisplayed()
+        
     def updateDisplayed(self):
         self.wMain.values = self.parentApp.database.listAll()
         self.wMain.display()
-
-
+      
+    def
