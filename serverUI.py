@@ -11,9 +11,9 @@ class dataSetEditForm(nps.ActionForm):
         self.vExperimenter = self.add(nps.TitleText, name = "Experimenter:")
         self.vPublications = self.add(nps.TitleText, name = "Publications:")
         self.vDate = self.add(nps.TitleDateCombo, name = "Date:")
-        self.vStimTypes = self.add(nps.TitleMultiSelect, max_height=4,
+        self.vStimTypes = self.add(nps.TitleMultiSelect, max_height=-4,
             value=[1,], name="Choose 1 or more stimulus types:",
-            values = ["Visual", "Audio", "Video", "Other"])
+            values = ["Visual", "Audio", "Video", "Other"], scroll_exit=True)
 
     def on_cancel(self):
         self.parentApp.switchFormPrevious()
@@ -26,8 +26,8 @@ class dataSetItem(nps.MultiLineAction):
     def __init__(self, *args, **keywords):
         super(dataSetItem, self).__init__(*args, **keywords)
 
-    def displayValues(self, data):
-        return data.getName()
+    def displayValues(self, vl):
+        return vl.getName()
 
     def actionHighlighted(self, act_on_this, keypress):
         self.parent.parentApp.getForm('EDITDATASET').value = act_on_this[0]
