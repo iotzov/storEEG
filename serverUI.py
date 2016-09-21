@@ -12,7 +12,7 @@ class dataSetEditForm(nps.ActionForm):
         self.vPublications = self.add(nps.TitleText, name = "Publications:")
         self.vDate = self.add(nps.TitleDateCombo, name = "Date:")
         self.vStimTypes = self.add(nps.TitleMultiSelect, max_height=-4,
-            value=[1,], name="Choose 1 or more stimulus types:",
+            value=[1,], name="Choose 1 or more stimulus types (use spacebar to select/deselect):",
             values = ["Visual", "Audio", "Video", "Other"], scroll_exit=True)
 
     def on_cancel(self):
@@ -49,3 +49,11 @@ class setDisplay(nps.FormMutt):
     def updateDisplayed(self):
         self.wMain.values = self.parentApp.database.listAll()
         self.wMain.display()
+
+class dataSetManager(nps.NPSAppManaged):
+    def onStart(self):
+        self.database = dataSet.dataDB()
+        self.addForm("MAIN", mainMenu)
+        self.addForm("EDITDATASET", dataSetEditForm)
+        self.addForm("DISPLAYSETS", setDisplay)
+
