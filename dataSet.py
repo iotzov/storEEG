@@ -11,3 +11,20 @@ class dataDB():
         self.users = dbInfo['users']             # Import user & permissions info
         self.logInfo = [line.rstrip('\n') for line in open('filename')]       # Get info from changelog
         self.log = open(dbInfo['log'], 'a+t')         # Open changelog for adding new info
+
+    def addSet(self, newSet): 
+        """Add a set to the database"""
+        pass
+
+    def replaceSetData(self, setName, newData):
+        """Replace metadata file of setName with newData"""
+        pass
+
+    def removeSet(self, setName):
+        """Deletes setName from the DB. REQUIRES ELEVATED PERMISSIONS."""
+        pass
+
+    def getAllSetData(self):
+        """Return dictionary of set names(keys) and metadata file locations(values)"""
+        pass
+
