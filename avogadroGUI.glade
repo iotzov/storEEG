@@ -9,40 +9,11 @@
       <object class="GtkGrid" id="DataEntryGrid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="row_spacing">4</property>
         <child>
           <object class="GtkEntry" id="EnterName">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="Enter">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="entry2">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkFileChooserButton" id="filechooserbutton1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -50,7 +21,93 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkEntry" id="EnterExperimenter">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EnterPublications">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="NamePrompt">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Data set name: </property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="ExperimenterPrompt">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Experimenter: </property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="PublicationsPrompt">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Involved in these publications: </property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="DatePrompt">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Date of experiment: </property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="EnterDate">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="testButton">
+            <property name="label" translatable="yes">get widgets</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="relief">none</property>
+            <property name="xalign">0.50999999046325684</property>
+            <signal name="clicked" handler="testGetChildren" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">4</property>
+          </packing>
         </child>
         <child>
           <placeholder/>
@@ -172,7 +229,12 @@
               <object class="GtkLabel" id="HelpPage1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Browsing help</property>
+                <property name="label" translatable="yes">Browse Helping
+
+
+
+
+</property>
               </object>
             </child>
             <child type="tab">
@@ -239,7 +301,7 @@
   </object>
   <object class="GtkWindow" id="MainMenu">
     <property name="can_focus">False</property>
-    <signal name="delete-event" handler="onDeleteWindow" swapped="no"/>
+    <signal name="delete-event" handler="onDeleteMain" swapped="no"/>
     <child>
       <object class="GtkBox" id="MainMenuBox">
         <property name="visible">True</property>
@@ -267,7 +329,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="always_show_image">True</property>
-            <signal name="clicked" handler="OpenBrowseDataWindow" swapped="no"/>
+            <signal name="clicked" handler="BrowseDataButtonClicked" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -282,6 +344,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="SearchButtonClicked" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -311,7 +374,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <signal name="clicked" handler="HelpButtonPressed" swapped="no"/>
+            <signal name="clicked" handler="HelpButtonClicked" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -326,7 +389,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <signal name="clicked" handler="QuitButtonPressed" swapped="no"/>
+            <signal name="clicked" handler="QuitButtonClicked" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
