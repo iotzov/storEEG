@@ -1,0 +1,12 @@
+TO DO FOR THE GUI:
+
+make the columns in the browse window expand to fill the whole window
+add a way to pull out a section of the data based on stims
+add a way to deal with obtaining/managing trigger values
+either add user authentification or store the whole thing on the server
+
+TO DO FOR THE DB:
+
+add methods for creating/managing file structure to data sets
+add methods for pulling out/returning code to pull out relevant data based on stims
+***maybe add methods for doing automated analysis?***
