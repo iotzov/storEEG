@@ -10,6 +10,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="row_spacing">4</property>
+        <property name="column_spacing">3</property>
         <child>
           <object class="GtkEntry" id="EnterName">
             <property name="visible">True</property>
@@ -56,6 +57,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">Experimenter: </property>
+            <property name="angle">0.04999999888241291</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -95,7 +97,67 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkButton" id="OpenStimButton">
+            <property name="label" translatable="yes">Add/Edit Stimulus Files</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="AddStimFiles" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="FileLocationButton">
+            <property name="label" translatable="yes">Add/Edit Stimulus Triggers</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="AddStimTriggers" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">4</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFileChooserDialog" id="stimFileChooser">
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="window_position">center-always</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">dialog</property>
+    <property name="gravity">center</property>
+    <property name="transient_for">AddOrModifyDataSet</property>
+    <property name="attached_to">FileLocationButton</property>
+    <property name="has_resize_grip">True</property>
+    <property name="preview_widget_active">False</property>
+    <property name="select_multiple">True</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="filechooserdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="filechooserdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
         </child>
         <child>
           <placeholder/>

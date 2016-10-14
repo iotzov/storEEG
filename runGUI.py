@@ -17,9 +17,15 @@ class gadroRep:
         args[0].hide()
         return True
 
-    # Below needs to be fleshed out
+    # Function below needs to be fleshed out
     def SearchButtonClicked(self, button):
-        pass 
+        pass
+
+    def AddStimFiles(self, button):
+        self.stimFileChooser.show_all()
+
+    def AddStimTriggers(self, button):
+        pass
 
     def HelpButtonClicked(self, button):
         self.HelpScreen = self.builder.get_object('HelpScreen')
@@ -51,13 +57,13 @@ class gadroRep:
 
         self.MainMenu = self.builder.get_object('MainMenu')
         self.MainMenu.show_all()
+        self.stimFileChooser = self.builder.get_object('stimFileChooser')
         self.db = dataDB()
 
     def createBrowsePage(self):
         browseWindow = Gtk.Window()
         nbook = Gtk.Notebook()
         browseWindow.add(nbook)
-        print(browseWindow.get_size())
         browseWindow.resize(400,400)
         nbook.set_tab_pos(Gtk.PositionType(0))
         for dset in self.db.sets:
@@ -93,4 +99,3 @@ class gadroRep:
 if __name__ == "__main__":
     main = gadroRep()
     Gtk.main()
-
