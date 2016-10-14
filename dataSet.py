@@ -7,10 +7,10 @@ class dataDB():
     def __init__(self):
 
         self.dbInfo = shlv.open('.meta_DB')      # Open main metadata file
-        self.sets = dbInfo['sets']               # Import info about all data sets
-        self.users = dbInfo['users']             # Import user & permissions info
-        self.logInfo = [line.rstrip('\n') for line in open('filename')]       # Get info from changelog
-        self.log = open(dbInfo['log'], 'a+t')         # Open changelog for adding new info
+        self.sets = self.dbInfo['sets']               # Import info about all data sets
+        self.users = self.dbInfo['users']             # Import user & permissions info
+        self.logInfo = [line.rstrip('\n') for line in open('filename.txt')]       # Get info from changelog
+        self.log = open(self.dbInfo['log'], 'a+t')         # Open changelog for adding new info
 
     def addSet(self, newSet): 
         """Add a set to the database"""

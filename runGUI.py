@@ -7,7 +7,7 @@ from dataSet import *
 class gadroRep:
 
     def BrowseDataButtonClicked(self, button):
-        self.currentBrowsePage = createBrowsePage()
+        self.currentBrowsePage = self.createBrowsePage()
         self.currentBrowsePage.show_all()
 
     def onDeleteMain(self, *args):
@@ -57,6 +57,9 @@ class gadroRep:
         browseWindow = Gtk.Window()
         nbook = Gtk.Notebook()
         browseWindow.add(nbook)
+        print(browseWindow.get_size())
+        browseWindow.resize(400,400)
+        nbook.set_tab_pos(Gtk.PositionType(0))
         for dset in self.db.sets:
             temp = Gtk.Grid()
             temp.set_row_spacing(4)
@@ -69,15 +72,15 @@ class gadroRep:
             temp.insert_row(4)
 
             nbook.append_page(temp, Gtk.Label(dset.name))
-            temp.attach(Gtk.Label('Date: ', 0,0,1,1))
-            temp.attach(Gtk.Label('Publications: ', 0,1,1,1))
-            temp.attach(Gtk.Label('Experimenter: ', 0,2,1,1))
-            temp.attach(Gtk.Label('Stimuli: ', 0,3,1,1))
+            temp.attach(Gtk.Label('Date: '), 0,0,1,1)
+            temp.attach(Gtk.Label('Publications: '), 0,1,1,1)
+            temp.attach(Gtk.Label('Experimenter: '), 0,2,1,1)
+            temp.attach(Gtk.Label('Stimuli: '), 0,3,1,1)
 
-            temp.attach(Gtk.Label(dset.date, 1,0,1,1))
-            temp.attach(Gtk.Label(dset.publications, 1,1,1,1))
-            temp.attach(Gtk.Label(dset.experimenter, 1,2,1,1))
-            temp.attach(Gtk.Label(dset.stimuli, 1,3,1,1))
+            temp.attach(Gtk.Label(dset.date), 1,0,1,1)
+            temp.attach(Gtk.Label(dset.publications), 1,1,1,1)
+            temp.attach(Gtk.Label(dset.experimenter), 1,2,1,1)
+            temp.attach(Gtk.Label(dset.stimuli), 1,3,1,1)
 
             a = Gtk.Button('View data set files and locations')
         browseWindow.connect('delete-event', self.destroyBrowse)
