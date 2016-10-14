@@ -28,3 +28,13 @@ class dataDB():
         """Return dictionary of set names(keys) and metadata file locations(values)"""
         pass
 
+class dataSet():
+
+    """Houses a single data set and manages its folder and information"""
+
+    def __init__(self):
+        self.name = None
+        self.date = None
+        self.publications = None
+        self.experimenter = None
+        self.stimuli = None

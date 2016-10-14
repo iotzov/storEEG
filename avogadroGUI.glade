@@ -95,19 +95,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="testButton">
-            <property name="label" translatable="yes">get widgets</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="relief">none</property>
-            <property name="xalign">0.50999999046325684</property>
-            <signal name="clicked" handler="testGetChildren" swapped="no"/>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">4</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>

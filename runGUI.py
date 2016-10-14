@@ -1,6 +1,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+from dataSet import *
 
 #class displaySetPage(
 class gadroRep:
@@ -35,6 +36,10 @@ class gadroRep:
         for x in button.get_parent().get_children():
             print(Gtk.Buildable.get_name(x))
 
+    def destroyBrowse(self, *args):
+        args[0].destroy()
+        return True
+
     def __init__(self):
         self.builder = Gtk.Builder()
         self.builder.add_from_file('avogadroGUI.glade')
@@ -43,6 +48,41 @@ class gadroRep:
 
         self.MainMenu = self.builder.get_object('MainMenu')
         self.MainMenu.show_all()
+        self.db = dataDB()
+
+    def createBrowsePage(self):
+        browseWindow = Gtk.Window()
+        nbook = Gtk.Notebook()
+        browseWindow.add(nbook)
+        for dset in self.db.sets:
+            temp = Gtk.Grid()
+            temp.set_row_spacing(4)
+            temp.insert_column(0)
+            temp.insert_column(1)
+            temp.insert_row(0)
+            temp.insert_row(1)
+            temp.insert_row(2)
+            temp.insert_row(3)
+            temp.insert_row(4)
+
+            nbook.append_page(temp, Gtk.Label(dset.name))
+            temp.attach(Gtk.Label('Date: ', 0,0,1,1))
+            temp.attach(Gtk.Label('Publications: ', 0,1,1,1))
+            temp.attach(Gtk.Label('Experimenter: ', 0,2,1,1))
+            temp.attach(Gtk.Label('Stimuli: ', 0,3,1,1))
+
+            temp.attach(Gtk.Label(dset.date, 1,0,1,1))
+            temp.attach(Gtk.Label(dset.publications, 1,1,1,1))
+            temp.attach(Gtk.Label(dset.experimenter, 1,2,1,1))
+            temp.attach(Gtk.Label(dset.stimuli, 1,3,1,1))
+
+            a = Gtk.Button('View data set files and locations')
+        browseWindow.connect('delete-event', self.destroyBrowse)
+        return browseWindow
+
+
+    def showFiles(self):
+        pass
 
 if __name__ == "__main__":
     main = gadroRep()
