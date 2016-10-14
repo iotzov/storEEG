@@ -7,8 +7,8 @@ from dataSet import *
 class gadroRep:
 
     def BrowseDataButtonClicked(self, button):
-        self.BrowseDataSets = self.builder.get_object('BrowseDataSets')
-        self.BrowseDataSets.show_all()
+        self.currentBrowsePage = createBrowsePage()
+        self.currentBrowsePage.show_all()
 
     def onDeleteMain(self, *args):
         Gtk.main_quit(*args)
@@ -37,8 +37,11 @@ class gadroRep:
             print(Gtk.Buildable.get_name(x))
 
     def destroyBrowse(self, *args):
-        args[0].destroy()
-        return True
+        if(self.currentBrowsePage != None):
+            self.currentBrowsePage.destroy()
+            self.currentBrowsePage = None
+            return True
+        return False
 
     def __init__(self):
         self.builder = Gtk.Builder()

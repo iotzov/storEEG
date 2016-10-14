@@ -328,10 +328,11 @@
         </child>
         <child>
           <object class="GtkButton" id="SearchButton">
-            <property name="label" translatable="yes">Search Data Repository</property>
+            <property name="label" translatable="yes">Search Data Repository (Coming soon!)</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="relief">none</property>
             <signal name="clicked" handler="SearchButtonClicked" swapped="no"/>
           </object>
           <packing>
