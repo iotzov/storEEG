@@ -27,10 +27,17 @@ class gadroRep:
 
     def OpenStimButtonNewFileClicked(self, button):
         """open window that shows currently known stim files and offers options to add new stim files"""
-        pass
+        if(self.currentStimList == None):
+            self.StimFileDisplayWindow = self.builder.get_object('StimFileDisplayWindow')
+            self.populateNewStimWindow()
+        else:
+            self.StimFileDisplayWindow.show_all()
         #self.AddDataSet.
         #self.stimFileChooser.show_all()
 
+    def populateNewStimWindow(self):
+        """creates a new stim window with only add and exit buttons"""
+        pass
     def OpenDataFileButtonNewFileClicked(self, button):
         """open window that shows currently known data files and offers options to add new data files"""
         name=self.builder.get_object('EnterName')
@@ -77,6 +84,7 @@ class gadroRep:
         self.MainMenu = self.builder.get_object('MainMenu')
         self.MainMenu.show_all()
         self.stimFileChooser = self.builder.get_object('stimFileChooser')
+        self.currentStimList = None
         self.db = dataDB()
 
     def createBrowsePage(self):
