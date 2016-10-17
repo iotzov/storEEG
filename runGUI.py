@@ -25,11 +25,16 @@ class gadroRep:
     def SearchButtonClicked(self, button):
         pass
 
-    def OpenStimButtonClicked(self, button):
-        self.stimFileChooser.show_all()
-
-    def DataFileButtonClicked(self, button):
+    def OpenStimButtonNewFileClicked(self, button):
+        """open window that shows currently known stim files and offers options to add new stim files"""
         pass
+        #self.AddDataSet.
+        #self.stimFileChooser.show_all()
+
+    def OpenDataFileButtonNewFileClicked(self, button):
+        """open window that shows currently known data files and offers options to add new data files"""
+        name=self.builder.get_object('EnterName')
+        print(name.get_text())
 
     def HelpButtonClicked(self, button):
         self.HelpScreen = self.builder.get_object('HelpScreen')
@@ -53,11 +58,15 @@ class gadroRep:
         print(button.get_toplevel().get_filenames())
 
     def destroyBrowse(self, *args):
+        """Destroys old browse window when closed to lower required resources"""
         if(self.currentBrowsePage != None):
             self.currentBrowsePage.destroy()
             self.currentBrowsePage = None
             return True
         return False
+
+    def clearAddDataWindow(self):
+        """clears the AddDataSet window so none of the entries are filled if it is re-opened"""
 
     def __init__(self):
         self.builder = Gtk.Builder()
@@ -98,12 +107,14 @@ class gadroRep:
             temp.attach(Gtk.Label(dset.experimenter), 1,2,1,1)
             temp.attach(Gtk.Label(dset.stimuli), 1,3,1,1)
 
-            a = Gtk.Button('View data set files and locations')
+            a = Gtk.Button('View data set files, stimuli, and locations')
+            a.connect('clicked', self.ShowFiles)
+            temp.attach(a, 0,4,2,1)
         browseWindow.connect('delete-event', self.destroyBrowse)
         return browseWindow
 
 
-    def showFiles(self):
+    def ShowFiles(self, button):
         pass
 
 if __name__ == "__main__":
