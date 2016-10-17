@@ -5,6 +5,10 @@ from dataSet import *
 
 #class displaySetPage(
 class gadroRep:
+    
+    """This class houses the GUI and integrates the data transfer between the GUI and the DB"""
+
+    # Button click function definitions:
 
     def BrowseDataButtonClicked(self, button):
         self.currentBrowsePage = self.createBrowsePage()
@@ -21,10 +25,10 @@ class gadroRep:
     def SearchButtonClicked(self, button):
         pass
 
-    def AddStimFiles(self, button):
+    def OpenStimButtonClicked(self, button):
         self.stimFileChooser.show_all()
 
-    def AddStimTriggers(self, button):
+    def DataFileButtonClicked(self, button):
         pass
 
     def HelpButtonClicked(self, button):
@@ -35,12 +39,18 @@ class gadroRep:
         Gtk.main_quit()
 
     def AddNewButtonClicked(self, button):
-        self.AddOrModifyDataSet = self.builder.get_object('AddOrModifyDataSet')
-        self.AddOrModifyDataSet.show_all()
+        self.AddDataSet = self.builder.get_object('AddDataSet')
+        self.AddDataSet.show_all()
 
     def testGetChildren(self, button):
         for x in button.get_parent().get_children():
             print(Gtk.Buildable.get_name(x))
+
+    def FileChooserCancelButtonClicked(self, button):
+        self.onDeleteWindow(button.get_toplevel())
+
+    def FileChooserAddButtonClicked(self, button):
+        print(button.get_toplevel().get_filenames())
 
     def destroyBrowse(self, *args):
         if(self.currentBrowsePage != None):
