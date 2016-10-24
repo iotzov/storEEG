@@ -27,13 +27,8 @@ class gadroRep:
 
     def OpenStimButtonNewFileClicked(self, button):
         """open window that shows currently known stim files and offers options to add new stim files"""
-        if(self.currentStimList == None):
-            self.StimFileDisplayWindow = self.builder.get_object('StimFileDisplayWindow')
-            self.populateNewStimWindow()
-        else:
-            self.StimFileDisplayWindow.show_all()
-        #self.AddDataSet.
-        #self.stimFileChooser.show_all()
+        self.StimFileDisplayWindow = self.builder.get_object("StimFileDisplayWindow")
+        self.StimFileDisplayWindow.show_all()
 
     def populateNewStimWindow(self):
         """creates a new stim window with only add and exit buttons"""
@@ -74,6 +69,26 @@ class gadroRep:
 
     def clearAddDataWindow(self):
         """clears the AddDataSet window so none of the entries are filled if it is re-opened"""
+
+    # File Chooser window functions
+
+    def CancelStimForm(self, button):
+        button.get_toplevel().destroy()
+
+    def SubmitSelectedStimForm(self, button):
+        pass
+
+    def RemoveSelectedStimFile(self, button):
+        pass
+
+    def OpenFileChooserWindow(self, button):
+        pass
+
+    def DataChooserAddClicked(self, button):
+        pass
+
+    def DataChooserCancelClicked(self, button):
+        pass
 
     def __init__(self):
         self.builder = Gtk.Builder()
