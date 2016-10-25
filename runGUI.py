@@ -1,6 +1,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+import os
 from dataSet import *
 
 #class displaySetPage(
@@ -58,6 +59,13 @@ class gadroRep:
 
     def FileChooserAddButtonClicked(self, button):
         print(button.get_toplevel().get_filenames())
+        selected = button.get_toplevel().get_filenames()
+        for x in selected:
+            if(os.path.isdir(x)):
+                self.updateStimChooserFolder(x)
+            else:
+                self.updateStimChooserFile(x)
+        self.onDeleteWindow(button.get_toplevel())
 
     def destroyBrowse(self, *args):
         """Destroys old browse window when closed to lower required resources"""
@@ -70,7 +78,7 @@ class gadroRep:
     def clearAddDataWindow(self):
         """clears the AddDataSet window so none of the entries are filled if it is re-opened"""
 
-    # File Chooser window functions
+    # Stim File Chooser window functions
 
     def CancelStimForm(self, button):
         button.get_toplevel().destroy()
@@ -79,15 +87,40 @@ class gadroRep:
         pass
 
     def RemoveSelectedStimFile(self, button):
-        pass
+        selected = self.StimFileDisplayWindow.get_selected_row()
+        selected.destroy()
 
     def OpenFileChooserWindow(self, button):
-        pass
+        self.StimFileChooser = self.builder.get_object('StimFileChooser')
+        self.StimFileChooser.show_all()
+
+    def updateStimChooserFile(self, pathToSelected):
+       pass 
+    
+    def updateStimChooserFolder(self, selected):
+        files = [f for f in os.listdir(selected) if os.path.isfile(join(selected, f))]
+        for f in files:
+            self.updateStimChooserFile(f)
+
+
+    # Data file chooser window functions
 
     def DataChooserAddClicked(self, button):
         pass
 
     def DataChooserCancelClicked(self, button):
+        pass
+
+    def OpenDataFileChooser(self, button):
+        pass
+
+    def RemoveDataFileClicked(self, button):
+        pass
+
+    def SubmitSelectedDataClicked(self, button):
+        pass
+
+    def CancelDataFormClicked(self, button):
         pass
 
     def __init__(self):
@@ -130,14 +163,20 @@ class gadroRep:
             temp.attach(Gtk.Label(dset.experimenter), 1,2,1,1)
             temp.attach(Gtk.Label(dset.stimuli), 1,3,1,1)
 
-            a = Gtk.Button('View data set files, stimuli, and locations')
-            a.connect('clicked', self.ShowFiles)
-            temp.attach(a, 0,4,2,1)
+            a = Gtk.Button('View data set files')
+            b = Gtk.Button('View stimulus files')
+            a.connect('clicked', self.ShowDataFiles)
+            b.connect('clicked', self.ShowStimFiles)
+            temp.attach(a, 0,4,1,1)
+            temp.attach(b, 1,4,1,1)
         browseWindow.connect('delete-event', self.destroyBrowse)
         return browseWindow
 
 
-    def ShowFiles(self, button):
+    def ShowDataFiles(self, button):
+        pass
+
+    def ShowStimFiles(self, button):
         pass
 
 if __name__ == "__main__":
