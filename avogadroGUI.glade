@@ -45,7 +45,7 @@
           <object class="GtkLabel" id="NamePrompt">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Data set name: </property>
+            <property name="label" translatable="yes">Study name: </property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -79,7 +79,7 @@
           <object class="GtkLabel" id="DatePrompt">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Date of experiment: </property>
+            <property name="label" translatable="yes">Date: </property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -98,7 +98,7 @@
         </child>
         <child>
           <object class="GtkButton" id="OpenStimButton">
-            <property name="label" translatable="yes">View/Edit Stimuli</property>
+            <property name="label" translatable="yes">View/Edit Stimuli and Event Values</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
@@ -111,7 +111,7 @@
         </child>
         <child>
           <object class="GtkButton" id="DataFileButton">
-            <property name="label" translatable="yes">View/Edit Data Files</property>
+            <property name="label" translatable="yes">View/Edit Sessions</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
@@ -120,6 +120,32 @@
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="NewSetAddButton">
+            <property name="label">gtk-cancel</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_stock">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="NewSetCancelButton">
+            <property name="label">gtk-add</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_stock">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">5</property>
           </packing>
         </child>
       </object>
@@ -237,8 +263,6 @@
             <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="activatable">False</property>
-            <property name="selectable">False</property>
             <child>
               <object class="GtkToolbar" id="EditDataSelectionsToolbar">
                 <property name="visible">True</property>
@@ -453,7 +477,7 @@
         </child>
         <child>
           <object class="GtkButton" id="AddNewButton">
-            <property name="label" translatable="yes">Add New Data Set</property>
+            <property name="label" translatable="yes">Add New Study</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
@@ -522,8 +546,6 @@
             <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="activatable">False</property>
-            <property name="selectable">False</property>
             <child>
               <object class="GtkToolbar" id="EditStimSelectionsToolbar">
                 <property name="visible">True</property>
