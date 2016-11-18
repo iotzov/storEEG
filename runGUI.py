@@ -36,8 +36,8 @@ class gadroRep:
         pass
     def OpenDataFileButtonNewFileClicked(self, button):
         """open window that shows currently known data files and offers options to add new data files"""
-        name=self.builder.get_object('EnterName')
-        print(name.get_text())
+        self.newSetDataFiles=self.builder.get_object('DataFileDisplayWindow')
+        self.newSetDataFiles.show_all()
 
     def HelpButtonClicked(self, button):
         self.HelpScreen = self.builder.get_object('HelpScreen')
