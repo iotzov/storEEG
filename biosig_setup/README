@@ -1,0 +1,39 @@
+
+About Biosig's Python interfaces. 
+======================================
+
+History: 
+-------------------------------------------------
+  In the past there were several attempts
+  of providing Python support. A first attempt 
+  using pure python should to be very slow and a 
+  lot of implementation effort, only some early 
+  version of GDF has been supported. 
+  Later, Swig was used for providing a python binding. 
+  This was reasonable flexible, and the libbiosig 
+  implementation could be mostly used. Disadvantages 
+  were the effort to maintin swig.i interface file, 
+  which is currently most likely broken. Known issues 
+  are string support, lack of Python3 support. Also this
+  attempt is considered deprecated. 
+
+  The third attempt is using "module extensions". 
+  Currently, two functions, one for reading the header
+  information (in JSON format) and one for reading the 
+  data samples is provided. 
+
+Usage: 
+--------------------------------------------------
+  - start python and run
+  import biosig
+  HDR=biosig.header("filename.gdf")
+  print HDR
+  Data=biosig.data("filename.gdf")
+     
+Installation: 
+--------------------------------------------------
+  make module 
+  sudo make install 
+  export PYTHONPATH=/usr/local/lib/python$(PYVER)/dist-packages/
+  
+
