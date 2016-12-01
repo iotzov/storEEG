@@ -123,17 +123,6 @@ class gadroRep:
     def CancelDataFormClicked(self, button):
         pass
 
-    def __init__(self):
-        self.builder = Gtk.Builder()
-        self.builder.add_from_file('avogadroGUI.glade')
-
-        self.builder.connect_signals(self)
-
-        self.MainMenu = self.builder.get_object('MainMenu')
-        self.MainMenu.show_all()
-        self.stimFileChooser = self.builder.get_object('stimFileChooser')
-        self.currentStimList = None
-        self.db = dataDB()
 
     def createBrowsePage(self):
         browseWindow = Gtk.Window()
@@ -178,6 +167,18 @@ class gadroRep:
 
     def ShowStimFiles(self, button):
         pass
+
+    def __init__(self):
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file('avogadroGUI.glade')
+
+        self.builder.connect_signals(self)
+
+        self.MainMenu = self.builder.get_object('MainMenu')
+        self.MainMenu.show_all()
+        self.stimFileChooser = self.builder.get_object('stimFileChooser')
+        self.currentStimList = None
+        self.db = dataDB()
 
 if __name__ == "__main__":
     main = gadroRep()
