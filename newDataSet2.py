@@ -1,4 +1,6 @@
 # This class is intended to manage the database and serve as interpreter between the user and the database
+import xmltodict
+import scipy.io as sio
 
 class dataRepository(object):
     """docstring for dataRepository.
@@ -18,7 +20,9 @@ class Study(object):
     The Study class houses a single study that is part of the dataRepository.
     One study contains a number of sessions, each of which is an instance of the Session class.
     """
-    def __init__(self):
+    def __init__(self, studyFile=None):
+        if studyFile==None:
+            pass
         self.title = None                           # String containing title of study
         self.description = None                     # String containing description of study
         self.sessions = None                        # List of Session class instances
@@ -48,6 +52,18 @@ class Task(object):
     The Task class houses a single task that is performed in a given Study.
     It holds a number of properties which must be defined for it to be considered a valid Task. 
     A list of these objects is held by the Study class.
+    """
+
+    def __init__(self):
+        pass
+
+class Event(object):
+    """docstring for Event.
+
+    The Event class houses information on a single event trigger that occurs in a study.
+    It holds a number of properties relating to the event, all must be defined for the Event to be valid.
+    A list of these objects is held by the Study class.
+    Life is a meaningless void.
     """
 
     def __init__(self):
