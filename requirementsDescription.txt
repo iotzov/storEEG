@@ -1,0 +1,5 @@
+pybdf - module to import .bdf files for them to be used in data processing 
+	|
+	| Requires: numpy & a fortran compiler
+pywebview
+pythonwebkit
