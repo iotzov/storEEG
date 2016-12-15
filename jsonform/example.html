@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Getting started with JSON Form</title>
+    <link rel="stylesheet" style="text/css" href="deps/opt/bootstrap.css" />
+  </head>
+  <body>
+    <h1>Getting started with JSON Form</h1>
+    <form></form>
+    <div id="res" class="alert"></div>
+    <script type="text/javascript" src="deps/jquery.min.js"></script>
+    <script type="text/javascript" src="deps/underscore.js"></script>
+    <script type="text/javascript" src="deps/opt/jsv.js"></script>
+    <script type="text/javascript" src="lib/jsonform.js"></script>
+    <script type="text/javascript">
+      $('form').jsonForm({
+        schema: {
+          study:{
+              "type": "object",
+              "properties": {
+                  "title": {
+                      "type": "string"
+                  },
+                  "type": {
+                      "type": "string",
+                      "enum": [
+                          "ess:StudyLevel1"
+                      ]
+                  },
+                  "essVersion": {
+                      "type": "string"
+                  },
+                  "shortDescription": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 120
+                  },
+                  "dateCreated": {
+                      "type": "string"
+                  },
+                  "dateModified": {
+                      "type": "string"
+                  },
+                  "id": {
+                      "type": "string",
+                      "minLength": 32
+                  },
+                  "DOI": {
+                      "type": "string"
+                  },
+                  "description": {
+                      "type": "string"
+                  },
+                  "rootURI": {
+                      "type": "string"
+                  },
+                  "projectFunding": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "organization": {
+                                  "type": "string"
+                              },
+                              "grantId": {
+                                  "type": "string"
+                              }
+                          },
+                          "additionalProperties": false
+                      },
+                      "additionalProperties": false
+                  },
+                  "recordingParameterSets": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "recordingParameterSetLabel": {
+                                  "type": "string"
+                              },
+                              "modalities": {
+                                  "type": "array",
+                                  "items": {
+                                      "type": "object",
+                                      "properties": {
+                                          "type": {
+                                              "type": "string"
+                                          },
+                                          "samplingRate": {
+                                              "type": "number",
+                                              "minimum": 0
+                                          },
+                                          "name": {
+                                              "type": "string"
+                                          },
+                                          "description": {
+                                              "type": "string"
+                                          },
+                                          "startChannel": {
+                                              "type": "integer",
+                                              "minimum": 1
+                                          },
+                                          "endChannel": {
+                                              "type": "integer",
+                                              "minimum": 1
+                                          },
+                                          "subjectInSessionNumber": {
+                                              "type": "string"
+                                          },
+                                          "referenceLocation": {
+                                              "type": "string"
+                                          },
+                                          "referenceLabel": {
+                                              "type": "string"
+                                          },
+                                          "channelLocationType": {
+                                              "type": "string"
+                                          },
+                                          "channelLabels": {
+                                              "type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              },
+                                              "additionalProperties": false
+                                          },
+                                          "nonScalpChannelLabels": {
+                                              "type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              },
+                                              "additionalProperties": false
+                                          }
+                                      },
+                                      "additionalProperties": false
+                                  },
+                                  "additionalProperties": false
+                              }
+                          },
+                          "additionalProperties": false
+                      },
+                      "additionalProperties": false
+                  },
+                  "sessions": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "number": {
+                                  "type": "string"
+                              },
+                              "labId": {
+                                  "type": "string"
+                              },
+                              "subjects": {
+                                  "type": "array",
+                                  "items": {
+                                      "type": "object",
+                                      "properties": {
+                                          "labId": {
+                                              "type": "string"
+                                          },
+                                          "inSessionNumber": {
+                                              "type": "string"
+                                          },
+                                          "group": {
+                                              "type": "string"
+                                          },
+                                          "gender": {
+                                              "type": "string"
+                                          },
+                                          "YOB": {
+                                              "type": "string"
+                                          },
+                                          "age": {
+                                              "type": "string"
+                                          },
+                                          "hand": {
+                                              "type": "string"
+                                          },
+                                          "vision": {
+                                              "type": "string",
+                                              "enum": [
+                                                  "Normal",
+                                                  "CorrectedToNormal",
+                                                  "Impaired",
+                                                  "NA",
+                                                  "-",
+                                                  " "
+                                              ]
+                                          },
+                                          "hearing": {
+                                              "type": "string",
+                                              "enum": [
+                                                  "Normal",
+                                                  "CorrectedToNormal",
+                                                  "Impaired",
+                                                  "NA",
+                                                  "-",
+                                                  " "
+                                              ]
+                                          },
+                                          "height": {
+                                              "type": "string"
+                                          },
+                                          "weight": {
+                                              "type": "string"
+                                          },
+                                          "medication": {
+                                              "type": "object",
+                                              "properties": {
+                                                  "caffeine": {
+                                                      "type": "string"
+                                                  },
+                                                  "alcohol": {
+                                                      "type": "string"
+                                                  }
+                                              }
+                                          },
+                                          "channelLocationFile": {
+                                              "type": "string"
+                                          }
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              "note": {
+                                  "type": "object",
+                                  "properties": {
+                                      "text": {
+                                          "type": "string"
+                                      },
+                                      "linkLabel": {
+                                          "type": "string"
+                                      },
+                                      "link": {
+                                          "type": "string"
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              "dataRecordings": {
+                                  "type": "array",
+                                  "items": {
+                                      "type": "object",
+                                      "properties": {
+                                          "taskLabels": {
+                                              "type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              },
+                                              "additionalProperties": false
+                                          },
+                                          "filename": {
+                                              "type": "string"
+                                          },
+                                          "dataRecordingId": {
+                                              "type": "string"
+                                          },
+                                          "startDateTime": {
+                                              "type": "string"
+                                          },
+                                          "recordingParameterSetLabel": {
+                                              "type": "string"
+                                          },
+                                          "eventInstanceFile": {
+                                              "type": "string"
+                                          },
+                                          "originalFileNameAndPath": {
+                                              "type": "string"
+                                          }
+                                      },
+                                      "additionalProperties": false
+                                  },
+                                  "additionalProperties": false
+                              }
+                          }
+                      },
+                      "additionalProperties": false
+                  },
+                  "tasks": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "taskLabel": {
+                                  "type": "string"
+                              },
+                              "tag": {
+                                  "type": "string"
+                              },
+                              "description": {
+                                  "type": "string"
+                              }
+                          },
+                          "additionalProperties": false
+                      },
+                      "additionalProperties": false
+                  },
+                  "eventSpecificationMethod": {
+                      "type": "string",
+                      "enum": [
+                          "Codes",
+                          "Tags"
+                      ]
+                  },
+                  "isInEssContainer": {
+                      "type": "string",
+                      "enum": [
+                          "Yes",
+                          "No"
+                      ]
+                  },
+                  "hedVersion": {
+                      "type": "string"
+                  },
+                  "eventCodes": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "code": {
+                                  "type": "string"
+                              },
+                              "numberOfInstances": {
+                                  "type": "integer",
+                                  "minimum": -1
+                              },
+                              "taskLabel": {
+                                  "type": "string"
+                              },
+                              "description": {
+                                  "type": "string"
+                              },
+                              "label": {
+                                  "type": "string"
+                              },
+                              "tag": {
+                                  "type": "string"
+                              }
+                          },
+                          "additionalProperties": false
+                      },
+                      "additionalProperties": false
+                  },
+                  "summary": {
+                      "type": "object",
+                      "properties": {
+                          "totalSize": {
+                              "type": "string"
+                          },
+                          "license": {
+                              "type": "object",
+                              "properties": {
+                                  "type": {
+                                      "type": "string"
+                                  },
+                                  "text": {
+                                      "type": "string"
+                                  },
+                                  "link": {
+                                      "type": "string"
+                                  }
+                              },
+                              "additionalProperties": false
+                          },
+                          "allSubjectsHealthyAndNormal": {
+                              "type": "string",
+                              "enum": [
+                                  "Yes",
+                                  "No"
+                              ]
+                          }
+                      },
+                      "additionalProperties": false
+                  },
+                  "publications": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "citation": {
+                                  "type": "string"
+                              },
+                              "DOI": {
+                                  "type": "string"
+                              },
+                              "link": {
+                                  "type": "string"
+                              }
+                          },
+                          "additionalProperties": false
+                      },
+                      "additionalProperties": false
+                  },
+                  "experimenters": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "givenName": {
+                                  "type": "string"
+                              },
+                              "familyName": {
+                                  "type": "string"
+                              },
+                              "additionalName": {
+                                  "type": "string"
+                              },
+                              "role": {
+                                  "type": "string"
+                              }
+                          },
+                          "additionalProperties": false
+                      },
+                      "additionalProperties": false
+                  },
+                  "contact": {
+                      "type": "object",
+                      "properties": {
+                          "givenName": {
+                              "type": "string"
+                          },
+                          "familyName": {
+                              "type": "string"
+                          },
+                          "additionalName": {
+                              "type": "string"
+                          },
+                          "phone": {
+                              "type": "string"
+                          },
+                          "email": {
+                              "type": "string"
+                          }
+                      },
+                      "additionalProperties": false
+                  },
+                  "organizations": {
+                      "type": "array",
+                      "items": {
+                          "type": "object",
+                          "properties": {
+                              "name": {
+                                  "type": "string"
+                              },
+                              "logoLink": {
+                                  "type": "string"
+                              }
+                          }
+                      },
+                      "additionalProperties": false
+                  },
+                  "copyright": {
+                      "type": "string"
+                  },
+                  "IRB": {
+                      "type": "string"
+                  }
+              }
+          }
+
+        },
+      });
+    </script>
+  </body>
+</html>

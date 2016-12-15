@@ -1,0 +1,540 @@
+{
+          "title": {
+              "type": "string",
+              "description": "title"
+          },
+          "type": {
+              "type": "string",
+              "enum": [
+                  "ess:StudyLevel1"
+              ],
+              "description": "studyType"
+          },
+          "essVersion": {
+              "type": "string",
+              "description": "essVersion"
+          },
+          "shortDescription": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "description": "shortDescription"
+          },
+          "dateCreated": {
+              "type": "string",
+              "description": "dateCreated"
+          },
+          "dateModified": {
+              "type": "string",
+              "description": "dateModified"
+          },
+          "id": {
+              "type": "string",
+              "minLength": 32,
+              "description": "id"
+          },
+          "DOI": {
+              "type": "string",
+              "description": "DOI"
+          },
+          "description": {
+              "type": "string",
+              "description": "description"
+          },
+          "rootURI": {
+              "type": "string",
+              "description": "rootURI"
+          },
+          "projectFunding": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "organization": {
+                          "type": "string",
+                          "description": "organization"
+                      },
+                      "grantId": {
+                          "type": "string",
+                          "description": "grantId"
+                      }
+                  },
+                  "additionalProperties": false
+              },
+              "additionalProperties": false,
+              "description": "projectFunding"
+          },
+          "recordingParameterSets": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "recordingParameterSetLabel": {
+                          "type": "string",
+                          "description": "recordingParameterSetLabel"
+                      },
+                      "modalities": {
+                          "type": "array",
+                          "items": {
+                              "type": "object",
+                              "properties": {
+                                  "type": {
+                                      "type": "string",
+                                      "description": "modalityType"
+                                  },
+                                  "samplingRate": {
+                                      "type": "number",
+                                      "minimum": 0,
+                                      "description": "samplingRate"
+                                  },
+                                  "name": {
+                                      "type": "string",
+                                      "description": "subjectName"
+                                  },
+                                  "description": {
+                                      "type": "string",
+                                      "description": "description"
+                                  },
+                                  "startChannel": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "description": "startChannel"
+                                  },
+                                  "endChannel": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "description": "endChannel"
+                                  },
+                                  "subjectInSessionNumber": {
+                                      "type": "string",
+                                      "description": "subjectInSessionNumber"
+                                  },
+                                  "referenceLocation": {
+                                      "type": "string",
+                                      "description": "referenceLocation"
+                                  },
+                                  "referenceLabel": {
+                                      "type": "string",
+                                      "description": "referenceLabel"
+                                  },
+                                  "channelLocationType": {
+                                      "type": "string",
+                                      "description": "channelLocationType"
+                                  },
+                                  "channelLabels": {
+                                      "type": "array",
+                                      "items": {
+                                          "type": "string"
+                                      },
+                                      "additionalProperties": false,
+                                      "description": "channelLabels"
+                                  },
+                                  "nonScalpChannelLabels": {
+                                      "type": "array",
+                                      "items": {
+                                          "type": "string"
+                                      },
+                                      "additionalProperties": false,
+                                      "description": "nonScalpChannelLabels"
+                                  }
+                              },
+                              "additionalProperties": false
+                          },
+                          "additionalProperties": false,
+                          "description": "modalities"
+                      }
+                  },
+                  "additionalProperties": false
+              },
+              "additionalProperties": false,
+              "description": "recordingParameterSets"
+          },
+          "sessions": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "number": {
+                          "type": "string",
+                          "description": "numberOfSessions"
+                      },
+                      "labId": {
+                          "type": "string",
+                          "description": "labId"
+                      },
+                      "subjects": {
+                          "type": "array",
+                          "items": {
+                              "type": "object",
+                              "properties": {
+                                  "labId": {
+                                      "type": "string",
+                                      "description": "labId"
+                                  },
+                                  "inSessionNumber": {
+                                      "type": "string",
+                                      "description": "inSessionNumber"
+                                  },
+                                  "group": {
+                                      "type": "string",
+                                      "description": "group"
+                                  },
+                                  "gender": {
+                                      "type": "string",
+                                      "description": "gender"
+                                  },
+                                  "YOB": {
+                                      "type": "string",
+                                      "description": "YOB"
+                                  },
+                                  "age": {
+                                      "type": "string",
+                                      "description": "age"
+                                  },
+                                  "hand": {
+                                      "type": "string",
+                                      "description": "handedness"
+                                  },
+                                  "vision": {
+                                      "type": "string",
+                                      "enum": [
+                                          "Normal",
+                                          "CorrectedToNormal",
+                                          "Impaired",
+                                          "NA",
+                                          "-",
+                                          " "
+                                      ],
+                                      "description": "vision"
+                                  },
+                                  "hearing": {
+                                      "type": "string",
+                                      "enum": [
+                                          "Normal",
+                                          "CorrectedToNormal",
+                                          "Impaired",
+                                          "NA",
+                                          "-",
+                                          " "
+                                      ],
+                                      "description": "hearing"
+                                  },
+                                  "height": {
+                                      "type": "string",
+                                      "description": "height"
+                                  },
+                                  "weight": {
+                                      "type": "string",
+                                      "description": "weight"
+                                  },
+                                  "medication": {
+                                      "type": "object",
+                                      "properties": {
+                                          "caffeine": {
+                                              "type": "string",
+                                              "description": "caffeine"
+                                          },
+                                          "alcohol": {
+                                              "type": "string",
+                                              "description": "alcohol"
+                                          }
+                                      },
+                                      "description": "medication"
+                                  },
+                                  "channelLocationFile": {
+                                      "type": "string",
+                                      "description": "channelLocationFile"
+                                  }
+                              }
+                          },
+                          "additionalProperties": false,
+                          "description": "subjects"
+                      },
+                      "note": {
+                          "type": "object",
+                          "properties": {
+                              "text": {
+                                  "type": "string",
+                                  "description": "noteText"
+                              },
+                              "linkLabel": {
+                                  "type": "string",
+                                  "description": "linkLabel"
+                              },
+                              "link": {
+                                  "type": "string",
+                                  "description": "link"
+                              }
+                          },
+                          "additionalProperties": false,
+                          "description": "note"
+                      },
+                      "dataRecordings": {
+                          "type": "array",
+                          "items": {
+                              "type": "object",
+                              "properties": {
+                                  "taskLabels": {
+                                      "type": "array",
+                                      "items": {
+                                          "type": "string"
+                                      },
+                                      "additionalProperties": false,
+                                      "description": "taskLabels"
+                                  },
+                                  "filename": {
+                                      "type": "string",
+                                      "description": "filename"
+                                  },
+                                  "dataRecordingId": {
+                                      "type": "string",
+                                      "description": "dataRecordingId"
+                                  },
+                                  "startDateTime": {
+                                      "type": "string",
+                                      "description": "startDateTime"
+                                  },
+                                  "recordingParameterSetLabel": {
+                                      "type": "string",
+                                      "description": "recordingParameterSetLabel"
+                                  },
+                                  "eventInstanceFile": {
+                                      "type": "string",
+                                      "description": "eventInstanceFile"
+                                  },
+                                  "originalFileNameAndPath": {
+                                      "type": "string",
+                                      "description": "originalFileNameAndPath"
+                                  }
+                              },
+                              "additionalProperties": false
+                          },
+                          "additionalProperties": false,
+                          "description": "dataRecordings"
+                      }
+                  }
+              },
+              "additionalProperties": false,
+              "description": "sessions"
+          },
+          "tasks": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "taskLabel": {
+                          "type": "string",
+                          "description": "taskLabel"
+                      },
+                      "tag": {
+                          "type": "string",
+                          "description": "tag"
+                      },
+                      "description": {
+                          "type": "string",
+                          "description": "description"
+                      }
+                  },
+                  "additionalProperties": false
+              },
+              "additionalProperties": false,
+              "description": "tasks"
+          },
+          "eventSpecificationMethod": {
+              "type": "string",
+              "enum": [
+                  "Codes",
+                  "Tags"
+              ],
+              "description": "eventSpecificationMethod"
+          },
+          "isInEssContainer": {
+              "type": "string",
+              "enum": [
+                  "Yes",
+                  "No"
+              ],
+              "description": "isInEssContainer"
+          },
+          "hedVersion": {
+              "type": "string",
+              "description": "hedVersion"
+          },
+          "eventCodes": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "code": {
+                          "type": "string",
+                          "description": "code"
+                      },
+                      "numberOfInstances": {
+                          "type": "integer",
+                          "minimum": -1,
+                          "description": "numberOfInstances"
+                      },
+                      "taskLabel": {
+                          "type": "string",
+                          "description": "taskLabel"
+                      },
+                      "description": {
+                          "type": "string",
+                          "description": "description"
+                      },
+                      "label": {
+                          "type": "string",
+                          "description": "label"
+                      },
+                      "tag": {
+                          "type": "string",
+                          "description": "tag"
+                      }
+                  },
+                  "additionalProperties": false
+              },
+              "additionalProperties": false,
+              "description": "eventCodes"
+          },
+          "summary": {
+              "type": "object",
+              "properties": {
+                  "totalSize": {
+                      "type": "string",
+                      "description": "totalSize"
+                  },
+                  "license": {
+                      "type": "object",
+                      "properties": {
+                          "type": {
+                              "type": "string",
+                              "description": "licenseType"
+                          },
+                          "text": {
+                              "type": "string",
+                              "description": "licenseText"
+                          },
+                          "link": {
+                              "type": "string",
+                              "description": "licenseLink"
+                          }
+                      },
+                      "additionalProperties": false,
+                      "description": "license"
+                  },
+                  "allSubjectsHealthyAndNormal": {
+                      "type": "string",
+                      "enum": [
+                          "Yes",
+                          "No"
+                      ],
+                      "description": "allSubjectsHealthyAndNormal"
+                  }
+              },
+              "additionalProperties": false,
+              "description": "summary"
+          },
+          "publications": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "citation": {
+                          "type": "string",
+                          "description": "publicationCitation"
+                      },
+                      "DOI": {
+                          "type": "string",
+                          "description": "publicationDOI"
+                      },
+                      "link": {
+                          "type": "string",
+                          "description": "publicationLink"
+                      }
+                  },
+                  "additionalProperties": false
+              },
+              "additionalProperties": false,
+              "description": "publications"
+          },
+          "experimenters": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "givenName": {
+                          "type": "string",
+                          "description": "firstName"
+                      },
+                      "familyName": {
+                          "type": "string",
+                          "description": "lastName"
+                      },
+                      "additionalName": {
+                          "type": "string",
+                          "description": "additionalName"
+                      },
+                      "role": {
+                          "type": "string",
+                          "description": "role"
+                      }
+                  },
+                  "additionalProperties": false
+              },
+              "additionalProperties": false,
+              "description": "experimenters"
+          },
+          "contact": {
+              "type": "object",
+              "properties": {
+                  "givenName": {
+                      "type": "string",
+                      "description": "firstName"
+                  },
+                  "familyName": {
+                      "type": "string",
+                      "description": "lastName"
+                  },
+                  "additionalName": {
+                      "type": "string",
+                      "description": "additionalName"
+                  },
+                  "phone": {
+                      "type": "string",
+                      "description": "phone"
+                  },
+                  "email": {
+                      "type": "string",
+                      "description": "email"
+                  }
+              },
+              "additionalProperties": false,
+              "description": "contact"
+          },
+          "organizations": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "name": {
+                          "type": "string",
+                          "description": "name"
+                      },
+                      "logoLink": {
+                          "type": "string",
+                          "description": "logoLink"
+                      }
+                  }
+              },
+              "additionalProperties": false,
+              "description": "organizations"
+          },
+          "copyright": {
+              "type": "string",
+              "description": "copyright"
+          },
+          "IRB": {
+              "type": "string",
+              "description": "IRB"
+          }
+      }
