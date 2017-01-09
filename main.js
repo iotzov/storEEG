@@ -1,13 +1,11 @@
 const electron = require('electron')
-// Module to control application life.
 const app = electron.app
-// const dialog = electron.remote
-// const dialog = require('electron').remote;
-// Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
-
 const path = require('path')
 const url = require('url')
+const debug = /--debug/.test(process.argv[2])
+const ipcMain = electron.ipcMain
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -15,7 +13,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 250, height: 200})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -25,7 +23,10 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  if(debug) {
+	  mainWindow.webContents.openDevTools();
+	  mainWindow.maximize();
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -43,26 +44,76 @@ app.on('ready', createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow()
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-function myFunction() {
-	console.log("hey it works!")
+// New Dataset main menu button clicked --> open data entry window
+ipcMain.on('open-new-data-clicked', (event) => {
+	openNewDataWindow()
+})
+
+ipcMain.on('help-clicked', (event) => {
+	openHelpWindow()
+})
+
+ipcMain.on('open-browse-clicked', (event) => {
+	openBrowseWindow()
+})
+
+// Exit main menu button clicked --> quit app
+ipcMain.on('exit-clicked', (event) => {
+	app.quit()
+})
+
+function openNewDataWindow() {
+	let newDataWindow = new BrowserWindow({width: 800, height: 600, parent: mainWindow, show: false});
+	newDataWindow.loadURL(url.format({
+		pathname: path.join(__dirname, 'newStudy.html'),
+		protocol: 'file:',
+		slashes: true
+	}));
+	newDataWindow.on('closed', function () {
+		newDataWindow = null;
+	});
+	newDataWindow.once('ready-to-show', () => {
+	newDataWindow.show();
+	});
+	//newDataWindow.webContents.openDevTools();
+	//newDataWindow.maximize();
 }
-function mySecondFunction() {
-	document.getElementById("p1").style.color="red"
+function openHelpWindow() {
+	let helpWindow = new BrowserWindow({width: 800, height: 600, parent: mainWindow, show: false});
+	helpWindow.loadURL(url.format({
+		pathname: path.join(__dirname, 'help.html'),
+		protocol: 'file:',
+		slashes: true
+	}));
+	helpWindow.on('closed', function () {
+		helpWindow = null;
+	});
+	helpWindow.once('ready-to-show', () => {
+		helpWindow.show();
+	});
+}
+function openBrowseWindow() {
+	let browseWindow = new BrowserWindow({width: 800, height: 600, parent: mainWindow, show: false});
+	browseWindow.loadURL(url.format({
+		pathname: path.join(__dirname, 'browse.html'),
+		protocol: 'file:',
+		slashes: true
+	}));
+	browseWindow.on('closed', function () {
+		browseWindow = null;
+	});
+	browseWindow.once('ready-to-show', () => {
+		browseWindow.show();
+	});
 }
