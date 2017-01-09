@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>StorEEG</title>
+    <link rel="stylesheet" style="text/css" href="deps/opt/bootstrap.css" />
+  </head>
+  <body>
+    <h2>Add a new Study</h2>
+    <form></form>
+    <div id="res" class="alert"></div>
+    <script type="text/javascript" src="deps/jquery.min.js"></script>
+    <script type="text/javascript" src="deps/underscore.js"></script>
+    <script type="text/javascript" src="deps/opt/jsv.js"></script>
+    <script type="text/javascript" src="deps/jsonform.js"></script>
+    <script type="text/javascript">
+      	const fs = require('fs')
+	fs.readFile('deps/lvl1_schema.json', (err, data) => {
+		if(err) throw err;
+		$('form').jsonForm({
+        	schema: {
+              		data	
+		}
+      		});
+	});
+    </script>
+  </body>
+</html>

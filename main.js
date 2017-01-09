@@ -86,8 +86,8 @@ function openNewDataWindow() {
 	newDataWindow.once('ready-to-show', () => {
 	newDataWindow.show();
 	});
-	//newDataWindow.webContents.openDevTools();
-	//newDataWindow.maximize();
+	newDataWindow.webContents.openDevTools();
+	newDataWindow.maximize();
 }
 function openHelpWindow() {
 	let helpWindow = new BrowserWindow({width: 800, height: 600, parent: mainWindow, show: false});
