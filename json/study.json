@@ -1,0 +1,332 @@
+{
+  "title": "Study",
+  "type": "object",
+  "properties": {
+    "studyTitle": {
+      "title": "Title",
+      "type": "string",
+      "description": "Study Title"
+    },
+    "studyDescription": {
+      "title": "Study Description",
+      "type": "string"
+    },
+    "subject": {
+      "title": "Subjects",
+      "description": "Subjects involved in this study",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Subject",
+        "properties": {
+          "id": {
+            "title": "Subject ID",
+            "type": "string",
+            "description": "De-identified subject lab ID"
+          },
+          "group": {
+            "title": "Subject Group",
+            "type": "string",
+            "description": "Study group that this subject belongs to (control, experimental, healthy, etc.)"
+          },
+          "gender": {
+            "title": "Gender",
+            "type": "string"
+          },
+          "yob": {
+            "type": "number",
+            "description": "Year of birth"
+          },
+          "height": {
+            "title": "Height",
+            "type": "number"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          },
+          "handedness": {
+            "title": "Handedness",
+            "type": "string",
+            "enum": ["Left", "Right", "Both"]
+          },
+          "vision": {
+            "title": "Vision",
+            "type": "string",
+            "enum": [
+              "Normal",
+              "Corrected to normal",
+              "Impaired",
+              "NA",
+              "-",
+              " "
+            ]
+          },
+          "hearing": {
+            "title": "Hearing",
+            "type": "string",
+            "enum": [
+              "Normal",
+              "Corrected to normal",
+              "Impaired",
+              "NA",
+              "-",
+              " "
+            ]
+          },
+          "additionalInfo": {
+            "title": "Additional Information",
+            "type": "string",
+            "description": "Additional subject information or link to psychological/physiological evaluations, etc."
+          },
+          "channelLocations": {
+            "title": "Channel Locations",
+            "type": "string",
+            "description": "Link to subject electrode location file in any format"
+          }
+        }
+      }
+    },
+    "stimulus": {
+      "title": "Stimuli",
+      "description": "Stimulus presented to a subject in the study",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "title": "Stimulus",
+          "properties": {
+            "file": {
+              "title": "Stimulus File",
+              "type": "string",
+              "description": "Link to the stimulus file"
+            },
+            "eventID": {
+              "title": "Event ID",
+              "type": "string",
+              "description": "Unique ID of the Event object that describes this stimulus"
+            },
+            "stimulusType": {
+              "title": "Stimulus Type",
+              "type": "string",
+              "description": "The type/modality of the stimulus presented",
+              "enum": ["Audio", "Image", "Video", "Other"]
+            },
+            "stimulusDescription": {
+              "title": "Stimulus Description",
+              "type": "string",
+              "description": "Optional additional description of the stimulus"
+            },
+            "stimulusID": {
+              "title": "Stimulus ID",
+              "type": "string",
+              "description": "Unique identifier of a stimulus"
+            }
+          }
+      }
+    },
+    "recordingParameters": {
+      "title": "Recording Parameter Sets",
+      "description": "Set of parameters describing the EEG recording setup used in a particular recording",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "title": "Recording Parameter Set",
+          "properties": {
+            "samplingRate": {
+              "title": "Sampling Rate",
+              "type": "number"
+            },
+            "startChannel": {
+              "title": "Start Channel",
+              "type": "number"
+            },
+            "endChannel": {
+              "title": "End Channel",
+              "type": "number"
+            },
+            "referenceChannels": {
+              "title": "Reference Channels",
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 1
+            },
+            "nonScalpChannels": {
+              "title": "Non-Scalp Channels",
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 1
+            },
+            "label": {
+              "title": "Label",
+              "type": "string",
+              "description": "Name of this recording parameter set"
+            },
+            "recordingParametersID": {
+              "title": "Recording Parameters ID",
+              "type": "number",
+              "description": "Unique recording parameter set ID"
+            }
+          }
+      }
+    },
+    "recording": {
+      "title": "Recordings",
+      "description": "Single recording session file. May include multiple events, but only a single subject.",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "title": "Recording",
+          "properties": {
+            "fileLocation": {
+              "title": "Recording File",
+              "type": "string",
+              "description": "Link to the recording file location"
+            },
+            "eventIDs": {
+              "title": "Event IDs",
+              "type": "array",
+              "items": {
+                "eventID": {
+                  "type": "string"
+                }
+              }
+            },
+            "subjectID": {
+              "title": "Subject ID",
+              "type": "string"
+            },
+            "recordingParametersID": {
+              "title": "Recording Parameters ID",
+              "type": "string"
+            },
+            "recordingID": {
+              "title": "Recording ID",
+              "type": "string",
+              "description": "Unique ID of the recording"
+            }
+          }
+      }
+    },
+    "event": {
+      "title": "Events",
+      "description": "A single event that defines an epoch of EEG data. Must have a starting trigger/event value, and may have an optional end value",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "title": "Event",
+          "properties": {
+            "stimulusID": {
+              "title": "Stimulus ID",
+              "type": "string",
+              "description": "Unique ID of the stimulus corresponding to this event"
+            },
+            "startTrigger": {
+              "title": "Start Trigger",
+              "type": "number"
+            },
+            "endTrigger": {
+              "title": "End Trigger",
+              "type": "number",
+              "description": "Optional ending trigger value"
+            },
+            "eventID": {
+              "title": "Event ID",
+              "type": "string",
+              "description": "Unique Event ID"
+            },
+            "eventDescription": {
+              "title": "Event Description",
+              "type": "string",
+              "description": "Optional additional description of the Event"
+            }
+          }
+      }
+    },
+    "publication": {
+      "title": "Publications",
+      "description": "Publications this study has been involved in",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "title": "Publication",
+          "properties": {
+            "citation": {
+              "title": "Citation",
+              "type": "string",
+              "description": "Citation in any format, BibTex parsed automatically"
+            },
+            "link": {
+              "title": "Link",
+              "type": "string",
+              "description": "Link to the publication"
+            }
+          }
+      }
+    },
+    "experimenter": {
+      "title": "Experimenters",
+      "description": "Experimenters involved in the study",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "title": "Experimenter",
+          "properties": {
+            "firstName": {
+              "title": "First Name",
+              "type": "string"
+            },
+            "lastName": {
+              "title": "Last Name",
+              "type": "string"
+            },
+            "role": {
+              "title": "Role",
+              "type": "string"
+            },
+            "affiliation": {
+              "title": "Affiliation",
+              "type": "string",
+              "description": "Institutional affiliation of the experimenter"
+            }
+          }
+      }
+    },
+    "license": {
+      "title": "License",
+      "description": "Describes the licensing of the study",
+      "type": "object",
+      "properties": {
+        "licenseType": {
+          "type": "string",
+          "description": "License type"
+        },
+        "licenseLocation": {
+          "type": "string",
+          "description": "License file"
+        }
+      }
+    },
+    "contact": {
+      "description": "Author contact information",
+      "type": "array",
+      "title": "Contacts",
+      "items": {
+          "type": "object",
+          "title": "Contact",
+          "properties": {
+            "firstName": {"type": "string"},
+            "lastName": {"type": "string"},
+            "phoneNumber": {
+              "type": "number",
+              "maxLength": 10
+            },
+            "email": {"type": "string"}
+          }
+      }
+    }
+  }
+}

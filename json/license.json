@@ -1,0 +1,15 @@
+{
+	"title": "License",
+	"description": "Describes the licensing of the study",
+	"type": "object",
+	"properties": {
+		"licenseType": {
+			"type": "string",
+			"description": "License type"
+		},
+		"licenseLocation": {
+			"type": "string",
+			"description": "License file"
+		}
+	}
+}

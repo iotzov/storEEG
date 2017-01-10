@@ -1,0 +1,19 @@
+{
+  "title": "Contact",
+  "description": "Author contact information",
+  "type": "object",
+  "properties": {
+    "contacts": {
+      "type": "array",
+      "items": {
+        "firstName": {"type": "string"},
+        "lastName": {"type": "string"},
+        "phoneNumber": {
+          "type": "number",
+          "maxLength": 10
+        },
+        "email": {"type": "string"}
+      }
+    }
+  }
+}

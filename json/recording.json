@@ -1,0 +1,39 @@
+{
+  "title": "Recording",
+  "description": "Single recording session file. May include multiple events, but only a single subject.",
+  "type": "object",
+  "properties": {
+    "recordings": {
+      "type": "array",
+      "items": {
+        "fileLocation": {
+          "title": "Recording File",
+          "type": "string",
+          "description": "Link to the recording file location"
+        },
+        "eventIDs": {
+          "title": "Event IDs",
+          "type": "array",
+          "items": {
+            "eventID": {
+              "type": "string"
+            }
+          }
+        },
+        "subjectID": {
+          "title": "Subject ID",
+          "type": "string"
+        },
+        "recordingParametersID": {
+          "title": "Recording Parameters ID",
+          "type": "string"
+        },
+        "recordingID": {
+          "title": "Recording ID",
+          "type": "string",
+          "description": "Unique ID of the recording"
+        }
+      }
+    }
+  }
+}

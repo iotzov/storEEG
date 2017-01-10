@@ -1,0 +1,38 @@
+{
+  "title": "Stimulus",
+  "description": "Stimulus presented to a subject in the study",
+  "type": "object",
+  "properties": {
+    "stimuli": {
+      "type": "array",
+      "items": {
+        "file": {
+          "title": "Stimulus File",
+          "type": "string",
+          "description": "Link to the stimulus file"
+        },
+        "eventID": {
+          "title": "Event ID",
+          "type": "string",
+          "description": "Unique ID of the Event object that describes this stimulus"
+        },
+        "stimulusType": {
+          "title": "Stimulus Type",
+          "type": "string",
+          "description": "The type/modality of the stimulus presented",
+          "enum": ["Audio", "Image", "Video", "Other"]
+        },
+        "stimulusDescription": {
+          "title": "Stimulus Description",
+          "type": "string",
+          "description": "Optional additional description of the stimulus"
+        },
+        "stimulusID": {
+          "title": "Stimulus ID",
+          "type": "string",
+          "description": "Unique identifier of a stimulus"
+        }
+      }
+    }
+  }
+}

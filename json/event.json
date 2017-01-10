@@ -1,0 +1,36 @@
+{
+  "title": "Event",
+  "description": "A single event that defines an epoch of EEG data. Must have a starting trigger/event value, and may have an optional end value",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "stimulusID": {
+          "title": "Stimulus ID",
+          "type": "string",
+          "description": "Unique ID of the stimulus corresponding to this event"
+        },
+        "startTrigger": {
+          "title": "Start Trigger",
+          "type": "number"
+        },
+        "endTrigger": {
+          "title": "End Trigger",
+          "type": "number",
+          "description": "Optional ending trigger value"
+        },
+        "eventID": {
+          "title": "Event ID",
+          "type": "string",
+          "description": "Unique Event ID"
+        },
+        "eventDescription": {
+          "title": "Event Description",
+          "type": "string",
+          "description": "Optional additional description of the Event"
+        }
+      }
+    }
+  }
+}

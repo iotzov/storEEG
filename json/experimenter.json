@@ -1,0 +1,29 @@
+{
+  "title": "Experimenters",
+  "description": "Experimenters involved in the study",
+  "type": "object",
+  "properties": {
+    "experimenters": {
+      "type": "array",
+      "items": {
+        "firstName": {
+          "title": "First Name",
+          "type": "string"
+        },
+        "lastName": {
+          "title": "Last Name",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "affiliation": {
+          "title": "Affiliation",
+          "type": "string",
+          "description": "Institutional affiliation of the experimenter"
+        }
+      }
+    }
+  }
+}
