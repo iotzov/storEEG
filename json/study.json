@@ -148,7 +148,8 @@
               "title": "Reference Channels",
               "type": "array",
               "items": {
-                "type": "number"
+                "type": "number",
+		"title": "Reference Channel Number"
               },
               "minItems": 1
             },
@@ -156,7 +157,8 @@
               "title": "Non-Scalp Channels",
               "type": "array",
               "items": {
-                "type": "number"
+                "type": "number",
+		"title": "Non-scalp Channel Number"
               },
               "minItems": 1
             },
@@ -190,9 +192,8 @@
               "title": "Event IDs",
               "type": "array",
               "items": {
-                "eventID": {
-                  "type": "string"
-                }
+                  "type": "string",
+                  "title": "Event ID"
               }
             },
             "subjectID": {
