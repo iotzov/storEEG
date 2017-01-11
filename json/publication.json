@@ -3,20 +3,15 @@
   "description": "Publications this study has been involved in",
   "type": "object",
   "properties": {
-    "publications": {
-      "type": "array",
-      "items": {
-        "citation": {
-          "title": "Citation",
-          "type": "string",
-          "description": "Citation in any format, BibTex parsed automatically"
-        },
-        "link": {
-          "title": "Link",
-          "type": "string",
-          "description": "Link to the publication"
-        }
-      }
+    "citation": {
+      "title": "Citation",
+      "type": "string",
+      "description": "Citation in any format, BibTex parsed automatically"
+    },
+    "link": {
+      "title": "Link",
+      "type": "string",
+      "description": "Link to the publication"
     }
   }
 }

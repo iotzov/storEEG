@@ -3,50 +3,43 @@
   "description": "Set of parameters describing the EEG recording setup used in a particular recording",
   "type": "object",
   "properties": {
-    "recordingParameters": {
+    "samplingRate": {
+      "title": "Sampling Rate",
+      "type": "number"
+    },
+    "startChannel": {
+      "title": "Start Channel",
+      "type": "number"
+    },
+    "endChannel": {
+      "title": "End Channel",
+      "type": "number"
+    },
+    "referenceChannels": {
+      "title": "Reference Channels",
       "type": "array",
       "items": {
-        "samplingRate": {
-          "title": "Sampling Rate",
-          "type": "number"
-        },
-        "startChannel": {
-          "title": "Start Channel",
-          "type": "number"
-        },
-        "endChannel": {
-          "title": "End Channel",
-          "type": "number"
-        },
-        "referenceChannels": {
-          "title": "Reference Channels",
-          "type": "array",
-          "items": {
-            "type": "number"
-          },
-          "minItems": "1",
-          "uniqueItems": true
-        },
-        "nonScalpChannels": {
-          "title": "Non-Scalp Channels",
-          "type": "array",
-          "items": {
-            "type": "number"
-          },
-          "minItems": "1",
-          "uniqueItems": true
-        },
-        "label": {
-          "title": "Label",
-          "type": "string",
-          "description": "Name of this recording parameter set"
-        },
-        "recordingParametersID": {
-          "title": "Recording Parameters ID",
-          "type": "number",
-          "description": "Unique recording parameter set ID"
-        }
+        "type": "number",
+        "title": "Reference Channel Number"
       }
+    },
+    "nonScalpChannels": {
+      "title": "Non-Scalp Channels",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "title": "Non-Scalp Channel Number"
+      }
+    },
+    "label": {
+      "title": "Label",
+      "type": "string",
+      "description": "Name of this recording parameter set"
+    },
+    "recordingParametersID": {
+      "title": "Recording Parameters ID",
+      "type": "number",
+      "description": "Unique recording parameter set ID"
     }
   }
 }
