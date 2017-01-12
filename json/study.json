@@ -19,7 +19,7 @@
         "type": "object",
         "title": "Subject",
         "properties": {
-          "id": {
+          "subjectID": {
             "title": "Subject ID",
             "type": "string",
             "description": "De-identified subject lab ID"
@@ -95,7 +95,7 @@
           "type": "object",
           "title": "Stimulus",
           "properties": {
-            "file": {
+            "fileLocation": {
               "title": "Stimulus File",
               "type": "string",
               "description": "Link to the stimulus file"

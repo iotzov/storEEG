@@ -3,7 +3,7 @@
   "description": "Stimulus presented to a subject in the study",
   "type": "object",
   "properties": {
-    "file": {
+    "fileLocation": {
       "title": "Stimulus File",
       "type": "string",
       "description": "Link to the stimulus file"

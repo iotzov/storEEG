@@ -3,7 +3,7 @@
   "description": "Subject involved in this study",
   "type": "object",
   "properties": {
-    "id": {
+    "subjectID": {
       "title": "Subject ID",
       "type": "string",
       "description": "De-identified subject lab ID"

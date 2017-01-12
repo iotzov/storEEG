@@ -1,4 +1,6 @@
 scipy
 matplotlib
 scikit-learn
+jsonschema
+mne
 python_jsonschema_objects
