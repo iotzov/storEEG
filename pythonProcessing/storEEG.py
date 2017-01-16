@@ -5,6 +5,7 @@ import mne
 import uuid
 
 class BaseObj(object):
+
     def updateFromDict(self, dictionary):
         """
             Usage: class.updateFromDict(dictionary) - sets attributes of class in dictionary.keys() to dictionary[key]
@@ -20,7 +21,17 @@ class BaseObj(object):
         """
         return json.dumps(self.__dict__)
 
+    def writeToJSON(self, filename):
+        """
+            Writes this object in JSON form to the file specified by `filename`
+        """
+        with open(filename, 'w') as f:
+            json.dump(self.__dict__, f)
+
     def validateSelf(self, schema):
+        """
+            Validates self against `schema`, returns True if valid, False if invalid.
+        """
         try:
             jsonschema.validate(self.__dict__, schema)
             return True
@@ -28,7 +39,34 @@ class BaseObj(object):
             return False
 
     def setUUID(self):
+        """
+            Sets the UUID of this object to one generated on the fly
+        """
         self.UUID = uuid.uuid1().__str__()
+
+    def inputAll(self):
+        """
+            Input all attributes for this object. Overwrites everything.
+
+            Very primitive, needs a lot of improvement
+        """
+        for key in self.__dict__.keys():
+            if key is 'UUID':
+                continue
+            print('Please input', key+':')
+            setattr(self, key, input())
+            if(getattr(self, key) is ''):
+                setattr(self, key, None)
+
+
+    def printAll(self):
+        """
+            Print all of the attributes in some random order.
+        """
+        for key in self.__dict__.keys():
+            print(key+':\n', getattr(self, key))
+
+
 
 class Contact(BaseObj):
     def __init__(self, firstName=None, lastName=None, phoneNumber=None, email=None):
@@ -36,31 +74,35 @@ class Contact(BaseObj):
         self.lastName = lastName
         self.phoneNumber = phoneNumber
         self.email = email
+        self.setUUID()
 
 class Event(BaseObj):
-    def __init__(self, stimulusID, startTrigger, endTrigger, eventID, eventDescription):
+    def __init__(self, stimulusID=None, startTrigger=None, endTrigger=None, eventID=None, eventDescription=None):
         self.stimulusID = stimulusID
         self.startTrigger = startTrigger
         self.endTrigger = endTrigger
         self.eventID = eventID
         self.eventDescription = eventDescription
+        self.setUUID()
 
 class Experimenter(BaseObj):
-    def __init__(self, firstName, lastName, role, affiliation):
+    def __init__(self, firstName=None, lastName=None, role=None, affiliation=None):
         self.firstName = firstName
         self.lastName = lastName
         self.role = role
         self.affiliation = affiliation
+        self.setUUID()
 
 class License(BaseObj):
-    def __init__(self, licenseType, licenseLocation):
+    def __init__(self, licenseType=None, licenseLocation=None):
         self.licenseType = licenseType
         self.licenseLocation = licenseLocation
 
 class Publication(BaseObj):
-    def __init__(self, citation, link):
+    def __init__(self, citation=None, link=None):
         self.citation = citation
         self.link = link
+        self.setUUID()
 
 class Recording(BaseObj):
     def __init__(self, fileLocation=None, eventIDs=None, subjectID=None, recordingParametersID=None, recordingID=None):
@@ -69,6 +111,7 @@ class Recording(BaseObj):
         self.subjectID = subjectID
         self.recordingParametersID = recordingParametersID
         self.recordingID = recordingID
+        self.setUUID()
 
 class RecordingParameters(BaseObj):
     def __init__(self, samplingRate=None, startChannel=None, endChannel=None, referenceChannels=None, nonScalpChannels=None, label=None, recordingParametersID=None):
@@ -79,6 +122,7 @@ class RecordingParameters(BaseObj):
         self.nonScalpChannels = nonScalpChannels
         self.label = label
         self.recordingParametersID = recordingParametersID
+        self.setUUID()
 
 class Stimulus(BaseObj):
     def __init__(self, fileLocation=None, eventID=None, stimulusType=None, stimulusDescription=None, stimulusID=None):
@@ -87,6 +131,7 @@ class Stimulus(BaseObj):
         self.stimulusType = stimulusType
         self.stimulusDescription = stimulusDescription
         self.stimulusID = stimulusID
+        self.setUUID()
 
 class Subject(BaseObj):
     def __init__(self, subjectID=None, group=None, gender=None, yob=None, height=None, weight=None, handedness=None, vision=None, hearing=None, additionalInfo=None, channelLocations=None):
@@ -101,29 +146,7 @@ class Subject(BaseObj):
         self.hearing = hearing
         self.additionalInfo = additionalInfo
         self.channelLocations = channelLocations
-
-def extractDesiredDataBDF(recording, event, padding=None):
-    """
-        Usage: extractDesiredData(storEEG.Recording, storEEG.Event)
-            -- recording should be a storEEG.Recording object, raw data will be loaded from it
-            -- event should be a storEEG.Event object, with startTrigger and endTrigger defined
-            -- padding should be a 2-item tuple. Data will be returned from time (startTrigger-padding(0)) to time (endTrigger+padding(1))
-        Returns: numpy ndarray containing requested data
-        Notes:
-            -- This function is for .bdf/.edf files ONLY
-    """
-    raw = mne.io.read_raw_edf(recording.fileLocation)
-    events = mne.find_events(raw, stim_channel='STI 014')
-    s = numpy.where(events==event.startTrigger)
-    e = numpy.where(events==event.endTrigger)
-    s = events[s[0], 0]
-    e = events[e[0], 0]
-    if(padding!=None):
-        data, times = raw[:, s-padding[0]:e+padding[1]]
-    else:
-        data, times = raw[:, s:e]
-
-    return data
+        self.setUUID()
 
 class Study(BaseObj):
     """
@@ -137,11 +160,42 @@ class Study(BaseObj):
 
     """
     def __init__(self, **kwargs):
-        self.itemList = ['subjects', 'stimuli', 'recordingParameterSets', 'recordings', 'events', 'publications', 'experimenters', 'license', 'contacts']
+        itemList = ['subjects', 'stimuli', 'recordingParameterSets', 'recordings', 'events', 'publications', 'experimenters', 'license', 'contacts']
+        self.setUUID()
         for key in kwargs.keys():
-            self.setFromList(key, kwargs[key])
+            self.setAttrFromList(key, kwargs[key])
 
-    def setFromList(self, attr, values):
+        for attr in itemList:
+            if attr not in self.__dict__.keys():
+                setattr(self, attr, dict())
+
+    def setAttrFromList(self, attr, values):
         setattr(self, attr, {})
         for item in values:
             getattr(self, attr)[item.UUID] = item
+
+    def addNewItem(self, attr, newItem):
+        getattr(self, attr)[newItem.UUID] = newItem
+
+    def extractDesiredDataBDF(recording, event, padding=None):
+        """
+            Usage: extractDesiredData(storEEG.Recording, storEEG.Event)
+                -- recording should be the UUID of the desired Recording object, raw data will be loaded from it
+                -- event should be the UUID of the desired Event object, with startTrigger and endTrigger defined
+                -- padding should be a 2-item tuple. Data will be returned from time (startTrigger-padding(0)) to time (endTrigger+padding(1))
+            Returns: numpy ndarray containing requested data
+            Notes:
+                -- This function is for .bdf/.edf files ONLY
+        """
+        raw = mne.io.read_raw_edf(recording.fileLocation)
+        events = mne.find_events(raw, stim_channel='STI 014')
+        s = numpy.where(events==event.startTrigger)
+        e = numpy.where(events==event.endTrigger)
+        s = events[s[0], 0]
+        e = events[e[0], 0]
+        if(padding!=None):
+            data, times = raw[:, s-padding[0]:e+padding[1]]
+        else:
+            data, times = raw[:, s:e]
+
+        return data
