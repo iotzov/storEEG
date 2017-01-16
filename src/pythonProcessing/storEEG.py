@@ -3,6 +3,7 @@ import json
 import jsonschema
 import mne
 import uuid
+import copy
 
 class BaseObj(object):
 
@@ -28,16 +29,13 @@ class BaseObj(object):
         with open(filename, 'w') as f:
             json.dump(self.__dict__, f)
 
-    def validateSelf(self, schema=None):
+    def validateSelf(self):
         """
             Validates self against `schema`, returns True if valid, False if invalid.
         """
-        name = self.__class__.__name__
-        if schema is None:
-            with open('../json/'+name+'.json') as f:
-                schema = json.load(f)
+        d = self.getCleanDict()
         try:
-            jsonschema.validate(self.__dict__, schema)
+            jsonschema.validate(d, self.schema)
             return True
         except jsonschema.exceptions.ValidationError:
             return False
@@ -54,9 +52,8 @@ class BaseObj(object):
 
             Very primitive, needs a lot of improvement
         """
-        self.getAttrTypes()
         for key in self.__dict__.keys():
-            if key is 'UUID' or key is 'attrTypes':
+            if key is 'UUID' or key is 'attrTypes' or key is 'schema':
                 continue
             userInput = input('Please input '+key+':')
             if 'number' in self.attrTypes[key]:
@@ -85,6 +82,12 @@ class BaseObj(object):
         with open(name) as f:
             self.schema = json.load(f)
 
+    def getCleanDict(self):
+        d = copy.deepcopy(self.__dict__)
+        del d['schema']
+        del d['attrTypes']
+        return d
+
 class Contact(BaseObj):
     def __init__(self, firstName=None, lastName=None, phoneNumber=None, email=None):
         self.firstName = firstName
@@ -93,6 +96,7 @@ class Contact(BaseObj):
         self.email = email
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class Event(BaseObj):
     def __init__(self, stimulusID=None, startTrigger=None, endTrigger=None, eventID=None, eventDescription=None):
@@ -103,6 +107,7 @@ class Event(BaseObj):
         self.eventDescription = eventDescription
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class Experimenter(BaseObj):
     def __init__(self, firstName=None, lastName=None, role=None, affiliation=None):
@@ -112,12 +117,14 @@ class Experimenter(BaseObj):
         self.affiliation = affiliation
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class License(BaseObj):
     def __init__(self, licenseType=None, licenseLocation=None):
         self.licenseType = licenseType
         self.licenseLocation = licenseLocation
         self.getSchema()
+        self.getAttrTypes()
 
 class Publication(BaseObj):
     def __init__(self, citation=None, link=None):
@@ -125,6 +132,7 @@ class Publication(BaseObj):
         self.link = link
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class Recording(BaseObj):
     def __init__(self, fileLocation=None, eventIDs=None, subjectID=None, recordingParametersID=None, recordingID=None):
@@ -135,6 +143,7 @@ class Recording(BaseObj):
         self.recordingID = recordingID
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class RecordingParameters(BaseObj):
     def __init__(self, samplingRate=None, startChannel=None, endChannel=None, referenceChannels=None, nonScalpChannels=None, label=None, recordingParametersID=None):
@@ -147,6 +156,7 @@ class RecordingParameters(BaseObj):
         self.recordingParametersID = recordingParametersID
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class Stimulus(BaseObj):
     def __init__(self, fileLocation=None, eventID=None, stimulusType=None, stimulusDescription=None, stimulusID=None):
@@ -157,6 +167,7 @@ class Stimulus(BaseObj):
         self.stimulusID = stimulusID
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class Subject(BaseObj):
     def __init__(self, subjectID=None, group=None, gender=None, yob=None, height=None, weight=None, handedness=None, vision=None, hearing=None, additionalInfo=None, channelLocations=None):
@@ -173,6 +184,7 @@ class Subject(BaseObj):
         self.channelLocations = channelLocations
         self.setUUID()
         self.getSchema()
+        self.getAttrTypes()
 
 class Study(BaseObj):
     """
