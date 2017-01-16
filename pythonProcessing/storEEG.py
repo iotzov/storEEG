@@ -28,10 +28,14 @@ class BaseObj(object):
         with open(filename, 'w') as f:
             json.dump(self.__dict__, f)
 
-    def validateSelf(self, schema):
+    def validateSelf(self, schema=None):
         """
             Validates self against `schema`, returns True if valid, False if invalid.
         """
+        name = self.__class__.__name__.lower()
+        if schema is None:
+            with open('../json/'+name+'.json') as f:
+                schema = json.load(f)
         try:
             jsonschema.validate(self.__dict__, schema)
             return True
@@ -50,11 +54,14 @@ class BaseObj(object):
 
             Very primitive, needs a lot of improvement
         """
+        self.getAttrTypes()
         for key in self.__dict__.keys():
-            if key is 'UUID':
+            if key is 'UUID' or key is 'attrTypes':
                 continue
-            print('Please input', key+':')
-            setattr(self, key, input())
+            userInput = input('Please input'+key+':')
+            if 'number' in self.attrTypes[key]:
+                userInput = int(userInput)
+            setattr(self, key, userInput)
             if(getattr(self, key) is ''):
                 setattr(self, key, None)
 
@@ -66,7 +73,15 @@ class BaseObj(object):
         for key in self.__dict__.keys():
             print(key+':\n', getattr(self, key))
 
-
+    def getAttrTypes(self):
+        name = self.__class__.__name__
+        name = '../json/'+name+'.json'
+        with open(name.lower()) as f:
+            schema = json.load(f)
+        schema = schema['properties']
+        for key in schema.keys():
+            schema[key] = schema[key]['type']
+        self.attrTypes = schema
 
 class Contact(BaseObj):
     def __init__(self, firstName=None, lastName=None, phoneNumber=None, email=None):
