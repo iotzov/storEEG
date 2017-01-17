@@ -7,6 +7,14 @@ import copy
 
 class BaseObj(object):
 
+    def __init__(self, properties):
+        self.properties = properties
+        for key in properties:
+            setattr(self, key, None)
+        self.setUUID()
+        self.getSchema()
+        self.getAttrTypes()
+
     def updateFromDict(self, dictionary):
         """
             Usage: class.updateFromDict(dictionary) - sets attributes of class in dictionary.keys() to dictionary[key]
@@ -20,20 +28,26 @@ class BaseObj(object):
             Usage: class.convertToJSON()
             Returns: String that is the JSON representation of all data in class
         """
-        return json.dumps(self.__dict__)
+        return json.dumps(dict(zip(self.properties, [self.__dict__[x] for x in self.properties])))
 
     def writeToJSON(self, filename):
         """
             Writes this object in JSON form to the file specified by `filename`
         """
         with open(filename, 'w') as f:
-            json.dump(self.__dict__, f)
+            json.dump(dict(zip(self.properties, [self.__dict__[x] for x in self.properties])), f)
+
+    def loadFromJSON(self, filename):
+        with open(filename) as f:
+            data = json.load(f)
+        for key in data.keys():
+            setattr(self, key, data[key])
 
     def validateSelf(self):
         """
             Validates self against `schema`, returns True if valid, False if invalid.
         """
-        d = self.getCleanDict()
+        d = dict(zip(self.properties, [self.__dict__[x] for x in self.properties]))
         try:
             jsonschema.validate(d, self.schema)
             return True
@@ -52,29 +66,26 @@ class BaseObj(object):
 
             Very primitive, needs a lot of improvement
         """
-        for key in self.__dict__.keys():
-            if key is 'UUID' or key is 'attrTypes' or key is 'schema':
-                continue
+        for key in self.properties:
             userInput = input('Please input '+key+':')
             if 'number' in self.attrTypes[key]:
                 userInput = int(userInput)
-            setattr(self, key, userInput)
             if(getattr(self, key) is ''):
                 setattr(self, key, None)
-
+            else:
+                setattr(self, key, userInput)
 
     def printAll(self):
         """
             Print all of the attributes in some random order.
         """
-        for key in self.__dict__.keys():
+        for key in self.properties:
             print(key+':\n', getattr(self, key))
 
     def getAttrTypes(self):
-        s = self.schema['properties']
-        for key in s.keys():
-            s[key] = s[key]['type']
-        self.attrTypes = s
+        self.attrTypes = copy.deepcopy(self.schema['properties'])
+        for key in self.properties:
+            self.attrTypes[key] = self.attrTypes[key]['type']
 
     def getSchema(self):
         name = self.__class__.__name__
@@ -82,109 +93,41 @@ class BaseObj(object):
         with open(name) as f:
             self.schema = json.load(f)
 
-    def getCleanDict(self):
-        d = copy.deepcopy(self.__dict__)
-        del d['schema']
-        del d['attrTypes']
-        return d
-
 class Contact(BaseObj):
-    def __init__(self, firstName=None, lastName=None, phoneNumber=None, email=None):
-        self.firstName = firstName
-        self.lastName = lastName
-        self.phoneNumber = phoneNumber
-        self.email = email
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('firstName', 'lastName', 'phoneNumber', 'email'))
 
 class Event(BaseObj):
-    def __init__(self, stimulusID=None, startTrigger=None, endTrigger=None, eventID=None, eventDescription=None):
-        self.stimulusID = stimulusID
-        self.startTrigger = startTrigger
-        self.endTrigger = endTrigger
-        self.eventID = eventID
-        self.eventDescription = eventDescription
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('stimulusID', 'startTrigger', 'endTrigger', 'eventID', 'eventDescription'))
 
 class Experimenter(BaseObj):
-    def __init__(self, firstName=None, lastName=None, role=None, affiliation=None):
-        self.firstName = firstName
-        self.lastName = lastName
-        self.role = role
-        self.affiliation = affiliation
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('firstName', 'lastName', 'role', 'affiliation'))
 
 class License(BaseObj):
-    def __init__(self, licenseType=None, licenseLocation=None):
-        self.licenseType = licenseType
-        self.licenseLocation = licenseLocation
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('licenseType', 'licenseLocation'))
 
 class Publication(BaseObj):
-    def __init__(self, citation=None, link=None):
-        self.citation = citation
-        self.link = link
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('citation', 'link'))
 
 class Recording(BaseObj):
-    def __init__(self, fileLocation=None, eventIDs=None, subjectID=None, recordingParametersID=None, recordingID=None):
-        self.fileLocation = fileLocation
-        self.eventIDs = eventIDs
-        self.subjectID = subjectID
-        self.recordingParametersID = recordingParametersID
-        self.recordingID = recordingID
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('fileLocation', 'eventIDs', 'subjectID', 'recordingParametersID', 'recordingID'))
 
 class RecordingParameters(BaseObj):
-    def __init__(self, samplingRate=None, startChannel=None, endChannel=None, referenceChannels=None, nonScalpChannels=None, label=None, recordingParametersID=None):
-        self.samplingRate = samplingRate
-        self.startChannel = startChannel
-        self.endChannel = endChannel
-        self.referenceChannels = referenceChannels
-        self.nonScalpChannels = nonScalpChannels
-        self.label = label
-        self.recordingParametersID = recordingParametersID
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('samplingRate', 'startChannel', 'endChannel', 'referenceChannels', 'nonScalpChannels', 'label', 'recordingParametersID'))
 
 class Stimulus(BaseObj):
-    def __init__(self, fileLocation=None, eventID=None, stimulusType=None, stimulusDescription=None, stimulusID=None):
-        self.fileLocation = fileLocation
-        self.eventID = eventID
-        self.stimulusType = stimulusType
-        self.stimulusDescription = stimulusDescription
-        self.stimulusID = stimulusID
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self, ):
+        BaseObj.__init__(self, ('fileLocation', 'eventID', 'stimulusType', 'stimulusDescription', 'stimulusID'))
 
 class Subject(BaseObj):
-    def __init__(self, subjectID=None, group=None, gender=None, yob=None, height=None, weight=None, handedness=None, vision=None, hearing=None, additionalInfo=None, channelLocations=None):
-        self.subjectID= subjectID
-        self.group = group
-        self.gender = gender
-        self.yob = yob
-        self.height = height
-        self.weight = weight
-        self.handedness = handedness
-        self.vision = vision
-        self.hearing = hearing
-        self.additionalInfo = additionalInfo
-        self.channelLocations = channelLocations
-        self.setUUID()
-        self.getSchema()
-        self.getAttrTypes()
+    def __init__(self):
+        BaseObj.__init__(self, ('subjectID', 'group', 'gender', 'yob', 'height', 'weight', 'handedness', 'vision', 'hearing', 'additionalInfo', 'channelLocations'))
 
 class Study(BaseObj):
     """
@@ -198,22 +141,37 @@ class Study(BaseObj):
 
     """
     def __init__(self, **kwargs):
-        itemList = ['subjects', 'stimuli', 'recordingParameterSets', 'recordings', 'events', 'publications', 'experimenters', 'license', 'contacts']
+        self.properties = ('subjects', 'stimuli', 'recordingParameterSets', 'recordings', 'events', 'publications', 'experimenters', 'license', 'contacts')
         self.setUUID()
         for key in kwargs.keys():
             self.setAttrFromList(key, kwargs[key])
 
-        for attr in itemList:
-            if attr not in self.__dict__.keys():
-                setattr(self, attr, dict())
+        for prop in self.properties:
+            if prop not in self.__dict__.keys():
+                setattr(self, prop, dict())
+        self.getSchema()
 
-    def setAttrFromList(self, attr, values):
+    def setPropertyFromList(self, attr, values):
+        if 'license' in attr:
+            setattr(self, attr, values)
+            return
         setattr(self, attr, {})
         for item in values:
             getattr(self, attr)[item.UUID] = item
 
-    def addNewItem(self, attr, newItem):
-        getattr(self, attr)[newItem.UUID] = newItem
+    def addNewItemToProperty(self, prop, newItem):
+        getattr(self, prop)[newItem.UUID] = newItem
+
+    def fillFromDict(self, dictionary):
+        for key in dictionary.keys():
+            self.setPropertyFromList(key, dictionary[key])
+
+    def validateStudy(self):
+        d = copy.deepcopy(self.__dict__)
+        for key in self.properties:
+            if 'license' not in key:
+                d[key] = list(d[key].values())
+        jsonschema.validate(d, self.schema)
 
     def extractDesiredDataBDF(recording, event, padding=None):
         """

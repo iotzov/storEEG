@@ -38,7 +38,7 @@
     },
     "recordingParametersID": {
       "title": "Recording Parameters ID",
-      "type": "number",
+      "type": "string",
       "description": "Unique recording parameter set ID"
     }
   }
