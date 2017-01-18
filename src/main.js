@@ -76,7 +76,7 @@ ipcMain.on('exit-clicked', (event) => {
 function openNewDataWindow() {
 	let newDataWindow = new BrowserWindow({width: 800, height: 600, parent: mainWindow, show: false});
 	newDataWindow.loadURL(url.format({
-		pathname: path.join(__dirname, 'test.html'),
+		pathname: path.join(__dirname, 'newtest.html'),
 		protocol: 'file:',
 		slashes: true
 	}));

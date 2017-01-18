@@ -15,6 +15,9 @@ class BaseObj(object):
         self.getSchema()
         self.getAttrTypes()
 
+    def getDict(self):
+        return dict(zip(self.properties, [self.__dict__[x] for x in self.properties]))
+
     def updateFromDict(self, dictionary):
         """
             Usage: class.updateFromDict(dictionary) - sets attributes of class in dictionary.keys() to dictionary[key]

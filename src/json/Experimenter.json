@@ -19,6 +19,16 @@
       "title": "Affiliation",
       "type": "string",
       "description": "Institutional affiliation of the experimenter"
+    },
+    "UUID": {
+      "title": "",
+      "type": "string",
+      "description": "UUID of this Experimenter object"
+    },
+    "label": {
+      "title": "Event Label",
+      "type": "string",
+      "description": "User-generated label for this Experimenter object, if not provided defaults to firstName+' '+lastName"
     }
   }
 }

@@ -19,11 +19,6 @@
         "type": "object",
         "title": "Subject",
         "properties": {
-          "subjectID": {
-            "title": "Subject ID",
-            "type": "string",
-            "description": "De-identified subject lab ID"
-          },
           "UUID": {
             "type": "string",
             "title": "Subject UUID",
@@ -90,9 +85,9 @@
             "description": "Link to subject electrode location file in any format"
           },
           "label": {
-            "title": "Subject Label",
+            "title": "Subject ID",
             "type": "string",
-            "description": "User-generated label for this Subject object. If not provided, defaults to subjectID"
+            "description": "User-generated label for this Subject object."
           }
         }
       }
@@ -109,11 +104,6 @@
             "title": "Stimulus File",
             "type": "string",
             "description": "Link to the stimulus file"
-          },
-          "eventUUID": {
-            "title": "Event ID",
-            "type": "string",
-            "description": "UUID of the Event object that corresponds to this stimulus"
           },
           "stimulusType": {
             "title": "Stimulus Type",
