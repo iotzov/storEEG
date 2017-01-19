@@ -12,30 +12,49 @@
     <link href="../deps/css/bootstrap-theme.css" rel="stylesheet">
     <link href="../deps/css/dash.css" rel="stylesheet">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- Use this version for electron, other one for browser
     <script>
       window.jQuery = window.$ = require('jquery');
     </script>
+    -->
+    <script src="../deps/js/jquery-3.1.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../deps/js/bootstrap.js"></script>
+    <script src="../deps/js/mainPage.js"></script>
   </head>
   <body>
     <div class="container-fluid">
       <div class="row fill-height">
-        <nav class="col-sm-3 bg-faded sidebar fill-height">
+        <nav class="col-sm-2 bg-faded sidebar fill-height">
           <ul class="nav nav-pills nav-stacked flex-column">
-            <li class="nav-item">
-              <a class="nav-link-active" href="#">
+            <li class="active">
+              <a href="#">
                 Home
               </a>
             </li>
-            <li class="nav-item">
+            <li>
+              <a class="nav-link" href="addNewStudy.html">
+                Add Study
+              </a>
+            </li>
+            <li>
               <a class="nav-link" href="browse.html">
-                Browse
+                Browse Data
+              </a>
+            </li>
+            <li>
+              <a class="nav-link" href="help.html">
+                Help
+              </a>
+            </li>
+            <li>
+              <a class="nav-link" href="javascript:quitApp()">
+                Exit
               </a>
             </li>
           </ul>
         </nav>
-        <div class="col-sm-9 fill-height">Large column</div>
+        <div class="col-sm-10 fill-height">Large column</div>
       </div>
     </div>
   </body>
