@@ -11,6 +11,11 @@
     <link href="../deps/css/bootstrap.css" rel="stylesheet">
     <link href="../deps/css/bootstrap-theme.css" rel="stylesheet">
     <link href="../deps/css/dash.css" rel="stylesheet">
+
+    <link rel="import" href="home-section.html">
+    <link rel="import" href="browse-section.html">
+    <link rel="import" href="add-section.html">
+    <link rel="import" href="help-section.html">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!-- Use this version for electron, other one for browser
     <script>
@@ -23,7 +28,6 @@
     <script src="../deps/js/jquery-3.1.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../deps/js/bootstrap.js"></script>
-    <script src="../deps/js/mainPage.js"></script>
     <script>
       if (window.module) module = window.module;
     </script>
@@ -31,37 +35,38 @@
   <body>
     <div class="container-fluid">
       <div class="row fill-height">
-        <nav class="col-sm-2 bg-faded sidebar fill-height">
+        <nav id="sidebar" class="col-sm-2 bg-faded sidebar fill-height">
           <ul class="nav nav-pills nav-stacked flex-column">
             <li class="active">
-              <a href="#">
+              <a class="nav-link" href="javascript:void(0)" id="home-button" data-section="home-section">
                 Home
               </a>
             </li>
             <li>
-              <a class="nav-link" href="addNewStudy.html">
+              <a class="nav-link" href="javascript:void(0)" id="add-button" data-section="add-section">
                 Add Study
               </a>
             </li>
             <li>
-              <a class="nav-link" href="browse.html">
+              <a class="nav-link" href="javascript:void(0)" id="browse-button" data-section="browse-section">
                 Browse Data
               </a>
             </li>
             <li>
-              <a class="nav-link" href="help.html">
+              <a class="nav-link" href="javascript:void(0)" id="help-button" data-section="help-section">
                 Help
               </a>
             </li>
             <li>
-              <a class="nav-link" href="javascript:quitApp()">
+              <a class="nav-link" href="javascript:exitProgram()">
                 Exit
               </a>
             </li>
           </ul>
         </nav>
-        <div class="col-sm-10 fill-height">Large column</div>
+        <div id="main-area" class="col-sm-10 fill-height"></div>
       </div>
     </div>
+    <script src="../deps/js/mainPage.js"></script>
   </body>
 </html>

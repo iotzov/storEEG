@@ -6,6 +6,10 @@
  * Typography
  */
 
+ .no-display {
+   display: none;
+ }
+
 h1 {
   margin-bottom: 20px;
   padding-bottom: 9px;
