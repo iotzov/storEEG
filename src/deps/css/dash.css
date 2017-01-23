@@ -6,6 +6,11 @@
  * Typography
  */
 
+ .content-area {
+   padding-left: 0;
+   padding-right: 0;
+ }
+
  .no-display {
    display: none;
  }

@@ -18,10 +18,11 @@ $(".nav-link").on('click', function (event) {
 });
 
 const links = document.querySelectorAll('link[rel="import"]')
-
 // Import and add each page to the DOM
 Array.prototype.forEach.call(links, function (link) {
 	let template = link.import.querySelector('.section-template')
 	let clone = document.importNode(template.content, true)
 	document.querySelector('#main-area').appendChild(clone)
 })
+
+$("#home-section").show()
