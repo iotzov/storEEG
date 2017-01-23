@@ -187,7 +187,7 @@ class Study(BaseObj):
                 -- This function is for .bdf/.edf files ONLY
         """
         raw = mne.io.read_raw_edf(recording.fileLocation)
-        events = mne.find_events(raw, stim_channel='STI 014')
+        events = mne.find_events(raw)
         s = numpy.where(events==event.startTrigger)
         e = numpy.where(events==event.endTrigger)
         s = events[s[0], 0]
