@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>StorEEG Main Menu</title>
+
+    <!-- Bootstrap -->
+    <link href="../deps/css/bootstrap.css" rel="stylesheet">
+    <link href="../deps/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../deps/css/dash.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- Use this version for electron, other one for browser
+    <script>
+      window.jQuery = window.$ = require('jquery');
+    </script>
+    -->
+    <script>
+      if (typeof module === 'object') {window.module = module; module = undefined;}
+    </script>
+    <script src="../deps/js/jquery-3.1.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../deps/js/bootstrap.js"></script>
+    <script>
+      if (window.module) module = window.module;
+    </script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row fill-height">
+        <h3 class="text-center">Enter a new stimulus</h3>
+        <div class="col-sm-6 col-sm-offset-3 fill-height">
+
+          <form>
+            <div class="form-group">
+              <label for="stimulusLabel">Stimulus ID</label>
+              <input class="form-control" id="stimulusLabel" placeholder="Stimulus name/ID">
+            </div>
+            <div class="form-group">
+              <label for="subjectLabel">Stimulus File</label>
+              <input type="file" class="form-control" id="stimulusFile">
+            </div>
+            <div class="form-group">
+              <label>Stimulus Type</label>
+              <select class="form-control" id="stimulusType">
+                <option>Audio</option>
+                <option>Video</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Stimulus Description</label>
+              <textarea class="form-control" id="stimulusDescription" placeholder="Text goes here"></textarea>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
