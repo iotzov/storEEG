@@ -7,8 +7,28 @@ function exitProgram() {
 function hideAllSectionsAndDeselectButtons() {
 	$("#main-area > div").hide() // Hide all sections
 
-	$(".nav-pills > li").removeClass("active")
+	$(".nav-pills > li").removeClass("active") // De-activate all nav buttons
 }
+
+const handleFormSubmit = event => {
+	event.preventDefault()
+
+	var data = formToJSON(event.currentTarget.elements);
+	console.log(JSON.stringify(data, null, "  "));
+}
+
+const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+	if(isValidEntry(element)) {
+		data[element.id] = element.value;
+	}
+	return data;
+}, {});
+
+function isValidEntry(element) {
+	return element.id && element.value;
+};
+
+$(".data-entry").on('submit', handleFormSubmit);
 
 $(".nav-link").on('click', function (event) {
 	hideAllSectionsAndDeselectButtons()
