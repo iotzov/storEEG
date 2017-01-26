@@ -32,7 +32,11 @@
     "handedness": {
       "title": "Handedness",
       "type": "string",
-      "enum": ["Left", "Right", "Both"]
+      "enum": [
+      "L",
+      "R",
+      "A"
+      ]
     },
     "vision": {
       "title": "Vision",
