@@ -1,5 +1,6 @@
 const {ipcRenderer} = require('electron')
 const localforage = require('localforage')
+const dragula = require('dragula')
 var currentStudy = null;
 
 const links = document.querySelectorAll('link[rel="import"]')
@@ -26,7 +27,22 @@ const handleFormSubmit = event => {
 	event.preventDefault()
 
 	var data = formToJSON(event.currentTarget.elements);
-	console.log(JSON.stringify(data, null, "  "));
+
+	localforage.getItem(currentStudy, (err, value) => {
+		value[event.currentTarget.name].push(data);
+		localforage.setItem(currentStudy, value);
+	});
+
+	event.currentTarget.reset();
+
+	updateObjectDisplays()
+	//console.log(JSON.stringify(data, null, "  "));
+}
+
+function printCurrent() {
+	localforage.getItem(currentStudy, (err, value) => {
+		console.log(JSON.stringify(value, null, "  "));
+	})
 }
 
 const formToJSON = elements => [].reduce.call(elements, (data, element) => {
@@ -55,6 +71,7 @@ $("#initial-add-form").on('submit', function (event) {
 	event.preventDefault();
 
 	var data = formToJSON(event.currentTarget.elements);
+	$("#initial-add-form")[0].reset()
 	localforage.getItem(data.studyTitle, (err, study) => {
 		if(study) {
 			alert('Study already exists!');
@@ -74,9 +91,12 @@ $("#initial-add-form").on('submit', function (event) {
 				$("#add-section").hide();
 				$("#main-add-section").show();
 			});
-			console.log(JSON.stringify(data, null, "  "));
+			currentStudy = data.studyTitle;
 		}
 	});
+
 });
 
 $("#home-section").show()
+
+const drake = dragula([$("#subjectsTopDrag")[0], $("#subjectsBottomDrag")[0]])

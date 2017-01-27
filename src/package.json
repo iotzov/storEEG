@@ -16,6 +16,7 @@
   "author": "Ivan Iotzov",
   "license": "CC0-1.0",
   "dependencies": {
+    "dragula": "^3.7.2",
     "jquery": "^3.1.1",
     "localforage": "^1.4.3"
   },

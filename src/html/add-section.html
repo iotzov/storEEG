@@ -6,7 +6,7 @@
       <ul class="nav nav-tabs nav-justified">
         <li role="presentation" class="active"><a href="#addSubjects" aria-controls="subjects" role="tab" data-toggle="tab">Subjects</a></li>
         <li role="presentation"><a href="#addStimuli" aria-controls="stimuli" role="tab" data-toggle="tab">Stimuli</a></li>
-        <li role="presentation"><a href="#addParameters" aria-controls="parameters" role="tab" data-toggle="tab">Recording Params</a></li>
+        <li role="presentation"><a href="#add-recordingParameterSets" aria-controls="parameters" role="tab" data-toggle="tab">Recording Params</a></li>
         <li role="presentation"><a href="#addEvents" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
         <li role="presentation"><a href="#addRecordings" aria-controls="recordings" role="tab" data-toggle="tab">Recordings</a></li>
       </ul>
@@ -14,34 +14,34 @@
         <div role="tabpanel" class="tab-pane active" id="addSubjects">
           <div class="col-sm-6 fill-height">
 
-            <form class="data-entry" name="Subject">
+            <form class="data-entry" name="subjects">
               <div class="form-group">
                 <label for="subjectLabel">Subject ID</label>
-                <input class="form-control" id="subjectLabel" placeholder="e.g. 'S01' or 'Subject 1'">
+                <input class="form-control" name="label" placeholder="e.g. 'S01' or 'Subject 1'">
               </div>
               <div class="form-group">
                 <label>Subject Group</label>
-                <input class="form-control" id="subjectGroup" placeholder="">
+                <input class="form-control" name="group" placeholder="">
               </div>
               <div class="form-group">
                 <label>Gender</label>
-                <input class="form-control" id="subjectGender" placeholder="">
+                <input class="form-control" name="gender" placeholder="">
               </div>
               <div class="form-group">
                 <label>Year of Birth</label>
-                <input class="form-control" id="subjectYOB" placeholder="">
+                <input class="form-control" name="yob" placeholder="">
               </div>
               <div class="form-group">
                 <label>Height(cm)</label>
-                <input class="form-control" id="subjectHeight" placeholder="">
+                <input class="form-control" name="height" placeholder="">
               </div>
               <div class="form-group">
                 <label>Weight(kg)</label>
-                <input class="form-control" id="subjectWeight" placeholder="">
+                <input class="form-control" name="weight" placeholder="">
               </div>
               <div class="form-group">
                 <label>Handedness</label>
-                <select class="form-control" id="subjectHandedness">
+                <select class="form-control" name="handedness">
                   <option></option>
                   <option>Left</option>
                   <option>Right</option>
@@ -50,7 +50,7 @@
               </div>
               <div class="form-group">
                 <label>Vision</label>
-                <select class="form-control" id="subjectVision">
+                <select class="form-control" name="vision">
                   <option></option>
                   <option>Normal</option>
                   <option>Corrected to normal</option>
@@ -60,7 +60,7 @@
               </div>
               <div class="form-group">
                 <label>Hearing</label>
-                <select class="form-control" id="subjectHearing">
+                <select class="form-control" name="hearing">
                   <option></option>
                   <option>Normal</option>
                   <option>Corrected to normal</option>
@@ -70,11 +70,11 @@
               </div>
               <div class="form-group">
                 <label>Additional Information</label>
-                <textarea class="form-control" rows="3" id="subjectAdditionalInfo"></textarea>
+                <textarea class="form-control" rows="3" name="additionalInfo"></textarea>
               </div>
               <div class="form-group">
                 <label>Channel Locations File</label>
-                <input type="file" id="subjectChannelLocations">
+                <input type="file" name="channelLocations">
               </div>
               <div class="form-group">
                   <input type="submit" class="btn btn-success btn-block" value="Add">
@@ -83,21 +83,35 @@
             </form>
 
           </div>
-          <div class="col-sm-6 fill-height">
-            <h3> Objects go here! </h3>
+          <div class="col-sm-6">
+
+            <div class="drag-wrapper">
+            <div class="drag-container" id="subjectsTopDrag">
+              <div class="drag-item">"here is some text i can hopefully move"</div>
+              <div class="drag-item">"hopefully here is some more"</div>
+              <div class="drag-item">"yipee"</div>
+            </div>
+
+            <div class="drag-container" id="subjectsBottomDrag">
+              <div class="drag-item">"more text"</div>
+              <div class="drag-item">"move me"</div>
+            </div>
+          </div>
+
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="addStimuli">
+        <div role="tabpanel" class="tab-pane" id="add-Stimuli">
           <div class="col-sm-6 fill-height">
 
-            <form class="data-entry" name="Stimulus">
+            <form class="data-entry" name="stimuli">
               <div class="form-group">
                 <label for="stimulusLabel">Stimulus ID</label>
-                <input class="form-control" id="stimulusLabel" placeholder="Stimulus name/ID">
+                <input class="form-control" name="label" placeholder="Stimulus name/ID">
               </div>
               <div class="form-group">
                 <label>Stimulus Type</label>
-                <select class="form-control" id="stimulusType">
+                <select class="form-control" name="stimulusType">
+                  <option></option>
                   <option>Audio</option>
                   <option>Video</option>
                   <option>Other</option>
@@ -105,11 +119,11 @@
               </div>
               <div class="form-group">
                 <label>Stimulus Description</label>
-                <textarea class="form-control" id="stimulusDescription" placeholder="Text goes here"></textarea>
+                <textarea class="form-control" name="stimulusDescription" placeholder="Text goes here"></textarea>
               </div>
               <div class="form-group">
                 <label for="subjectLabel">Stimulus File</label>
-                <input type="file" class="form-control" id="stimulusFile">
+                <input type="file" class="form-control" name="stimulusFile">
               </div>
               <div class="form-group">
                   <input type="submit" class="btn btn-success btn-block" value="Add">
@@ -122,10 +136,10 @@
             <h3> Objects go here! </h3>
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="addParameters">
+        <div role="tabpanel" class="tab-pane" id="add-recordingParameterSets">
           <div class="col-sm-6 fill-height">
 
-            <form class="data-entry" name="RecordingParameters">
+            <form class="data-entry" name="recordingParameterSets">
               <div class="form-group">
                 <label>Recording Parameter Set Name/ID</label>
                 <input class="form-control" name="label" placeholder="">
@@ -163,7 +177,7 @@
         <div role="tabpanel" class="tab-pane" id="addEvents">
           <div class="col-sm-6 fill-height">
 
-            <form class="data-entry" name="Event">
+            <form class="data-entry" name="events">
               <div class="form-group">
                 <label>Event Name/ID</label>
                 <input class="form-control" name="label" placeholder="">
@@ -193,7 +207,7 @@
         <div role="tabpanel" class="tab-pane" id="addRecordings">
           <div class="col-sm-6 fill-height">
 
-            <form class="data-entry" name="Recording">
+            <form class="data-entry" name="recordings">
               <div class="form-group">
                 <label>Recording Name/ID</label>
                 <input class="form-control" name="label" placeholder="">

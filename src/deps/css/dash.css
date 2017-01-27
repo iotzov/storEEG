@@ -1,3 +1,32 @@
+.drag-wrapper {
+  display: table;
+}
+
+.drag-container {
+  display: table-cell;
+  width: 50%;
+  background-color: rgba(116, 161, 212, 0.2);
+}
+
+.drag-container > div,
+.drag-item {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: opacity 0.4s ease-in-out 0s;
+}
+
+.drag-container > div {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.drag-container:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
  .content-area {
    padding-left: 0;
    padding-right: 0;
