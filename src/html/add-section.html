@@ -1,6 +1,6 @@
 <template class="section-template no-display">
 
-  <div id="add-section">
+  <div class="no-display" id="main-add-section">
 
     <div role="navigation">
       <ul class="nav nav-tabs nav-justified">
@@ -14,7 +14,7 @@
         <div role="tabpanel" class="tab-pane active" id="addSubjects">
           <div class="col-sm-6 fill-height">
 
-            <form class="data-entry" id="subjectForm">
+            <form class="data-entry" name="Subject">
               <div class="form-group">
                 <label for="subjectLabel">Subject ID</label>
                 <input class="form-control" id="subjectLabel" placeholder="e.g. 'S01' or 'Subject 1'">
@@ -22,10 +22,6 @@
               <div class="form-group">
                 <label>Subject Group</label>
                 <input class="form-control" id="subjectGroup" placeholder="">
-              </div>
-              <div class="form-group">
-                <label>Channel Locations File</label>
-                <input type="file" id="subjectChannelLocations">
               </div>
               <div class="form-group">
                 <label>Gender</label>
@@ -77,7 +73,12 @@
                 <textarea class="form-control" rows="3" id="subjectAdditionalInfo"></textarea>
               </div>
               <div class="form-group">
-                <input type="submit">
+                <label>Channel Locations File</label>
+                <input type="file" id="subjectChannelLocations">
+              </div>
+              <div class="form-group">
+                  <input type="submit" class="btn btn-success btn-block" value="Add">
+                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
               </div>
             </form>
 
@@ -89,14 +90,10 @@
         <div role="tabpanel" class="tab-pane" id="addStimuli">
           <div class="col-sm-6 fill-height">
 
-            <form>
+            <form class="data-entry" name="Stimulus">
               <div class="form-group">
                 <label for="stimulusLabel">Stimulus ID</label>
                 <input class="form-control" id="stimulusLabel" placeholder="Stimulus name/ID">
-              </div>
-              <div class="form-group">
-                <label for="subjectLabel">Stimulus File</label>
-                <input type="file" class="form-control" id="stimulusFile">
               </div>
               <div class="form-group">
                 <label>Stimulus Type</label>
@@ -110,6 +107,14 @@
                 <label>Stimulus Description</label>
                 <textarea class="form-control" id="stimulusDescription" placeholder="Text goes here"></textarea>
               </div>
+              <div class="form-group">
+                <label for="subjectLabel">Stimulus File</label>
+                <input type="file" class="form-control" id="stimulusFile">
+              </div>
+              <div class="form-group">
+                  <input type="submit" class="btn btn-success btn-block" value="Add">
+                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+              </div>
             </form>
 
           </div>
@@ -119,6 +124,37 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="addParameters">
           <div class="col-sm-6 fill-height">
+
+            <form class="data-entry" name="RecordingParameters">
+              <div class="form-group">
+                <label>Recording Parameter Set Name/ID</label>
+                <input class="form-control" name="label" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Sampling Rate</label>
+                <input class="form-control" name="samplingRate" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Start Channel</label>
+                <input class="form-control" name="startChannel" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>End Channel</label>
+                <input class="form-control" placeholder="" name="endChannel">
+              </div>
+              <div class="form-group">
+                <label>Reference Channels</label>
+                <input class="form-control" placeholder="" name="referenceChannels">
+              </div>
+              <div class="form-group">
+                <label>Non-Scalp Channels</label>
+                <input class="form-control" placeholder="" name="nonScalpChannels">
+              </div>
+              <div class="form-group">
+                  <input type="submit" class="btn btn-success btn-block" value="Add">
+                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+              </div>
+            </form>
           </div>
           <div class="col-sm-6 fill-height">
             <h3> Objects go here! </h3>
@@ -126,6 +162,29 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="addEvents">
           <div class="col-sm-6 fill-height">
+
+            <form class="data-entry" name="Event">
+              <div class="form-group">
+                <label>Event Name/ID</label>
+                <input class="form-control" name="label" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Start Trigger</label>
+                <input class="form-control" name="startTrigger" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>End Trigger</label>
+                <input class="form-control" name="endTrigger" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Event Description</label>
+                <textarea class="form-control" name="eventDescription" placeholder="Brief description of the event"></textarea>
+              </div>
+              <div class="form-group">
+                  <input type="submit" class="btn btn-success btn-block" value="Add">
+                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+              </div>
+            </form>
           </div>
           <div class="col-sm-6 fill-height">
             <h3> Objects go here! </h3>
@@ -133,6 +192,29 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="addRecordings">
           <div class="col-sm-6 fill-height">
+
+            <form class="data-entry" name="Recording">
+              <div class="form-group">
+                <label>Recording Name/ID</label>
+                <input class="form-control" name="label" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Events</label>
+                <input class="form-control" name="eventUUIDs" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Subject</label>
+                <input class="form-control" name="subjectUUID" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Recording Parameters</label>
+                <input class="form-control" name="recordingParameterSetUUID" placeholder="">
+              </div>
+              <div class="form-group">
+                  <input type="submit" class="btn btn-success btn-block" value="Add">
+                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+              </div>
+            </form>
           </div>
           <div class="col-sm-6 fill-height">
             <h3> Objects go here! </h3>
@@ -142,4 +224,25 @@
     </div>
 
   </div>
+
+  <div class="no-display" id="add-section">
+
+    <form class="" id="initial-add-form">
+      <div class="form-group">
+        <label>Study Title</label>
+        <input class="form-control" name="studyTitle">
+      </div>
+      <br>
+      <div class="form-group">
+        <label>Study Description</label>
+        <textarea class="form-control" name="studyDescription" placeholder="Description of the Study" rows="4"></textarea>
+      </div>
+      <br>
+      <div class="form-group">
+        <input class="btn btn-primary btn-lg" type="submit" value="Create Study" style="margin-left:40%;">
+      </div>
+    </form>
+
+  </div>
+
 </template>
