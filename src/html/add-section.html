@@ -4,14 +4,14 @@
 
     <div role="navigation">
       <ul class="nav nav-tabs nav-justified">
-        <li role="presentation" class="active"><a href="#addSubjects" aria-controls="subjects" role="tab" data-toggle="tab">Subjects</a></li>
-        <li role="presentation"><a href="#addStimuli" aria-controls="stimuli" role="tab" data-toggle="tab">Stimuli</a></li>
+        <li role="presentation" class="active"><a href="#add-subjects" aria-controls="subjects" role="tab" data-toggle="tab">Subjects</a></li>
+        <li role="presentation"><a href="#add-stimuli" aria-controls="stimuli" role="tab" data-toggle="tab">Stimuli</a></li>
         <li role="presentation"><a href="#add-recordingParameterSets" aria-controls="parameters" role="tab" data-toggle="tab">Recording Params</a></li>
-        <li role="presentation"><a href="#addEvents" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
-        <li role="presentation"><a href="#addRecordings" aria-controls="recordings" role="tab" data-toggle="tab">Recordings</a></li>
+        <li role="presentation"><a href="#add-events" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
+        <li role="presentation"><a href="#add-recordings" aria-controls="recordings" role="tab" data-toggle="tab">Recordings</a></li>
       </ul>
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="addSubjects">
+        <div role="tabpanel" class="tab-pane active" id="add-subjects">
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="subjects">
@@ -86,21 +86,16 @@
           <div class="col-sm-6">
 
             <div class="drag-wrapper">
-            <div class="drag-container" id="subjectsTopDrag">
-              <div class="drag-item">"here is some text i can hopefully move"</div>
-              <div class="drag-item">"hopefully here is some more"</div>
-              <div class="drag-item">"yipee"</div>
+              <div class="drag-container" id="subjectsDrag">
+                <div class="drag-item">"here is some text i can hopefully move"</div>
+                <div class="drag-item">"hopefully here is some more"</div>
+                <div class="drag-item">"yipee"</div>
+              </div>
             </div>
-
-            <div class="drag-container" id="subjectsBottomDrag">
-              <div class="drag-item">"more text"</div>
-              <div class="drag-item">"move me"</div>
-            </div>
-          </div>
 
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="add-Stimuli">
+        <div role="tabpanel" class="tab-pane" id="add-stimuli">
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="stimuli">
@@ -133,7 +128,19 @@
 
           </div>
           <div class="col-sm-6 fill-height">
-            <h3> Objects go here! </h3>
+
+            <div class="drag-wrapper">
+              <div class="drag-container" id="stimuliDrag">
+                <div class="drag-item">"here is some text i can hopefully move"</div>
+                <div class="drag-item">"hopefully here is some more"</div>
+                <div class="drag-item">"yipee"</div>
+              </div>
+              <div class="drag-container">
+                <div class="drag-item">"more text"</div>
+                <div class="drag-item">"move me"</div>
+              </div>
+            </div>
+
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="add-recordingParameterSets">
@@ -171,10 +178,18 @@
             </form>
           </div>
           <div class="col-sm-6 fill-height">
-            <h3> Objects go here! </h3>
+            <div class="drag-container" id="recordingParameterSetsDrag">
+              <div class="drag-item">"here is some text i can hopefully move"</div>
+              <div class="drag-item">"hopefully here is some more"</div>
+              <div class="drag-item">"yipee"</div>
+            </div>
+            <div class="drag-container">
+              <div class="drag-item">"more text"</div>
+              <div class="drag-item">"move me"</div>
+            </div>
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="addEvents">
+        <div role="tabpanel" class="tab-pane" id="add-events">
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="events">
@@ -199,12 +214,24 @@
                   <button class="btn btn-danger btn-block" type="reset">Clear</button>
               </div>
             </form>
+
           </div>
           <div class="col-sm-6 fill-height">
-            <h3> Objects go here! </h3>
+
+            <div class="drag-container" id="eventsDrag">
+              <div class="drag-item">"here is some text i can hopefully move"</div>
+              <div class="drag-item">"hopefully here is some more"</div>
+              <div class="drag-item">"yipee"</div>
+            </div>
+            <div class="drag-container">
+              <div class="drag-item">"more text"</div>
+              <div class="drag-item">"move me"</div>
+            </div>
+
           </div>
+
         </div>
-        <div role="tabpanel" class="tab-pane" id="addRecordings">
+        <div role="tabpanel" class="tab-pane" id="add-recordings">
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="recordings">
@@ -229,14 +256,23 @@
                   <button class="btn btn-danger btn-block" type="reset">Clear</button>
               </div>
             </form>
+
           </div>
           <div class="col-sm-6 fill-height">
-            <h3> Objects go here! </h3>
+            <div class="drag-container" id="recordingsDrag">
+              <div class="drag-item">"here is some text i can hopefully move"</div>
+              <div class="drag-item">"hopefully here is some more"</div>
+              <div class="drag-item">"yipee"</div>
+            </div>
+            <div class="drag-container">
+              <div class="drag-item">"more text"</div>
+              <div class="drag-item">"move me"</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 
   <div class="no-display" id="add-section">

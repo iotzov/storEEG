@@ -1,6 +1,7 @@
-const {ipcRenderer} = require('electron')
-const localforage = require('localforage')
-const dragula = require('dragula')
+const {ipcRenderer} = require('electron');
+const localforage = require('localforage');
+const dragula = require('dragula');
+const uuid = require('uuid/v4');
 var currentStudy = null;
 
 const links = document.querySelectorAll('link[rel="import"]')
@@ -30,13 +31,11 @@ const handleFormSubmit = event => {
 
 	localforage.getItem(currentStudy, (err, value) => {
 		value[event.currentTarget.name].push(data);
-		localforage.setItem(currentStudy, value);
+		localforage.setItem(currentStudy, value).then(function () {
+			event.currentTarget.reset();
+			updateObjectDisplays(event);
+		});
 	});
-
-	event.currentTarget.reset();
-
-	updateObjectDisplays()
-	//console.log(JSON.stringify(data, null, "  "));
 }
 
 function printCurrent() {
@@ -55,6 +54,32 @@ const formToJSON = elements => [].reduce.call(elements, (data, element) => {
 function isValidEntry(element) {
 	return element.name && element.value;
 };
+
+function updateObjectDisplays(event) {
+	var currentForm = event.currentTarget.id.slice(4);
+
+	localforage.getItem(currentStudy).then(function (value){
+		var currentForm = event.currentTarget.name;
+		value = value[currentForm];
+		$('#' + currentForm + 'Drag').empty()
+		for(var i = 0; i < value.length; i++) {
+			createDragObject(value[i], currentForm);
+		}
+	});
+}
+
+function createDragObject(item, where) {
+
+	$('<div/>', {
+		'class': 'drag-item',
+		'text': where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label
+	}).appendTo($('#' + where + 'Drag'));
+
+}
+
+function initializeDragging(){
+
+}
 
 // Event Handlers
 
@@ -99,4 +124,6 @@ $("#initial-add-form").on('submit', function (event) {
 
 $("#home-section").show()
 
-const drake = dragula([$("#subjectsTopDrag")[0], $("#subjectsBottomDrag")[0]])
+const drake = dragula([$("#subjectsDrag")[0]], {
+	removeOnSpill: true
+});

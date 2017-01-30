@@ -17,14 +17,11 @@
 }
 
 .drag-container > div {
-  cursor: move;
-  cursor: grab;
-  cursor: -moz-grab;
   cursor: -webkit-grab;
 }
 
-.drag-container:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.2);
+.gu-mirror {
+  cursor: -webkit-grabbing;
 }
 
  .content-area {

@@ -11,18 +11,12 @@
     <link href="../deps/css/bootstrap.css" rel="stylesheet">
     <link href="../deps/css/bootstrap-theme.css" rel="stylesheet">
     <link href="../deps/css/dash.css" rel="stylesheet">
-    <link href="../node_modules/dragula/dist/dragula.css">
+    <link href="../node_modules/dragula/dist/dragula.css" rel="stylesheet">
 
     <link rel="import" href="home-section.html">
     <link rel="import" href="browse-section.html">
     <link rel="import" href="add-section.html">
     <link rel="import" href="help-section.html">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!-- Use this version for electron, other one for browser
-    <script>
-      window.jQuery = window.$ = require('jquery');
-    </script>
-    -->
     <script>
       if (typeof module === 'object') {window.module = module; module = undefined;}
     </script>
@@ -69,5 +63,6 @@
       </div>
     </div>
     <script src="../deps/js/mainPage.js"></script>
+    <script src="../node_modules/dragula/dist/dragula.min.js"></script>
   </body>
 </html>
