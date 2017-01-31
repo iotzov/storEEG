@@ -53,7 +53,7 @@ const formToJSON = elements => [].reduce.call(elements, (data, element) => {
 }, {});
 
 function isValidEntry(element) {
-	return element.name;
+	return element.name && element.value;
 };
 
 function updateObjectDisplays(event) {
@@ -79,7 +79,12 @@ function createDragObject(item, where) {
 }
 
 function initializeDragging(){
-
+	const drakes = {
+		'subjects': dragula([$("#subjectsDrag")[0]], {removeOnSpill: true}),
+		'stimuli': dragula([$("#stimuliDrag")[0]], {removeOnSpill: true}),
+		'recordingParameterSets': dragula([$("#recordingParameterSetsDrag")[0]], {removeOnSpill: true}),
+		'events': dragula([$("#eventsDrag")[0]], {removeOnSpill: true})
+	};
 }
 
 // Event Handlers
@@ -97,6 +102,7 @@ $("#initial-add-form").on('submit', function (event) {
 	event.preventDefault();
 
 	var data = formToJSON(event.currentTarget.elements);
+	data.UUID = uuid();
 	$("#initial-add-form")[0].reset()
 	localforage.getItem(data.studyTitle, (err, study) => {
 		if(study) {
@@ -125,6 +131,4 @@ $("#initial-add-form").on('submit', function (event) {
 
 $("#home-section").show()
 
-const drake = dragula([$("#subjectsDrag")[0]], {
-	removeOnSpill: true
-});
+initializeDragging();
