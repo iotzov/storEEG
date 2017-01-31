@@ -13,7 +13,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1200, height: 750})
+  mainWindow = new BrowserWindow({width: 1200, height: 750, icon: __dirname + '/deps/img/repEEG_Icon.png'})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({

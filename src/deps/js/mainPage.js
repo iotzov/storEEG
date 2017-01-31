@@ -28,6 +28,7 @@ const handleFormSubmit = event => {
 	event.preventDefault()
 
 	var data = formToJSON(event.currentTarget.elements);
+	data.UUID = uuid();
 
 	localforage.getItem(currentStudy, (err, value) => {
 		value[event.currentTarget.name].push(data);
@@ -52,7 +53,7 @@ const formToJSON = elements => [].reduce.call(elements, (data, element) => {
 }, {});
 
 function isValidEntry(element) {
-	return element.name && element.value;
+	return element.name;
 };
 
 function updateObjectDisplays(event) {

@@ -1,18 +1,20 @@
 .drag-wrapper {
   display: table;
+  padding: 0px;
+  background-color: rgba(21, 110, 212, 0.38);
 }
 
 .drag-container {
   display: table-cell;
-  width: 50%;
-  background-color: rgba(116, 161, 212, 0.2);
+  width: 100%;
 }
 
 .drag-container > div,
 .drag-item {
   margin: 10px;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
   transition: opacity 0.4s ease-in-out 0s;
 }
 
