@@ -1,0 +1,95 @@
+.drag-wrapper {
+  display: table;
+  padding: 0px;
+  background-color: rgba(21, 110, 212, 0.38);
+}
+
+.drag-container {
+  display: table-cell;
+  width: 100%;
+}
+
+.drag-container > div,
+.drag-item {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  transition: opacity 0.4s ease-in-out 0s;
+}
+
+.drag-container > div {
+  cursor: -webkit-grab;
+}
+
+.gu-mirror {
+  cursor: -webkit-grabbing;
+}
+
+ .content-area {
+   padding-left: 0;
+   padding-right: 0;
+ }
+
+ .no-display {
+   display: none;
+ }
+
+h1 {
+  margin-bottom: 20px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #eee;
+}
+
+body, html, .container-fluid {
+  height: 100%;
+}
+
+.fill-height {
+  height: 100%;
+}
+
+.nav-pills > .active > a,
+.nav-pills > .active > a:hover,
+.nav-pills > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  z-index: 1000;
+  padding: 0px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  border-right: 1px solid #eee;
+}
+
+/* Sidebar navigation */
+.sidebar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar .nav {
+  margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+  width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+  margin-left: 0;
+}
+
+.sidebar .nav-link {
+  border-radius: 0;
+}
+
+.bg-faded {
+  background-color: #f4f2f1
+}

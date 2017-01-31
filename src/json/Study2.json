@@ -1,0 +1,82 @@
+{
+  "title": "Study",
+  "type": "object",
+  "properties": {
+    "studyTitle": {
+      "title": "Title",
+      "type": "string",
+      "description": "Study Title"
+    },
+    "studyDescription": {
+      "title": "Study Description",
+      "type": "string"
+    },
+    "subjects": {
+      "title": "Subjects",
+      "description": "Subjects involved in this study",
+      "type": "array",
+      "items": {
+        "$ref": "Subject.json#/Subject"
+      }
+    },
+    "stimuli": {
+      "title": "Stimuli",
+      "description": "Stimulus presented to a subject in the study",
+      "type": "array",
+      "items": {
+        "$ref": "Stimulus.json#/Stimulus"
+      }
+    },
+    "recordingParameterSets": {
+      "title": "Recording Parameter Sets",
+      "description": "Set of parameters describing the EEG recording setup used in a particular recording",
+      "type": "array",
+      "items": {
+        "$ref": "RecordingParameters.json#/RecordingParameters"
+      }
+    },
+    "recordings": {
+      "title": "Recordings",
+      "description": "Single recording session file. May include multiple events, but only a single subject.",
+      "type": "array",
+      "items": {
+        "$ref": "Recording.json#/Recording"
+      }
+    },
+    "events": {
+      "title": "Events",
+      "description": "A single event that defines an epoch of EEG data. Must have a starting trigger/event value, and may have an optional end value",
+      "type": "array",
+      "items": {
+        "$ref": "Event.json#/Event"
+      }
+    },
+    "publications": {
+      "title": "Publications",
+      "description": "Publications this study has been involved in",
+      "type": "array",
+      "items": {
+        "$ref": "Publication.json#/Publication"
+      }
+    },
+    "experimenters": {
+      "title": "Experimenters",
+      "description": "Experimenters involved in the study",
+      "type": "array",
+      "items": {
+        "$ref": "Experimenter.json#/Experimenter"
+      }
+    },
+    "license": {
+      "$ref": "License.json#/License"
+    },
+    "contacts": {
+      "description": "Author contact information",
+      "type": "array",
+      "title": "Contacts",
+      "items": {
+        "$ref": "Contact.json#/Contact"
+      }
+    }
+  }
+}

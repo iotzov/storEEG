@@ -1,0 +1,27 @@
+{
+  "name": "storEEG",
+  "version": "1.0.0",
+  "description": "A repository application for storing/managing/sharing EEG datasets",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug"
+  },
+  "repository": "https://github.com/iotzov/repEEG",
+  "keywords": [
+    "EEG",
+    "repository",
+    "ESS"
+  ],
+  "author": "Ivan Iotzov",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "dragula": "^3.7.2",
+    "jquery": "^3.1.1",
+    "localforage": "^1.4.3",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "electron": "^1.4.1"
+  }
+}

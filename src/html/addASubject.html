@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>StorEEG Main Menu</title>
+
+    <!-- Bootstrap -->
+    <link href="../deps/css/bootstrap.css" rel="stylesheet">
+    <link href="../deps/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../deps/css/dash.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- Use this version for electron, other one for browser
+    <script>
+      window.jQuery = window.$ = require('jquery');
+    </script>
+    -->
+    <script>
+      if (typeof module === 'object') {window.module = module; module = undefined;}
+    </script>
+    <script src="../deps/js/jquery-3.1.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../deps/js/bootstrap.js"></script>
+    <script>
+      if (window.module) module = window.module;
+    </script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row fill-height">
+        <h3 class="text-center">Enter a new subject</h3>
+        <div class="col-sm-6 col-sm-offset-3 fill-height">
+
+          <form class="data-entry" id="subjectForm">
+            <div class="form-group">
+              <label for="subjectLabel">Subject ID</label>
+              <input class="form-control" id="subjectLabel" placeholder="e.g. 'S01' or 'Subject 1'">
+            </div>
+            <div class="form-group">
+              <label>Subject Group</label>
+              <input class="form-control" id="subjectGroup" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>Channel Locations File</label>
+              <input type="file" id="subjectChannelLocations">
+            </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <input class="form-control" id="subjectGender" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>Year of Birth</label>
+              <input class="form-control" id="subjectYOB" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>Height(cm)</label>
+              <input class="form-control" id="subjectHeight" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>Weight(kg)</label>
+              <input class="form-control" id="subjectWeight" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>Handedness</label>
+              <select class="form-control" id="subjectHandedness">
+                <option></option>
+                <option>Left</option>
+                <option>Right</option>
+                <option>Ambidextrous</option>
+              </select>
+            </div>
+              <div class="form-group">
+                <label>Vision</label>
+                <select class="form-control" id="subjectVision">
+                  <option></option>
+                  <option>Normal</option>
+                  <option>Corrected to normal</option>
+                  <option>Impaired</option>
+                  <option>NA</option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label>Hearing</label>
+              <select class="form-control" id="subjectHearing">
+                <option></option>
+                <option>Normal</option>
+                <option>Corrected to normal</option>
+                <option>Impaired</option>
+                <option>NA</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Additional Information</label>
+              <textarea class="form-control" rows="3" id="subjectAdditionalInfo"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="submit">
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <script src="../deps/js/mainPage.js"></script>
+  </body>
+</html>

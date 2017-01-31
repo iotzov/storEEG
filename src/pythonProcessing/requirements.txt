@@ -1,0 +1,6 @@
+scipy
+numpy
+matplotlib
+jsonschema
+mne
+python_jsonschema_objects

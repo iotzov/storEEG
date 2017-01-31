@@ -1,0 +1,30 @@
+{
+  "title": "Contact",
+  "description": "Author contact information",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "number",
+      "maxLength": 10
+    },
+    "email": {
+      "type": "string"
+    },
+    "UUID": {
+      "type": "string",
+      "title": "Contact UUID",
+      "description": "UUID of this Contact object"
+    },
+    "label": {
+      "title": "Contact Label",
+      "type": "string",
+      "description": "User-generated label for this Contact object, if not provided defaults to firstName+' '+lastName"
+    }
+  }
+}

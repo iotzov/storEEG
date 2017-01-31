@@ -1,0 +1,27 @@
+{
+  "title": "Publication",
+  "description": "Publications this study has been involved in",
+  "type": "object",
+  "properties": {
+    "citation": {
+      "title": "Citation",
+      "type": "string",
+      "description": "Citation in any format, BibTex parsed automatically"
+    },
+    "link": {
+      "title": "Link",
+      "type": "string",
+      "description": "Link to the publication"
+    },
+    "UUID": {
+      "title": "Publication UUID",
+      "type": "string",
+      "description": "UUID of this Publication object"
+    },
+    "label": {
+      "title": "Publication Label",
+      "type": "string",
+      "description": "User-generated label for this Publication object, if not provided defaults to UUID"
+    }
+  }
+}
