@@ -31,7 +31,9 @@ const handleFormSubmit = event => {
 	data.UUID = uuid();
 
 	localforage.getItem(currentStudy, (err, value) => {
-		value[event.currentTarget.name].push(data);
+		var temp = value[event.currentTarget.name];
+		temp[data.UUID] = data;
+		value[event.currentTarget.name] = temp;
 		localforage.setItem(currentStudy, value).then(function () {
 			event.currentTarget.reset();
 			updateObjectDisplays(event);
@@ -63,7 +65,7 @@ function updateObjectDisplays(event) {
 		var currentForm = event.currentTarget.name;
 		value = value[currentForm];
 		$('#' + currentForm + 'Drag').empty()
-		for(var i = 0; i < value.length; i++) {
+		for(var i in value) {
 			createDragObject(value[i], currentForm);
 		}
 	});
@@ -73,7 +75,8 @@ function createDragObject(item, where) {
 
 	$('<div/>', {
 		'class': 'drag-item',
-		'text': where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label
+		'text': where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label,
+		'data-UUID': item.UUID
 	}).appendTo($('#' + where + 'Drag'));
 
 }
@@ -85,6 +88,17 @@ function initializeDragging(){
 		'recordingParameterSets': dragula([$("#recordingParameterSetsDrag")[0]], {removeOnSpill: true}),
 		'events': dragula([$("#eventsDrag")[0]], {removeOnSpill: true})
 	};
+
+	for(var key in drakes) {
+		drakes[key].on('remove', (el, container, source) => {
+			var name = container.id;
+			name = name.slice(0, container.id.length-4);
+			localforage.getItem(currentStudy, (err, value) => {
+				delete value[name][el.dataset.uuid];
+				localforage.setItem(currentStudy, value).then(function () {console.log('success!');});
+			});
+		});
+	}
 }
 
 // Event Handlers
@@ -109,15 +123,15 @@ $("#initial-add-form").on('submit', function (event) {
 			alert('Study already exists!');
 		}
 		else {
-			data.subjects = [];
-			data.stimuli = [];
-			data.recordingParameterSets = [];
-			data.recordings = [];
-			data.events = [];
-			data.publications = [];
-			data.experimenters = [];
-			data.license = [];
-			data.contacts = [];
+			data.subjects = {};
+			data.stimuli = {};
+			data.recordingParameterSets = {};
+			data.recordings = {};
+			data.events = {};
+			data.publications = {};
+			data.experimenters = {};
+			data.license = {};
+			data.contacts = {};
 
 			localforage.setItem(data.studyTitle, data, (value) => {
 				$("#add-section").hide();
