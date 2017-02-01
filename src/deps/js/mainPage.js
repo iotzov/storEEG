@@ -1,8 +1,9 @@
-const {ipcRenderer} = require('electron');
-const localforage = require('localforage');
-const dragula = require('dragula');
-const uuid = require('uuid/v4');
-var currentStudy = null;
+const ipcRenderer = require('electron').ipcRenderer
+const localforage = require('localforage')
+const dragula = require('dragula')
+const uuid = require('uuid/v4')
+const {dialog} = require('electron').remote
+var currentStudy = null
 
 const links = document.querySelectorAll('link[rel="import"]')
 // Import and add each page to the DOM
@@ -146,3 +147,39 @@ $("#initial-add-form").on('submit', function (event) {
 $("#home-section").show()
 
 initializeDragging();
+
+$(".file-adder").on('click', function (event) {
+	event.preventDefault();
+	// event.stopPropagation();
+	//this.parentNode.value =
+	var filePath = dialog.showOpenDialog({properties: ['openFile']});
+	$(this).prop('value', filePath);
+	filePath = filePath[0].replace(/^.*[\\\/]/, '');
+	$(this).toggleClass('btn-primary btn-success')
+	$(this).prop('innerHTML', filePath)
+});
+
+const q = $('.data-entry').on('reset', function (event) {
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").toggleClass('btn-primary btn-success');
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").prop('innerHTML', 'Add File');
+})
+
+
+/*
+document.ondragover = document.ondrop = (ev) => {
+  ev.preventDefault()
+}
+
+document.body.ondrop = (ev) => {
+  console.log(ev.dataTransfer.files[0].path)
+  ev.preventDefault()
+}
+
+$("#stim-file-selector").on('drop', function (ev) {
+	  ev.preventDefault();
+		ev.stopPropagation();
+		console.log(ev)
+		console.log(ev.originalEvent.dataTransfer);
+		console.log(ev.originalEvent.dataTransfer.files[0].path)
+});
+*/

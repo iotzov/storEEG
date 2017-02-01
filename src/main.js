@@ -1,10 +1,12 @@
 const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const dialog = require('electron').dialog
+const ipcMain = electron.ipcMain
 const path = require('path')
 const url = require('url')
 const debug = /--debug/.test(process.argv[2])
-const ipcMain = electron.ipcMain
+
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -71,6 +73,14 @@ ipcMain.on('open-browse-clicked', (event) => {
 // Exit main menu button clicked --> quit app
 ipcMain.on('exit-clicked', (event) => {
 	app.quit()
+})
+
+ipcMain.on('open-file-dialog', function(event) {
+  dialog.showOpenDialog({
+    'properties': ['openFile']
+    }, function (file) {
+    if(file) event.sender.send('selected-file', file)
+  })
 })
 
 function openNewDataWindow() {
