@@ -3,9 +3,6 @@ const localforage = require('localforage')
 const dragula = require('dragula')
 const uuid = require('uuid/v4')
 const {dialog} = require('electron').remote
-const fs = require('fs')
-const jsonfile = require('jsonfile')
-jsonfile.spaces = 3;
 var currentStudy = null
 
 const links = document.querySelectorAll('link[rel="import"]')
@@ -109,27 +106,11 @@ function initializeDragging(){
 
 $(".data-entry").on('submit', handleFormSubmit);
 
-$('.data-entry').on('reset', function (event) {
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").toggleClass('btn-primary btn-success');
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").prop('innerHTML', 'Add File');
-})
-
 $(".nav-link").on('click', function (event) {
 	hideAllSectionsAndDeselectButtons()
 
 	$('#' + $(this).data('section')).show()
 	$(this).parent().addClass("active")
-});
-
-$(".file-adder").on('click', function (event) {
-	event.preventDefault();
-	// event.stopPropagation();
-	//this.parentNode.value =
-	var filePath = dialog.showOpenDialog({properties: ['openFile']});
-	$(this).prop('value', filePath);
-	filePath = filePath[0].replace(/^.*[\\\/]/, '');
-	$(this).toggleClass('btn-primary btn-success')
-	$(this).prop('innerHTML', filePath)
 });
 
 $("#initial-add-form").on('submit', function (event) {
@@ -163,61 +144,26 @@ $("#initial-add-form").on('submit', function (event) {
 
 });
 
-// Data export and import
-
-function writeCurrentStudyToDisk() {
-	//Write current study to disk under /studies/
-	localforage.getItem(currentStudy).then(function (err, data) {
-
-	})
-}
-
-function writeAllStudyToDisk() {
-	// Write all studies contained in localforage under /studies/
-	// This action is performed on shutdown to preserve data.
-
-}
-
-function populateDB() {
-	// Populate the database with all studies found under /studies/
-	// This is done because DB is cleared on startup and needs to be re-populated
-
-}
-
-function refreshDB() {
-	// Clears localforage and refreshes based on studies contained in /studies/
-	localforage.clear();
-	populateDB();
-}
-
-$("#home-table").bootstrapTable({
-	columns: [{
-		field: 'studyTitle',
-		title: 'Title'
-	},
-	{
-		field: 'numSubs',
-		title: 'Number of Subjects'
-	},
-	{
-		field: 'numRecs',
-		title: 'Number of Recordings'
-	}],
-	data: [{
-		studyTitle: 'Test Study 1',
-		numSubs: 25,
-		numRecs: 50
-	},
-	{
-		studyTitle: 'Test Study 2',
-		numSubs: 40,
-		numRecs: 80
-	}]
-});
-
 $("#home-section").show()
 
 initializeDragging();
+
+$(".file-adder").on('click', function (event) {
+	event.preventDefault();
+	// event.stopPropagation();
+	//this.parentNode.value =
+	var filePath = dialog.showOpenDialog({properties: ['openFile']});
+	$(this).prop('value', filePath);
+	filePath = filePath[0].replace(/^.*[\\\/]/, '');
+	$(this).toggleClass('btn-primary btn-success')
+	$(this).prop('innerHTML', filePath)
+});
+
+const q = $('.data-entry').on('reset', function (event) {
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").toggleClass('btn-primary btn-success');
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").prop('innerHTML', 'Add File');
+})
+
 
 /*
 document.ondragover = document.ondrop = (ev) => {
