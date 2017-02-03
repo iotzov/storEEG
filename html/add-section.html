@@ -212,36 +212,25 @@
 
         </div>
         <div role="tabpanel" class="tab-pane" id="add-recordings">
-          <div class="col-sm-6 fill-height">
+          <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+              <form class="data-entry" name="recordings">
+                <div class="form-group">
+                  <label>Recording Name</label>
+                  <input class="form-control" name="label">
+                </div>
+              </form>
+              <div class="drag-here">
 
-            <form class="data-entry" name="recordings">
-              <div class="form-group">
-                <label>Recording Name/ID</label>
-                <input class="form-control" name="label" placeholder="">
               </div>
-              <div class="form-group">
-                <label>Events</label>
-                <input class="form-control" name="eventUUIDs" placeholder="">
-              </div>
-              <div class="form-group">
-                <label>Subject</label>
-                <input class="form-control" name="subjectUUID" placeholder="">
-              </div>
-              <div class="form-group">
-                <label>Recording Parameters</label>
-                <input class="form-control" name="recordingParameterSetUUID" placeholder="">
-              </div>
-              <div class="form-group">
-                  <input type="submit" class="btn btn-success btn-block" value="Add">
-                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
-              </div>
-            </form>
-
+            </div>
           </div>
-          <div class="col-sm-6 drag-wrapper">
-            <div class="drag-container" id="recordingsDrag">
-              <div class="drag-item">Add some items to the left!</div>
-              <div class="drag-item">Drag & drop items outside this box to delete them.</div>
+          <div class="row">
+            <div class="col-sm-12 drag-wrapper">
+              <div class="drag-container" id="recordingsDrag">
+                <div class="drag-item">Add some items to the left!</div>
+                <div class="drag-item">Drag & drop items outside this box to delete them.</div>
+              </div>
             </div>
           </div>
         </div>

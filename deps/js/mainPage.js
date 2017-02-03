@@ -2,8 +2,13 @@ const ipcRenderer = require('electron').ipcRenderer
 const localforage = require('localforage')
 const dragula = require('dragula')
 const uuid = require('uuid/v4')
-const {dialog} = require('electron').remote
-var currentStudy = null
+const {BrowserWindow, dialog} = require('electron').remote
+const fs = require('fs')
+const path = require('path');
+const url = require('url');
+const jsonfile = require('jsonfile')
+jsonfile.spaces = 2;
+var currentStudy = null;
 
 const links = document.querySelectorAll('link[rel="import"]')
 // Import and add each page to the DOM
@@ -17,6 +22,16 @@ Array.prototype.forEach.call(links, function (link) {
 
 function exitProgram() {
 	ipcRenderer.send('exit-clicked');
+}
+
+function objToArray(toConvert) {
+	// Converts the object that is passed to an array of the values of all of its properties
+	var temp = [];
+	for(var a in toConvert) {
+		temp.push(toConvert[a]);
+	}
+
+	return temp
 }
 
 function hideAllSectionsAndDeselectButtons() {
@@ -113,6 +128,22 @@ $(".nav-link").on('click', function (event) {
 	$(this).parent().addClass("active")
 });
 
+$(".file-adder").on('click', function (event) {
+	event.preventDefault();
+	// event.stopPropagation();
+	//this.parentNode.value =
+	var filePath = dialog.showOpenDialog({properties: ['openFile']});
+	$(this).prop('value', filePath);
+	filePath = filePath[0].replace(/^.*[\\\/]/, '');
+	$(this).toggleClass('btn-primary btn-success')
+	$(this).prop('innerHTML', filePath)
+});
+
+$('.data-entry').on('reset', function (event) {
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").toggleClass('btn-primary btn-success');
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").prop('innerHTML', 'Add File');
+})
+
 $("#initial-add-form").on('submit', function (event) {
 	event.preventDefault();
 
@@ -144,27 +175,24 @@ $("#initial-add-form").on('submit', function (event) {
 
 });
 
-$("#home-section").show()
+$(".drag-here").on('dragover', function (event) {
+	$(this).addClass('dragged-over')
+	$(this).prop('innerHTML', 'Drop here!')
+})
+
+$('.drag-here').on('dragleave', function (event) {
+	$(this).removeClass('dragged-over')
+	$(this).prop('innerHTML', '')
+})
+
+$('.drag-here').on('drop', (event) => {
+	event.preventDefault();
+	event.originalEvent.dataTransfer.files[0].path
+})
 
 initializeDragging();
 
-$(".file-adder").on('click', function (event) {
-	event.preventDefault();
-	// event.stopPropagation();
-	//this.parentNode.value =
-	var filePath = dialog.showOpenDialog({properties: ['openFile']});
-	$(this).prop('value', filePath);
-	filePath = filePath[0].replace(/^.*[\\\/]/, '');
-	$(this).toggleClass('btn-primary btn-success')
-	$(this).prop('innerHTML', filePath)
-});
-
-const q = $('.data-entry').on('reset', function (event) {
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").toggleClass('btn-primary btn-success');
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").prop('innerHTML', 'Add File');
-})
-
-
+$("#home-section").show()
 /*
 document.ondragover = document.ondrop = (ev) => {
   ev.preventDefault()
