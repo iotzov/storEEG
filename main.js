@@ -4,15 +4,18 @@ const url = require('url')
 const fs = require('fs')
 const debug = /--debug/.test(process.argv[2])
 
-
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1200, height: 750, icon: __dirname + '/deps/img/repEEG_Icon.png'})
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 750,
+    icon: __dirname + '/deps/img/repEEG_Icon.png',
+    id: 'mainWindow'
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -69,4 +72,25 @@ app.on('activate', function () {
 // Exit main menu button clicked --> quit app
 ipcMain.on('exit-clicked', (event) => {
 	app.quit()
+})
+
+ipcMain.on('recording-input', (event) => {
+  console.log('got it!')
+  var recInput = new BrowserWindow({
+    parent: mainWindow,
+    modal: true,
+    show: false
+  })
+  recInput.loadURL(url.format({
+    pathname: path.join(__dirname, 'html', 'testHTML.html'),
+    protocol: 'file',
+    slashes: true
+  }))
+  recInput.on('window-closed', (event) => {
+    mainWindow.webContents.send('unblur-main')
+  })
+  recInput.once('ready-to-show', () => {
+    mainWindow.webContents.send('blur-main')
+    recInput.show()
+  })
 })

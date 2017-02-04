@@ -8,6 +8,7 @@ const path = require('path');
 const url = require('url');
 const jsonfile = require('jsonfile')
 jsonfile.spaces = 2;
+const studyFolder = path.join(__dirname, '..', 'studies');
 var currentStudy = null;
 
 const links = document.querySelectorAll('link[rel="import"]')
@@ -32,6 +33,74 @@ function objToArray(toConvert) {
 	}
 
 	return temp
+}
+
+function getDirectories (srcpath) {
+  return fs.readdirSync(srcpath)
+    .filter(file => fs.statSync(path.join(srcpath, file)).isDirectory())
+}
+
+function writeCurrentStudy(filename) {
+	// Writes the current study to a JSON file under /studies/'filename' after converting objects to arrays
+	fs.mkdirSync(path.join(studyFolder, filename));
+
+	localforage.getItem(currentStudy).then((data) => {
+		var UUID = data.UUID;
+		var title = data.studyTitle;
+		for(var i in data) {
+			data[i] = objToArray(data[i]);
+		}
+		data.UUID = UUID;
+		data.studyTitle = title;
+		jsonfile.writeFile(path.join(studyFolder, filename, 'studyDescription.json'), data, (err) => {
+			console.log(err);
+		})
+	})
+}
+
+function writeStudy(filename, studyName) {
+
+	fs.mkdirSync(path.join(studyFolder, filename));
+
+	localforage.getItem(studyName).then((data) => {
+		var UUID = data.UUID;
+		var title = data.studyTitle;
+		for(var i in data) {
+			data[i] = objToArray(data[i]);
+		}
+		data.UUID = UUID;
+		data.studyTitle = title;
+		jsonfile.writeFile(path.join(studyFolder, filename, 'studyDescription.json'), data, (err) => {
+			console.log(err);
+		})
+	})
+}
+
+function readStudy(filename) {
+	jsonfile.readFile(path.join(studyFolder, filename, 'studyDescription.json'), (err, data) => {
+		localforage.setItem(data.studyTitle, data, (value) => {
+			console.log('Item saved.')
+		})
+	})
+}
+
+function writeDB() {
+	// Writes all files in the localforage DB to JSON under /studies/
+	localforage.iterate(function(key, data, iterationNumber) {
+		writeStudy(key, key);
+	}).catch((err) => {
+		console.log(err);
+	})
+}
+
+function refreshDB() {
+	// Clears localforage and repopulates from /studies/ folder
+	localforage.clear()
+
+	var studies = getDirectories(studyFolder);
+	for(var i in studies) {
+		readStudy(studies[i]);
+	}
 }
 
 function hideAllSectionsAndDeselectButtons() {
@@ -117,6 +186,10 @@ function initializeDragging(){
 	}
 }
 
+function recordingInputWindow(filePath) {
+	var recInput = new BrowserWindow({})
+}
+
 // Event Handlers
 
 $(".data-entry").on('submit', handleFormSubmit);
@@ -187,7 +260,24 @@ $('.drag-here').on('dragleave', function (event) {
 
 $('.drag-here').on('drop', (event) => {
 	event.preventDefault();
+	recordingInputWindow(event.originalEvent.dataTransfer.files[0].path)
 	event.originalEvent.dataTransfer.files[0].path
+})
+
+ipcRenderer.on('blur-main', (event) => {
+	//$('#mainWindow').addClass('blurred-window')
+	$('mainWindow').css({
+		'opacity': 0.3,
+		'pointer-events': 'none'
+	})
+})
+
+ipcRenderer.on('unblur-main', (event) => {
+	//$('mainWindow').removeClass('blurred-window')
+	$('mainWindow').css({
+		'opacity': 1,
+		'pointer-events': 'auto'
+	})
 })
 
 initializeDragging();

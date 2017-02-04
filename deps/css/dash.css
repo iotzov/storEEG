@@ -1,3 +1,8 @@
+.blurred-window {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 .drag-here {
   height: 100px;
   background-color: rgba(63, 77, 126, 0.65);
