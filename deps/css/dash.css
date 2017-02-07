@@ -1,9 +1,14 @@
-.blurred-window {
-  opacity: 0.3;
-  pointer-events: none;
+.btn.btn-block.btn-recording-drag {
+  height: 150px;
+  text-align: center;
+  font-size: 20px;
 }
 
-.drag-here {
+.btn.btn-block.btn-initial-adder {
+  height: 150px;
+}
+
+/*.drag-here {
   height: 100px;
   background-color: rgba(63, 77, 126, 0.65);
   border-width: medium;
@@ -15,6 +20,7 @@
   border-style: dotted;
   background-color: rgba(51, 140, 140, 0.65);
 }
+*/
 
 .drag-wrapper {
   display: table;

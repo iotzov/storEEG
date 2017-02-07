@@ -94,3 +94,7 @@ ipcMain.on('recording-input', (event) => {
     recInput.show()
   })
 })
+
+ipcMain.on('created-recording-window', (event, recording) => {
+  currentRecording = recording;
+})

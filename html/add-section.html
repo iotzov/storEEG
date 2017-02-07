@@ -212,38 +212,49 @@
 
         </div>
         <div role="tabpanel" class="tab-pane" id="add-recordings">
-          <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">
+          <div class="row" style="height: 150px;"></div>
+            <div class="col-sm-8 col-sm-offset-2">
 
-              <div class="drag-here">
+              <div class="btn-recording-drag-wrapper">
+
+              <button class="btn btn-primary btn-block btn-recording-drag">Drag file here or click to add</button>
 
               </div>
+
             </div>
-          </div>
+
         </div>
       </div>
 
     </div>
   </div>
 
-  <div class="no-display" id="add-section">
-
-    <form class="" id="initial-add-form">
-      <div class="form-group">
-        <label>Study Title</label>
-        <input class="form-control" name="studyTitle" placeholder="Title">
-      </div>
-      <br>
-      <div class="form-group">
-        <label>Study Description</label>
-        <textarea class="form-control" name="studyDescription" placeholder="Description of the Study" rows="4"></textarea>
-      </div>
-      <br>
-      <div class="form-group">
-        <input class="btn btn-primary btn-lg" type="submit" value="Create Study" style="margin-left:40%;">
-      </div>
-    </form>
-
+  <div class="no-display" id="add-new-section">
+    <div class="col-sm-10 col-sm-offset-1">
+      <form class="" id="initial-add-form">
+        <div class="form-group">
+          <label>Study Title</label>
+          <input class="form-control" name="studyTitle" placeholder="Title">
+        </div>
+        <br>
+        <div class="form-group">
+          <label>Study Description</label>
+          <textarea class="form-control" name="studyDescription" placeholder="Description of the Study" rows="4"></textarea>
+        </div>
+        <br>
+        <div class="form-group">
+          <input class="btn btn-primary btn-lg" type="submit" value="Create Study" style="margin-left:40%;">
+        </div>
+      </form>
+    </div>
   </div>
-  
+
+  <div class="no-display" id="add-section">
+    <div class="row" style="height: 50px;"></div>
+    <div class="col-sm-6 col-sm-offset-3">
+      <button class="btn btn-primary btn-block btn-initial-adder" id="add-new-study-button">Add New Study</button>
+      <button class="btn btn-primary btn-block btn-initial-adder" id="import-study-button">Import Study</button>
+    </div>
+  </div>
+
 </template>

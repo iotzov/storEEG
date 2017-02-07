@@ -2,6 +2,7 @@ const ipcRenderer = require('electron').ipcRenderer
 const localforage = require('localforage')
 const dragula = require('dragula')
 const uuid = require('uuid/v4')
+const remote = require('electron').remote
 const {BrowserWindow, dialog} = require('electron').remote
 const fs = require('fs')
 const path = require('path');
@@ -35,23 +36,63 @@ function objToArray(toConvert) {
 	return temp
 }
 
+function arrayToObj(toConvert) {
+	// Converts passed array to an obj
+	// Property names are the UUIDs of the array elements
+	// Property values are the values of the array elements
+
+	var temp = {};
+	if(toConvert.length==0){
+		return []
+	}
+	if(toConvert[0].hasOwnProperty('UUID')) {
+		for(var i in toConvert) {
+				temp[toConvert[i].UUID] = toConvert[i];
+		}
+	}
+	else {
+		temp = toConvert;
+	}
+	return temp
+}
+
+function openAddRecordingWindow(currentRecording) {
+		var recordingWindow = new BrowserWindow({
+			width: 800,
+			height: 600,
+			id: 'recordingWindow',
+			show: false,
+			parent: remote.getCurrentWindow()
+		})
+		recordingWindow.loadURL(url.format({
+			pathname: path.join(__dirname, 'addRecordingWindow.html'),
+			protocol: 'file:',
+			slashes: true
+		}))
+		recordingWindow.once('ready-to-show', () => {
+			ipcRenderer.send('created-recording-window', currentRecording, recordingWindow)
+		})
+}
+
 function getDirectories (srcpath) {
   return fs.readdirSync(srcpath)
     .filter(file => fs.statSync(path.join(srcpath, file)).isDirectory())
 }
 
-function writeCurrentStudy(filename) {
+function writeCurrentStudy() {
 	// Writes the current study to a JSON file under /studies/'filename' after converting objects to arrays
-	fs.mkdirSync(path.join(studyFolder, filename));
+	fs.mkdirSync(path.join(studyFolder, currentStudy));
 
 	localforage.getItem(currentStudy).then((data) => {
 		var UUID = data.UUID;
 		var title = data.studyTitle;
+		var description = data.studyDescription;
 		for(var i in data) {
 			data[i] = objToArray(data[i]);
 		}
 		data.UUID = UUID;
 		data.studyTitle = title;
+		data.studyDescription = description;
 		jsonfile.writeFile(path.join(studyFolder, filename, 'studyDescription.json'), data, (err) => {
 			console.log(err);
 		})
@@ -65,11 +106,13 @@ function writeStudy(filename, studyName) {
 	localforage.getItem(studyName).then((data) => {
 		var UUID = data.UUID;
 		var title = data.studyTitle;
+		var description = data.studyDescription;
 		for(var i in data) {
 			data[i] = objToArray(data[i]);
 		}
 		data.UUID = UUID;
 		data.studyTitle = title;
+		data.studyDescription = description;
 		jsonfile.writeFile(path.join(studyFolder, filename, 'studyDescription.json'), data, (err) => {
 			console.log(err);
 		})
@@ -78,8 +121,11 @@ function writeStudy(filename, studyName) {
 
 function readStudy(filename) {
 	jsonfile.readFile(path.join(studyFolder, filename, 'studyDescription.json'), (err, data) => {
+		for(var i in data) {
+			data[i] = arrayToObj(data[i]);
+		}
 		localforage.setItem(data.studyTitle, data, (value) => {
-			console.log('Item saved.')
+			successfulAddAlert();
 		})
 	})
 }
@@ -186,11 +232,23 @@ function initializeDragging(){
 	}
 }
 
+function successfulAddAlert() {
+	$("#main-area").prepend('<div class="alert alert-success alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close" name="button"><span aria-hidden="true">x</span></button><strong>Success!</strong> Study has been added successfully to the repository! </div>')
+}
+
+function alreadyExistsAlert() {
+	$("#main-area").prepend('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close" name="button"><span aria-hidden="true">x</span></button><strong>Error!</strong> A Study with that name already exists! </div>')
+}
+
 function recordingInputWindow(filePath) {
 	var recInput = new BrowserWindow({})
 }
 
 // Event Handlers
+
+document.ondragover = document.ondrop = (ev) => {
+  ev.preventDefault()
+}
 
 $(".data-entry").on('submit', handleFormSubmit);
 
@@ -225,7 +283,7 @@ $("#initial-add-form").on('submit', function (event) {
 	$("#initial-add-form")[0].reset()
 	localforage.getItem(data.studyTitle, (err, study) => {
 		if(study) {
-			alert('Study already exists!');
+			alreadyExistsAlert();
 		}
 		else {
 			data.subjects = {};
@@ -239,7 +297,7 @@ $("#initial-add-form").on('submit', function (event) {
 			data.contacts = {};
 
 			localforage.setItem(data.studyTitle, data, (value) => {
-				$("#add-section").hide();
+				$("#add-new-section").hide();
 				$("#main-add-section").show();
 			});
 			currentStudy = data.studyTitle;
@@ -248,46 +306,57 @@ $("#initial-add-form").on('submit', function (event) {
 
 });
 
-$(".drag-here").on('dragover', function (event) {
-	$(this).addClass('dragged-over')
-	$(this).prop('innerHTML', 'Drop here!')
+$("#import-study-button").on('click', function (event) {
+	var filePath = dialog.showOpenDialog({properties: ['openFile']});
+	readStudy(filePath[0]);
 })
 
-$('.drag-here').on('dragleave', function (event) {
-	$(this).removeClass('dragged-over')
-	$(this).prop('innerHTML', '')
+$("#add-new-study-button").on('click', function (event) {
+	$("#add-section").hide();
+	$("#add-new-section").show();
 })
 
-$('.drag-here').on('drop', (event) => {
+$(".btn-recording-drag").on('click', (event) => {
+	var currentRecording = {};
+	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+	currentRecording.eventUUIDs = [];
+	currentRecording.subjectUUID = "";
+	currentRecording.recordingParameterSetUUID = "";
+	currentRecording.label = "";
+	currentRecording.UUID = uuid();
+
+	openAddRecordingWindow(currentRecording);
+})
+
+$(".btn-recording-drag-wrapper").on('dragover', (event) => {
+	$(".btn-recording-drag").addClass('btn-success');
+	$(".btn-recording-drag").removeClass('btn-primary');
+})
+
+$(".btn-recording-drag-wrapper").on('dragleave', (event) => {
+	$(".btn-recording-drag").removeClass('btn-success');
+	$(".btn-recording-drag").addClass('btn-primary');
+})
+
+$(".btn-recording-drag-wrapper").on('drop', (event) => {
 	event.preventDefault();
-	recordingInputWindow(event.originalEvent.dataTransfer.files[0].path)
-	event.originalEvent.dataTransfer.files[0].path
-})
-
-ipcRenderer.on('blur-main', (event) => {
-	//$('#mainWindow').addClass('blurred-window')
-	$('mainWindow').css({
-		'opacity': 0.3,
-		'pointer-events': 'none'
-	})
-})
-
-ipcRenderer.on('unblur-main', (event) => {
-	//$('mainWindow').removeClass('blurred-window')
-	$('mainWindow').css({
-		'opacity': 1,
-		'pointer-events': 'auto'
-	})
+	var currentRecording = {};
+	currentRecording.fileLocation = event.originalEvent.dataTransfer.files[0].path;
+	currentRecording.eventUUIDs = [];
+	currentRecording.subjectUUID = "";
+	currentRecording.recordingParameterSetUUID = "";
+	currentRecording.label = "";
+	currentRecording.UUID = uuid();
+	$(".btn-recording-drag").removeClass('btn-success');
+	$(".btn-recording-drag").addClass('btn-primary');
+	openAddRecordingWindow(currentRecording);
 })
 
 initializeDragging();
 
-$("#home-section").show()
-/*
-document.ondragover = document.ondrop = (ev) => {
-  ev.preventDefault()
-}
+//$("#home-section").show()
 
+/*
 document.body.ondrop = (ev) => {
   console.log(ev.dataTransfer.files[0].path)
   ev.preventDefault()
