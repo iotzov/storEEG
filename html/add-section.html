@@ -15,32 +15,32 @@
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="subjects">
-              <div class="form-group">
-                <label for="subjectLabel">Subject ID</label>
+              <div class="form-group required">
+                <label class="control-label" for="subjectLabel">Subject ID</label>
                 <input class="form-control" name="label" placeholder="e.g. 'S01' or 'Subject 1'">
               </div>
-              <div class="form-group">
-                <label>Subject Group</label>
+              <div class="form-group required">
+                <label class="control-label">Subject Group</label>
                 <input class="form-control" name="group" placeholder="">
               </div>
               <div class="form-group">
-                <label>Gender</label>
+                <label class="control-label">Gender</label>
                 <input class="form-control" name="gender" placeholder="">
               </div>
               <div class="form-group">
-                <label>Year of Birth</label>
+                <label class="control-label">Year of Birth</label>
                 <input class="form-control" name="yob" placeholder="">
               </div>
               <div class="form-group">
-                <label>Height(cm)</label>
+                <label class="control-label">Height(cm)</label>
                 <input class="form-control" name="height" placeholder="">
               </div>
               <div class="form-group">
-                <label>Weight(kg)</label>
+                <label class="control-label">Weight(kg)</label>
                 <input class="form-control" name="weight" placeholder="">
               </div>
               <div class="form-group">
-                <label>Handedness</label>
+                <label class="control-label">Handedness</label>
                 <select class="form-control" name="handedness">
                   <option></option>
                   <option>Left</option>
@@ -49,7 +49,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Vision</label>
+                <label class="control-label">Vision</label>
                 <select class="form-control" name="vision">
                   <option></option>
                   <option>Normal</option>
@@ -59,7 +59,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Hearing</label>
+                <label class="control-label">Hearing</label>
                 <select class="form-control" name="hearing">
                   <option></option>
                   <option>Normal</option>
@@ -69,11 +69,11 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Additional Information</label>
+                <label class="control-label">Additional Information</label>
                 <textarea class="form-control" rows="3" name="additionalInfo"></textarea>
               </div>
               <div class="form-group">
-                <label>Channel Locations File</label>
+                <label class="control-label">Channel Locations File</label>
                 <button name="channelLocations" class="btn btn-primary btn-block file-adder">Add File</button>
               </div>
               <div class="form-group">
@@ -85,10 +85,7 @@
           </div>
           <div class="col-sm-6 drag-wrapper">
 
-              <div class="drag-container" id="subjectsDrag">
-                <div class="drag-item">Add some items to the left!</div>
-                <div class="drag-item">Drag & drop items outside this box to delete them.</div>
-              </div>
+              <div class="drag-container" id="subjectsDrag"></div>
 
           </div>
         </div>
@@ -96,12 +93,12 @@
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="stimuli">
-              <div class="form-group">
-                <label for="stimulusLabel">Stimulus ID</label>
+              <div class="form-group required">
+                <label class="control-label" for="stimulusLabel">Stimulus ID</label>
                 <input class="form-control" name="label" placeholder="Stimulus name/ID">
               </div>
               <div class="form-group">
-                <label>Stimulus Type</label>
+                <label class="control-label">Stimulus Type</label>
                 <select class="form-control" name="stimulusType">
                   <option></option>
                   <option>Audio</option>
@@ -110,11 +107,11 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Stimulus Description</label>
+                <label class="control-label">Stimulus Description</label>
                 <textarea class="form-control" name="stimulusDescription" placeholder="Text goes here"></textarea>
               </div>
               <div class="form-group">
-                <label for="subjectLabel">Stimulus File</label>
+                <label class="control-label" for="subjectLabel">Stimulus File</label>
                 <button name="stimulusFile" class="btn btn-primary btn-block file-adder">Add File</button>
               </div>
               <div class="form-group">
@@ -126,10 +123,7 @@
           </div>
           <div class="col-sm-6 drag-wrapper">
 
-              <div class="drag-container" id="stimuliDrag">
-                <div class="drag-item">Add some items to the left!</div>
-                <div class="drag-item">Drag & drop items outside this box to delete them.</div>
-              </div>
+              <div class="drag-container" id="stimuliDrag"></div>
 
           </div>
         </div>
@@ -137,28 +131,28 @@
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="recordingParameterSets">
-              <div class="form-group">
-                <label>Recording Parameter Set Name/ID</label>
+              <div class="form-group required">
+                <label class="control-label">Recording Parameter Set Name/ID</label>
                 <input class="form-control" name="label" placeholder="">
               </div>
-              <div class="form-group">
-                <label>Sampling Rate</label>
+              <div class="form-group required">
+                <label class="control-label">Sampling Rate</label>
                 <input class="form-control" name="samplingRate" placeholder="">
               </div>
               <div class="form-group">
-                <label>Start Channel</label>
+                <label class="control-label">Start Channel</label>
                 <input class="form-control" name="startChannel" placeholder="">
               </div>
               <div class="form-group">
-                <label>End Channel</label>
+                <label class="control-label">End Channel</label>
                 <input class="form-control" placeholder="" name="endChannel">
               </div>
               <div class="form-group">
-                <label>Reference Channels</label>
+                <label class="control-label">Reference Channels</label>
                 <input class="form-control" placeholder="" name="referenceChannels">
               </div>
               <div class="form-group">
-                <label>Non-Scalp Channels</label>
+                <label class="control-label">Non-Scalp Channels</label>
                 <input class="form-control" placeholder="" name="nonScalpChannels">
               </div>
               <div class="form-group">
@@ -168,30 +162,29 @@
             </form>
           </div>
           <div class="col-sm-6 fill-height drag-wrapper">
-            <div class="drag-container" id="recordingParameterSetsDrag">
-              <div class="drag-item">Add some items to the left!</div>
-              <div class="drag-item">Drag & drop items outside this box to delete them.</div>
-            </div>
+
+            <div class="drag-container" id="recordingParameterSetsDrag"></div>
+
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="add-events">
           <div class="col-sm-6 fill-height">
 
             <form class="data-entry" name="events">
-              <div class="form-group">
-                <label>Event Name/ID</label>
+              <div class="form-group required">
+                <label class="control-label">Event Name/ID</label>
                 <input class="form-control" name="label" placeholder="">
               </div>
               <div class="form-group">
-                <label>Start Trigger</label>
+                <label class="control-label">Start Trigger</label>
                 <input class="form-control" name="startTrigger" placeholder="">
               </div>
               <div class="form-group">
-                <label>End Trigger</label>
+                <label class="control-label">End Trigger</label>
                 <input class="form-control" name="endTrigger" placeholder="">
               </div>
               <div class="form-group">
-                <label>Event Description</label>
+                <label class="control-label">Event Description</label>
                 <textarea class="form-control" name="eventDescription" placeholder="Brief description of the event"></textarea>
               </div>
               <div class="form-group">
@@ -203,25 +196,28 @@
           </div>
           <div class="col-sm-6 drag-wrapper">
 
-            <div class="drag-container" id="eventsDrag">
-              <div class="drag-item">Add some items to the left!</div>
-              <div class="drag-item">Drag & drop items outside this box to delete them.</div>
-            </div>
+            <div class="drag-container" id="eventsDrag"></div>
 
           </div>
 
         </div>
         <div role="tabpanel" class="tab-pane" id="add-recordings">
           <div class="row" style="height: 150px;"></div>
-            <div class="col-sm-8 col-sm-offset-2">
+          <div class="col-sm-8 col-sm-offset-2">
 
-              <div class="btn-recording-drag-wrapper">
+            <div class="btn-recording-drag-wrapper">
 
-              <button class="btn btn-primary btn-block btn-recording-drag">Drag file here or click to add</button>
-
-              </div>
+            <button class="btn btn-primary btn-block btn-recording-drag">Drag file here or click to add</button>
 
             </div>
+
+          </div>
+
+          <div class="col-sm-8 col-sm-offset-2">
+
+            <button id="submitStudyButton" class="btn btn-success btn-block">Submit Study</button>
+
+          </div>
 
         </div>
       </div>
@@ -232,13 +228,13 @@
   <div class="no-display" id="add-new-section">
     <div class="col-sm-10 col-sm-offset-1">
       <form class="" id="initial-add-form">
-        <div class="form-group">
-          <label>Study Title</label>
+        <div class="form-group required">
+          <label class="control-label">Study Title</label>
           <input class="form-control" name="studyTitle" placeholder="Title">
         </div>
         <br>
         <div class="form-group">
-          <label>Study Description</label>
+          <label class="control-label">Study Description</label>
           <textarea class="form-control" name="studyDescription" placeholder="Description of the Study" rows="4"></textarea>
         </div>
         <br>

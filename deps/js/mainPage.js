@@ -11,6 +11,7 @@ const jsonfile = require('jsonfile')
 jsonfile.spaces = 2;
 const studyFolder = path.join(__dirname, '..', 'studies');
 var currentStudy = null;
+var studyInProgress = 0;
 
 const links = document.querySelectorAll('link[rel="import"]')
 // Import and add each page to the DOM
@@ -62,7 +63,8 @@ function openAddRecordingWindow(currentRecording) {
 			height: 600,
 			id: 'recordingWindow',
 			show: false,
-			parent: remote.getCurrentWindow()
+			parent: remote.getCurrentWindow(),
+			modal: true
 		})
 		recordingWindow.loadURL(url.format({
 			pathname: path.join(__dirname, 'addRecordingWindow.html'),
@@ -70,7 +72,8 @@ function openAddRecordingWindow(currentRecording) {
 			slashes: true
 		}))
 		recordingWindow.once('ready-to-show', () => {
-			ipcRenderer.send('created-recording-window', currentRecording, recordingWindow)
+			ipcRenderer.send('created-recording-window', currentRecording, currentStudy)
+			recordingWindow.show()
 		})
 }
 
@@ -79,7 +82,7 @@ function getDirectories (srcpath) {
     .filter(file => fs.statSync(path.join(srcpath, file)).isDirectory())
 }
 
-function writeCurrentStudy() {
+function writeCurrentStudy(callback) {
 	// Writes the current study to a JSON file under /studies/'filename' after converting objects to arrays
 	fs.mkdirSync(path.join(studyFolder, currentStudy));
 
@@ -93,10 +96,16 @@ function writeCurrentStudy() {
 		data.UUID = UUID;
 		data.studyTitle = title;
 		data.studyDescription = description;
-		jsonfile.writeFile(path.join(studyFolder, filename, 'studyDescription.json'), data, (err) => {
+		jsonfile.writeFile(path.join(studyFolder, currentStudy, 'studyDescription.json'), data, (err) => {
 			console.log(err);
+			if(callback){callback();}
 		})
 	})
+}
+
+function resetCurrentIndicators() {
+	currentStudy = null;
+	studyInProgress = 0;
 }
 
 function writeStudy(filename, studyName) {
@@ -230,6 +239,7 @@ function initializeDragging(){
 			});
 		});
 	}
+	return drakes
 }
 
 function successfulAddAlert() {
@@ -240,8 +250,12 @@ function alreadyExistsAlert() {
 	$("#main-area").prepend('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close" name="button"><span aria-hidden="true">x</span></button><strong>Error!</strong> A Study with that name already exists! </div>')
 }
 
-function recordingInputWindow(filePath) {
-	var recInput = new BrowserWindow({})
+function resetDraggers() {
+
+	var default1 = '<div class="drag-item">Add some items to the left!</div><div class="drag-item">Drag & drop items outside this box to delete them.</div>';
+
+	$('.drag-container').html(default1)
+
 }
 
 // Event Handlers
@@ -278,6 +292,8 @@ $('.data-entry').on('reset', function (event) {
 $("#initial-add-form").on('submit', function (event) {
 	event.preventDefault();
 
+	studyInProgress = 1;
+	resetDraggers(draggers)
 	var data = formToJSON(event.currentTarget.elements);
 	data.UUID = uuid();
 	$("#initial-add-form")[0].reset()
@@ -319,6 +335,7 @@ $("#add-new-study-button").on('click', function (event) {
 $(".btn-recording-drag").on('click', (event) => {
 	var currentRecording = {};
 	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+	currentRecording.fileLocation = currentRecording.fileLocation[0];
 	currentRecording.eventUUIDs = [];
 	currentRecording.subjectUUID = "";
 	currentRecording.recordingParameterSetUUID = "";
@@ -352,7 +369,17 @@ $(".btn-recording-drag-wrapper").on('drop', (event) => {
 	openAddRecordingWindow(currentRecording);
 })
 
-initializeDragging();
+$("#submitStudyButton").on('click', (event) => {
+	writeCurrentStudy(resetCurrentIndicators)
+	$('#home-button').click()
+	successfulAddAlert()
+})
+
+$('.drag-item').on('click', (event) => {
+	alert('it works!')
+})
+
+const draggers = initializeDragging();
 
 //$("#home-section").show()
 

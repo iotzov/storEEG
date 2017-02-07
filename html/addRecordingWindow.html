@@ -25,26 +25,81 @@
 </head>
 
 <body>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4 col-sm-offset-4">
-        <h3></h3>
-      </div>
+
+<div class="container-fluid">
+
+  <div class="row" style="padding-top: 20px;">
+    <h5 class="text-center bold-text">Recording ID/Label</h5>
+    <input id="recLabel" name="label" class="form-control">
+  </div>
+
+  <div class="row" name="subject">
+    <h5 class="text-center">Subject</h5>
+    <div class="col-sm-6">
+      <label>From here</label>
     </div>
-    <div class="row">
-      <div class="col-sm-4">
-
+    <div class="col-sm-6">
+      <label>Drag here</label>
+    </div>
+    <div class="col-sm-6 drag-container-from" id="subjectDragFrom"></div>
+    <div class="col-sm-6 drag-container-to" id="subjectDragTo">
+      <div class="drag-item initial-drag-item">
+        Drag items here to link them to this Recording!
       </div>
-      <div class="col-sm-4">
-
-      </div>
-      <div class="col-sm-4">
-
+      <div class="drag-item initial-drag-item">
+        Drag and drop items outside of this box to delete them!
       </div>
     </div>
   </div>
-  <script src="../node_modules/dragula/dist/dragula.min.js"></script>
-  <script src="../deps/js/addRecordingWindow.js"></script>
+  <div class="row" name="event">
+    <h5 class="text-center">Events</h5>
+    <div class="col-sm-6">
+      <label>From here</label>
+    </div>
+    <div class="col-sm-6">
+      <label>Drag here</label>
+    </div>
+    <div class="col-sm-6 drag-container-from" id="eventDragFrom"></div>
+    <div class="col-sm-6 drag-container-to" id="eventDragTo">
+      <div class="drag-item initial-drag-item">
+        Drag items here to link them to this Recording!
+      </div>
+      <div class="drag-item initial-drag-item">
+        Drag and drop items outside of this box to delete them!
+      </div>
+    </div>
+  </div>
+  <div class="row" name="param">
+    <h5 class="text-center">Recording Parameters</h5>
+    <div class="col-sm-6">
+      <label>From here</label>
+    </div>
+    <div class="col-sm-6">
+      <label>Drag here</label>
+    </div>
+    <div class="col-sm-6 drag-container-from" id="paramDragFrom"></div>
+    <div class="col-sm-6 drag-container-to" id="paramDragTo">
+      <div class="drag-item initial-drag-item">
+        Drag items here to link them to this Recording!
+      </div>
+      <div class="drag-item initial-drag-item">
+        Drag and drop items outside of this box to delete them!
+      </div>
+    </div>
+  </div>
+  <div class="row" name="buttons">
+    <div class="col-sm-6" style="padding: 0px;">
+    <button type="button" id="recordingAddButton" class="btn btn-lg btn-success rec-btn">Add</button>
+    </div>
+    <div class="col-sm-6" style="padding: 0px;">
+    <button type="button" id="recordingCancelButton" class="btn btn-lg btn-danger rec-btn">Cancel</button>
+    </div>
+  </div>
+
+
+</div>
+<script src="../node_modules/dragula/dist/dragula.min.js"></script>
+<script src="../deps/js/addRecordingWindow.js"></script>
 </body>
 
 </html>

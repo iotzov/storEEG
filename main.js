@@ -95,6 +95,7 @@ ipcMain.on('recording-input', (event) => {
   })
 })
 
-ipcMain.on('created-recording-window', (event, recording) => {
+ipcMain.on('created-recording-window', (event, recording, study) => {
   currentRecording = recording;
+  currentStudy = study;
 })
