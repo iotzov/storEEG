@@ -170,6 +170,11 @@ const handleFormSubmit = event => {
 	var data = formToJSON(event.currentTarget.elements);
 	data.UUID = uuid();
 
+	if(data.referenceChannels) {
+		data.referenceChannels = data.referenceChannels.split(',');
+		data.nonScalpChannels = data.nonScalpChannels.split(',');
+	}
+
 	localforage.getItem(currentStudy, (err, value) => {
 		var temp = value[event.currentTarget.name];
 		temp[data.UUID] = data;
@@ -375,8 +380,34 @@ $("#submitStudyButton").on('click', (event) => {
 	successfulAddAlert()
 })
 
-$('.drag-item').on('click', (event) => {
-	alert('it works!')
+$('#eventTabButton').on('click', (event) => {
+	$('.stim-linker').empty()
+	localforage.getItem(currentStudy).then((data) =>{
+		for(var i in data.stimuli) {
+			$('<div/>', {
+				'class': 'drag-item',
+				'text': where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label,
+				'data-UUID': item.UUID
+			})
+		}
+	})
+})
+
+$('.tool-button').tooltip({
+	delay: {
+		'show': 300,
+		'hide': 100
+	},
+	placement: 'right',
+})
+
+$('.collapse').collapse()
+
+dragula([$('.linked-stim')[0], $('.stim-linker')[0]], {
+	accepts: function (el, target, source, sibling) {
+		return target !== $('.stim-linker')[0] && $('.linked-stim').children().length<1
+	},
+	copy: true
 })
 
 const draggers = initializeDragging();

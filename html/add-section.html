@@ -7,7 +7,7 @@
         <li role="presentation" class="active"><a href="#add-subjects" aria-controls="subjects" role="tab" data-toggle="tab">Subjects</a></li>
         <li role="presentation"><a href="#add-stimuli" aria-controls="stimuli" role="tab" data-toggle="tab">Stimuli</a></li>
         <li role="presentation"><a href="#add-recordingParameterSets" aria-controls="parameters" role="tab" data-toggle="tab">Recording Params</a></li>
-        <li role="presentation"><a href="#add-events" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
+        <li role="presentation"><a href="#add-events" aria-controls="events" role="tab" data-toggle="tab" id="eventTabButton">Events</a></li>
         <li role="presentation"><a href="#add-recordings" aria-controls="recordings" role="tab" data-toggle="tab">Recordings</a></li>
       </ul>
       <div class="tab-content">
@@ -149,11 +149,11 @@
               </div>
               <div class="form-group">
                 <label class="control-label">Reference Channels</label>
-                <input class="form-control" placeholder="" name="referenceChannels">
+                <input class="form-control" placeholder="e.g. '1,2,3'" name="referenceChannels">
               </div>
               <div class="form-group">
                 <label class="control-label">Non-Scalp Channels</label>
-                <input class="form-control" placeholder="" name="nonScalpChannels">
+                <input class="form-control" placeholder="e.g. '1,2,3'" name="nonScalpChannels">
               </div>
               <div class="form-group">
                   <input type="submit" class="btn btn-success btn-block" value="Add">
@@ -187,6 +187,15 @@
                 <label class="control-label">Event Description</label>
                 <textarea class="form-control" name="eventDescription" placeholder="Brief description of the event"></textarea>
               </div>
+
+                <button style="margin-bottom: 10px;" type="button" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#linkStimToEvent" aria-expanded="true" aria-controls="linkStimToEvent">
+                  Link a Stimulus
+                </button>
+                <div class="collapse in" id="linkStimToEvent">
+                  <div class="well linked-stim"></div>
+                  <div class="well stim-linker"></div>
+                </div>
+
               <div class="form-group">
                   <input type="submit" class="btn btn-success btn-block" value="Add">
                   <button class="btn btn-danger btn-block" type="reset">Clear</button>
@@ -246,10 +255,15 @@
   </div>
 
   <div class="no-display" id="add-section">
-    <div class="row" style="height: 50px;"></div>
+    <div class="row" style="height: 30px;"></div>
     <div class="col-sm-6 col-sm-offset-3">
-      <button class="btn btn-primary btn-block btn-initial-adder" id="add-new-study-button">Add New Study</button>
-      <button class="btn btn-primary btn-block btn-initial-adder" id="import-study-button">Import Study</button>
+      <button class="btn btn-primary btn-block btn-initial-adder tool-button"
+      id="add-new-study-button" data-toggle="tooltip"
+      title="Add a new Study to the repository" style="margin-bottom: 10px;">Add New Study</button>
+
+      <button class="btn btn-primary btn-block btn-initial-adder tool-button"
+      id="import-study-button" data-toggle="tooltip"
+      title="Import Studies previously exported with storEEG">Import Study</button>
     </div>
   </div>
 
