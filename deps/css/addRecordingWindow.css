@@ -17,7 +17,7 @@
 .drag-wrapper-to {
   display: table;
   padding: 0px;
-  background-color: rgba(18, 106, 7, 0.38);
+  background-color: rgba(106, 121, 139, 0.68);
   border-radius: 10px;
   min-height: 150px;
 }
@@ -42,7 +42,7 @@
 
 .drag-container-to {
   display: table-cell;
-  background-color: rgba(102, 175, 93, 0.38);
+  background-color: rgba(106, 121, 139, 0.68);
   border-radius: 10px;
   height: 100%;
   width: 50%;
@@ -55,8 +55,9 @@
 .drag-item {
   margin: 10px;
   padding: 10px;
-  background-color: rgba(142, 125, 125, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 20px;
+  border: 1px solid rgb(255, 255, 255);
   transition: opacity 0.4s ease-in-out 0s;
   cursor: -webkit-grab;
   width: 100%;

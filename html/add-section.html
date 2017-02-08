@@ -192,7 +192,7 @@
                   Link a Stimulus
                 </button>
                 <div class="collapse in" id="linkStimToEvent">
-                  <div class="well linked-stim"></div>
+                  <div style="min-height: 75px;" class="well linked-stim"></div>
                   <div class="well stim-linker"></div>
                 </div>
 
@@ -212,6 +212,8 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="add-recordings">
           <div class="row" style="height: 150px;"></div>
+
+          <div class="row">
           <div class="col-sm-8 col-sm-offset-2">
 
             <div class="btn-recording-drag-wrapper">
@@ -220,12 +222,17 @@
 
             </div>
 
-          </div>
-
-          <div class="col-sm-8 col-sm-offset-2">
-
             <button id="submitStudyButton" class="btn btn-success btn-block">Submit Study</button>
 
+          </div>
+          </div>
+
+          <div class="row" style="margin-top: 50px;">
+          <div class="col-sm-8 col-sm-offset-2 drag-wrapper">
+
+            <div class="drag-container" id="recordingsDrag"></div>
+
+          </div>
           </div>
 
         </div>

@@ -4,6 +4,7 @@ const uuid = require('uuid/v4')
 const path = require('path');
 const remote = require('electron').remote;
 const {BrowserWindow} = remote;
+const {ipcRenderer} = require('electron')
 var currentRec = remote.getGlobal('currentRecording');
 var currentStudy = remote.getGlobal('currentStudy');
 var currentName = currentRec.fileLocation.replace(/^.*[\\\/]/, '');
@@ -108,7 +109,8 @@ $('#recordingAddButton').on('click', (event) => {
   localforage.getItem(currentStudy).then((data) => {
     data.recordings[currentRec.UUID] = currentRec;
     localforage.setItem(currentStudy, data).then((data) => {
-      remote.getCurrentWindow().close()
+			ipcRenderer.send('update-draggers')
+			remote.getCurrentWindow().close()
     })
   })
 })

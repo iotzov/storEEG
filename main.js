@@ -74,28 +74,11 @@ ipcMain.on('exit-clicked', (event) => {
 	app.quit()
 })
 
-ipcMain.on('recording-input', (event) => {
-  console.log('got it!')
-  var recInput = new BrowserWindow({
-    parent: mainWindow,
-    modal: true,
-    show: false
-  })
-  recInput.loadURL(url.format({
-    pathname: path.join(__dirname, 'html', 'testHTML.html'),
-    protocol: 'file',
-    slashes: true
-  }))
-  recInput.on('window-closed', (event) => {
-    mainWindow.webContents.send('unblur-main')
-  })
-  recInput.once('ready-to-show', () => {
-    mainWindow.webContents.send('blur-main')
-    recInput.show()
-  })
-})
-
 ipcMain.on('created-recording-window', (event, recording, study) => {
   currentRecording = recording;
   currentStudy = study;
+})
+
+ipcMain.on('update-draggers', (event) => {
+  BrowserWindow.fromId(1).webContents.send('update-recordings')
 })

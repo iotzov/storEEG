@@ -175,21 +175,21 @@ const handleFormSubmit = event => {
 		data.nonScalpChannels = data.nonScalpChannels.split(',');
 	}
 
+	if(event.currentTarget.name === 'events') {
+		data.stimulusUUID = $('.linked-stim').children().data().uuid
+		stimDragger.start($('.linked-stim').children()[0])
+		stimDragger.cancel()
+	}
+
 	localforage.getItem(currentStudy, (err, value) => {
 		var temp = value[event.currentTarget.name];
 		temp[data.UUID] = data;
 		value[event.currentTarget.name] = temp;
 		localforage.setItem(currentStudy, value).then(function () {
 			event.currentTarget.reset();
-			updateObjectDisplays(event);
+			updateObjectDisplays(event.currentTarget.name);
 		});
 	});
-}
-
-function printCurrent() {
-	localforage.getItem(currentStudy, (err, value) => {
-		console.log(JSON.stringify(value, null, "  "));
-	})
 }
 
 const formToJSON = elements => [].reduce.call(elements, (data, element) => {
@@ -203,15 +203,19 @@ function isValidEntry(element) {
 	return element.name && element.value;
 };
 
-function updateObjectDisplays(event) {
-	var currentForm = event.currentTarget.id.slice(4);
+function printCurrent() {
+	localforage.getItem(currentStudy, (err, value) => {
+		console.log(JSON.stringify(value, null, "  "));
+	})
+}
+
+function updateObjectDisplays(sectionToUpdate) {
 
 	localforage.getItem(currentStudy).then(function (value){
-		var currentForm = event.currentTarget.name;
-		value = value[currentForm];
-		$('#' + currentForm + 'Drag').empty()
+		value = value[sectionToUpdate];
+		$('#' + sectionToUpdate + 'Drag').empty()
 		for(var i in value) {
-			createDragObject(value[i], currentForm);
+			createDragObject(value[i], sectionToUpdate);
 		}
 	});
 }
@@ -231,7 +235,8 @@ function initializeDragging(){
 		'subjects': dragula([$("#subjectsDrag")[0]], {removeOnSpill: true}),
 		'stimuli': dragula([$("#stimuliDrag")[0]], {removeOnSpill: true}),
 		'recordingParameterSets': dragula([$("#recordingParameterSetsDrag")[0]], {removeOnSpill: true}),
-		'events': dragula([$("#eventsDrag")[0]], {removeOnSpill: true})
+		'events': dragula([$("#eventsDrag")[0]], {removeOnSpill: true}),
+		'recordings': dragula([$('#recordingsDrag')[0]], {removeOnSpill: true})
 	};
 
 	for(var key in drakes) {
@@ -290,7 +295,8 @@ $(".file-adder").on('click', function (event) {
 });
 
 $('.data-entry').on('reset', function (event) {
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").toggleClass('btn-primary btn-success');
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").removeClass('btn-success');
+	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").addClass('btn-primary');
 	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").prop('innerHTML', 'Add File');
 })
 
@@ -384,11 +390,11 @@ $('#eventTabButton').on('click', (event) => {
 	$('.stim-linker').empty()
 	localforage.getItem(currentStudy).then((data) =>{
 		for(var i in data.stimuli) {
-			$('<div/>', {
+			$('.stim-linker').append($('<div/>', {
 				'class': 'drag-item',
-				'text': where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label,
-				'data-UUID': item.UUID
-			})
+				'text': ' ID: ' + data.stimuli[i].label,
+				'data-UUID': data.stimuli[i].UUID
+			}))
 		}
 	})
 })
@@ -403,11 +409,36 @@ $('.tool-button').tooltip({
 
 $('.collapse').collapse()
 
-dragula([$('.linked-stim')[0], $('.stim-linker')[0]], {
+var stimDragger = dragula([$('.linked-stim')[0], $('.stim-linker')[0]], {
 	accepts: function (el, target, source, sibling) {
 		return target !== $('.stim-linker')[0] && $('.linked-stim').children().length<1
 	},
-	copy: true
+	copy: function (el, source) {
+		return source === $('.stim-linker')[0]
+	}
+});
+
+stimDragger.on('drop', (el, target) => {
+	if(target === $('.linked-stim')[0]) {
+		$('.linked-stim').addClass('success-background')
+		$('[data-target="#linkStimToEvent"]').removeClass('btn-primary')
+		$('[data-target="#linkStimToEvent"]').addClass('btn-success')
+	}
+})
+
+stimDragger.on('cancel', (el, container, source) => {
+	if(container === $('.linked-stim')[0]) {
+		$('.linked-stim').removeClass('success-background')
+		$('[data-target="#linkStimToEvent"]').addClass('btn-primary')
+		$('[data-target="#linkStimToEvent"]').removeClass('btn-success')
+		$('.linked-stim').empty()
+	}
+})
+
+ipcRenderer.on('update-recordings', (event) => {
+	//var temp = {};
+	//temp.currentTarget.name='recordings';
+	updateObjectDisplays('recordings')
 })
 
 const draggers = initializeDragging();
