@@ -268,6 +268,42 @@ function resetDraggers() {
 
 }
 
+function updateHomeTable() {
+
+	var data = [];
+	localforage.keys().then((keys) => {
+	localforage.iterate((value, key, iterationNumber) => {
+			data.push({
+				studyTitle: value.studyTitle,
+				numSubjects: Object.keys(value.subjects).length,
+				numEvents: Object.keys(value.events).length,
+				studyDescription: value.studyDescription
+			});
+			console.log(keys.length)
+			if(iterationNumber===keys.length) {
+				return data
+			}
+		}).then((data) => {
+			$('#home-table').bootstrapTable({
+					columns: [{
+							field: 'studyTitle',
+							title: 'Study'
+					}, {
+							field: 'studyDescription',
+							title: 'Study Description'
+					}, {
+							field: 'numSubjects',
+							title: 'Number of Subjects'
+					}, {
+							field: 'numEvents',
+							title: 'Number of Events'
+					}],
+					data
+				});
+		})
+	})
+}
+
 // Event Handlers
 
 document.ondragover = document.ondrop = (ev) => {
@@ -384,6 +420,7 @@ $("#submitStudyButton").on('click', (event) => {
 	writeCurrentStudy(resetCurrentIndicators)
 	$('#home-button').click()
 	successfulAddAlert()
+	updateHomeTable()
 })
 
 $('#eventTabButton').on('click', (event) => {
@@ -441,21 +478,6 @@ ipcRenderer.on('update-recordings', (event) => {
 	updateObjectDisplays('recordings')
 })
 
-const draggers = initializeDragging();
+const draggers = initializeDragging()
 
-//$("#home-section").show()
-
-/*
-document.body.ondrop = (ev) => {
-  console.log(ev.dataTransfer.files[0].path)
-  ev.preventDefault()
-}
-
-$("#stim-file-selector").on('drop', function (ev) {
-	  ev.preventDefault();
-		ev.stopPropagation();
-		console.log(ev)
-		console.log(ev.originalEvent.dataTransfer);
-		console.log(ev.originalEvent.dataTransfer.files[0].path)
-});
-*/
+updateHomeTable()
