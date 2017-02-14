@@ -17,8 +17,10 @@ const links = document.querySelectorAll('link[rel="import"]')
 // Import and add each page to the DOM
 Array.prototype.forEach.call(links, function (link) {
 	let template = link.import.querySelector('.section-template')
-	let clone = document.importNode(template.content, true)
-	document.querySelector('#main-area').appendChild(clone)
+	if(template){
+		let clone = document.importNode(template.content, true)
+		document.querySelector('#main-area').appendChild(clone)
+	}
 })
 
 // Function definitions
@@ -59,8 +61,8 @@ function arrayToObj(toConvert) {
 
 function openAddRecordingWindow(currentRecording) {
 		var recordingWindow = new BrowserWindow({
-			width: 800,
-			height: 600,
+			width: 1200,
+			height: 1000,
 			id: 'recordingWindow',
 			show: false,
 			parent: remote.getCurrentWindow(),
@@ -139,6 +141,15 @@ function readStudy(filename) {
 	})
 }
 
+function readStudyNoAlert(filename) {
+	jsonfile.readFile(path.join(studyFolder, filename, 'studyDescription.json'), (err, data) => {
+		for(var i in data) {
+			data[i] = arrayToObj(data[i]);
+		}
+		localforage.setItem(data.studyTitle, data)
+	})
+}
+
 function writeDB() {
 	// Writes all files in the localforage DB to JSON under /studies/
 	localforage.iterate(function(key, data, iterationNumber) {
@@ -154,7 +165,7 @@ function refreshDB() {
 
 	var studies = getDirectories(studyFolder);
 	for(var i in studies) {
-		readStudy(studies[i]);
+		readStudyNoAlert(studies[i]);
 	}
 }
 
@@ -222,12 +233,20 @@ function updateObjectDisplays(sectionToUpdate) {
 
 function createDragObject(item, where) {
 
-	$('<div/>', {
+	var temp = $('<div/>', {
 		'class': 'drag-item',
-		'text': where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label,
-		'data-UUID': item.UUID
-	}).appendTo($('#' + where + 'Drag'));
+		//'text': where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label,
+		//'text': '<a data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>',
+		'data-UUID': item.UUID,
+		'data-objType': where,
+	})
+	temp.prop('innerHTML', where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label+' '+'<a data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>')
 
+	temp.appendTo($('#' + where + 'Drag'));
+
+	$('#' + where + 'Drag > div').on('click', (event) => {
+
+	})
 }
 
 function initializeDragging(){
@@ -268,7 +287,7 @@ function resetDraggers() {
 
 }
 
-function updateHomeTable() {
+function createHomeTable() {
 
 	var data = [];
 	localforage.keys().then((keys) => {
@@ -279,29 +298,66 @@ function updateHomeTable() {
 				numEvents: Object.keys(value.events).length,
 				studyDescription: value.studyDescription
 			});
-			console.log(keys.length)
 			if(iterationNumber===keys.length) {
 				return data
 			}
 		}).then((data) => {
 			$('#home-table').bootstrapTable({
-					columns: [{
-							field: 'studyTitle',
-							title: 'Study'
-					}, {
-							field: 'studyDescription',
-							title: 'Study Description'
-					}, {
-							field: 'numSubjects',
-							title: 'Number of Subjects'
-					}, {
-							field: 'numEvents',
-							title: 'Number of Events'
-					}],
-					data
-				});
+				columns: [{
+					checkbox: true
+				}, {
+					field: 'studyTitle',
+					title: 'Study',
+					sortable: true
+				}, {
+					field: 'studyDescription',
+					title: 'Study Description',
+					sortable: true
+				}, {
+					field: 'numSubjects',
+					title: 'Number of Subjects',
+					sortable: true
+				}, {
+					field: 'numEvents',
+					title: 'Number of Events',
+					sortable: true
+				}],
+				search: true,
+				pagination: true,
+				showToggle: true,
+				showRefresh: true,
+				data
+			});
+			$('[title="Refresh"]').on('click', (event) => {
+				event.preventDefault()
+				updateHomeTable()
+			})
 		})
 	})
+}
+
+function updateHomeTable() {
+	var data = [];
+	localforage.keys().then((keys) => {
+	localforage.iterate((value, key, iterationNumber) => {
+			data.push({
+				studyTitle: value.studyTitle,
+				numSubjects: Object.keys(value.subjects).length,
+				numEvents: Object.keys(value.events).length,
+				studyDescription: value.studyDescription
+			});
+			if(iterationNumber===keys.length) {
+				return data
+			}
+		}).then((data) => {
+			if(data){
+				$('#home-table').bootstrapTable('load', data)
+			}
+			else {
+				$('#home-table').bootstrapTable('removeAll')
+			}
+		})
+})
 }
 
 // Event Handlers
@@ -478,6 +534,14 @@ ipcRenderer.on('update-recordings', (event) => {
 	updateObjectDisplays('recordings')
 })
 
+$('#myModal').on('show.bs.modal', (event) => {
+	var thingToEdit = $(event.relatedTarget.parentNode)
+	$('.modal-body').load(thingToEdit.data('objtype')+'.html')
+	$('.modal-title').prop('innerHTML', thingToEdit.data('objtype'))
+	var fields = $('.modal-body > form > .form-group > input')
+	console.log(fields)
+})
+
 const draggers = initializeDragging()
 
-updateHomeTable()
+createHomeTable()

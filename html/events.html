@@ -1,0 +1,26 @@
+<form class="data-edit" name="events">
+  <div class="form-group required">
+    <label class="control-label">Event Name/ID</label>
+    <input class="form-control" name="label" placeholder="">
+  </div>
+  <div class="form-group">
+    <label class="control-label">Start Trigger</label>
+    <input class="form-control" name="startTrigger" placeholder="">
+  </div>
+  <div class="form-group">
+    <label class="control-label">End Trigger</label>
+    <input class="form-control" name="endTrigger" placeholder="">
+  </div>
+  <div class="form-group">
+    <label class="control-label">Event Description</label>
+    <textarea class="form-control" name="eventDescription" placeholder="Brief description of the event"></textarea>
+  </div>
+
+    <button style="margin-bottom: 10px;" type="button" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#linkStimToEvent" aria-expanded="true" aria-controls="linkStimToEvent">
+      Link a Stimulus
+    </button>
+    <div class="collapse in" id="linkStimToEvent">
+      <div style="min-height: 75px;" class="well linked-stim"></div>
+      <div class="well stim-linker"></div>
+    </div>
+</form>
