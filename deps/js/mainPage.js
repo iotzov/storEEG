@@ -169,10 +169,9 @@ function refreshDB() {
 	}
 }
 
-function hideAllSectionsAndDeselectButtons() {
+function hideAllSections() {
 	$("#main-area > div").hide() // Hide all sections
-
-	$(".nav-pills > li").removeClass("active") // De-activate all nav buttons
+	//$(".nav-pills > li").removeClass("active") // De-activate all nav buttons
 }
 
 const handleFormSubmit = event => {
@@ -240,7 +239,7 @@ function createDragObject(item, where) {
 		'data-UUID': item.UUID,
 		'data-objType': where,
 	})
-	temp.prop('innerHTML', where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label+' '+'<a data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>')
+	temp.prop('innerHTML', where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label+'   '+'<a class="mouse-pointer" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>')
 
 	temp.appendTo($('#' + where + 'Drag'));
 
@@ -287,6 +286,28 @@ function resetDraggers() {
 
 }
 
+function showAddSection(event) {
+	console.log(event)
+	hideAllSections()
+	$('#main-add-section').show()
+}
+
+function createEditLink(desiredText, row, column) {
+	//var temp = $('<a href="'+desiredText+'"></a>');
+	//temp.on('click', (event) => {
+	//	currentStudy = $(this).prop('innerHTML')
+	//	showAddSection()
+	//})
+	//return temp[0]
+
+	return [
+            '<a href="javascript:void(0)" data-study="',
+								desiredText,
+								'" onclick="showAddSection">',
+                desiredText,
+            '</a>'].join('');
+}
+
 function createHomeTable() {
 
 	var data = [];
@@ -308,7 +329,8 @@ function createHomeTable() {
 				}, {
 					field: 'studyTitle',
 					title: 'Study',
-					sortable: true
+					sortable: true,
+					formatter: createEditLink
 				}, {
 					field: 'studyDescription',
 					title: 'Study Description',
@@ -368,12 +390,23 @@ document.ondragover = document.ondrop = (ev) => {
 
 $(".data-entry").on('submit', handleFormSubmit);
 
-$(".nav-link").on('click', function (event) {
-	hideAllSectionsAndDeselectButtons()
+//$(".nav-link").on('click', function (event) {
+//	hideAllSectionsAndDeselectButtons()
 
-	$('#' + $(this).data('section')).show()
-	$(this).parent().addClass("active")
-});
+//	$('#' + $(this).data('section')).show()
+//	$(this).parent().addClass("active")
+//});
+
+$('#add-button').on('click', (event) => {
+	hideAllSections();
+	$('#add-section').show()
+})
+
+$('#home-button').on('click', (event) => {
+	hideAllSections();
+	updateHomeTable();
+	$('#home-section').show()
+})
 
 $(".file-adder").on('click', function (event) {
 	event.preventDefault();
@@ -538,8 +571,36 @@ $('#myModal').on('show.bs.modal', (event) => {
 	var thingToEdit = $(event.relatedTarget.parentNode)
 	$('.modal-body').load(thingToEdit.data('objtype')+'.html')
 	$('.modal-title').prop('innerHTML', thingToEdit.data('objtype'))
-	var fields = $('.modal-body > form > .form-group > input')
-	console.log(fields)
+	$('#editSaveButton').data('currentItem', thingToEdit.data('uuid'))
+	$('#editSaveButton').data('itemType', thingToEdit.data('objtype'))
+	localforage.getItem(currentStudy).then((data) => {
+		var currentItem = data[thingToEdit.data('objtype')][thingToEdit.data('uuid')];
+		var fields = $('.modal-body > form > .form-group > input')
+		for(var a in fields) {
+			if(currentItem[fields[a].name]){
+				fields[a].value = currentItem[fields[a].name]
+			}
+		}
+	});
+})
+
+$('#editSaveButton').on('click', (event) => {
+	localforage.getItem(currentStudy).then((data) => {
+		var fields = $('.modal-body > form > .form-group > input');
+		var currentItemID = $('#editSaveButton').data('currentItem');
+		currentItem = data[$('#editSaveButton').data('itemType')][currentItemID];
+		for(var a in fields) {
+			currentItem[fields[a].name] = fields[a].value;
+		}
+		if(currentItem.referenceChannels) {
+			currentItem.referenceChannels = currentItem.referenceChannels.split(',');
+			currentItem.nonScalpChannels = currentItem.nonScalpChannels.split(',');
+		}
+		data[$('#editSaveButton').data('itemType')][currentItemID] = currentItem;
+		localforage.setItem(currentStudy, data).then((value) => {
+			$('#myModal').modal('hide');
+		})
+	})
 })
 
 const draggers = initializeDragging()

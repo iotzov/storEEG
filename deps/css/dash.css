@@ -1,3 +1,7 @@
+.mouse-pointer {
+  cursor: pointer;
+}
+
 .btn.btn-block.btn-recording-drag {
   height: 150px;
   text-align: center;
