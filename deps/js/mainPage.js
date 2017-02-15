@@ -287,9 +287,18 @@ function resetDraggers() {
 }
 
 function showAddSection(event) {
-	console.log(event)
+	currentStudy = $(event.target).data('study');
 	hideAllSections()
 	$('#main-add-section').show()
+	refreshAllDraggers();
+}
+
+function refreshAllDraggers() {
+	updateObjectDisplays('subjects');
+	updateObjectDisplays('stimuli');
+	updateObjectDisplays('events');
+	updateObjectDisplays('recordingParameterSets');
+	updateObjectDisplays('recordings');
 }
 
 function createEditLink(desiredText, row, column) {
@@ -301,11 +310,11 @@ function createEditLink(desiredText, row, column) {
 	//return temp[0]
 
 	return [
-            '<a href="javascript:void(0)" data-study="',
+            '<button class="btn btn-primary btn-block" data-study="',
 								desiredText,
-								'" onclick="showAddSection">',
+								'" onclick="showAddSection(event)">',
                 desiredText,
-            '</a>'].join('');
+            '</button>'].join('');
 }
 
 function createHomeTable() {
