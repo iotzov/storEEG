@@ -96,6 +96,16 @@ class BaseObj(object):
         with open(name) as f:
             self.schema = json.load(f)
 
+    def listsToDicts(self):
+        for key in self.__dict__:
+            if(type(getattr(self, key))==list):
+                templ = getattr(self, key)
+                tempd = dict()
+                for elm in templ:
+                    tempd[elm['UUID']] = elm
+                setattr(self, key, tempd)
+
+
 class Contact(BaseObj):
     def __init__(self):
         BaseObj.__init__(self, ('firstName', 'lastName', 'phoneNumber', 'email'))
@@ -119,6 +129,15 @@ class Publication(BaseObj):
 class Recording(BaseObj):
     def __init__(self):
         BaseObj.__init__(self, ('fileLocation', 'eventIDs', 'subjectID', 'recordingParametersID', 'recordingID'))
+
+    def preprocessRecording(self):
+        data =
+
+    def pickBadChannels(self):
+        self.data.plot()
+
+    def getData(self):
+        self.data = mne.io.read_raw_fif(self.fileLocation)
 
 class RecordingParameters(BaseObj):
     def __init__(self):
@@ -198,3 +217,9 @@ class Study(BaseObj):
             data, times = raw[:, s:e]
 
         return data
+
+def newFromJSON(fileLocation):
+    a = Study()
+    a.loadFromJSON(fileLocation)
+    a.listsToDicts()
+    return a

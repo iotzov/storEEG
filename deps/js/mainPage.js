@@ -29,6 +29,13 @@ function exitProgram() {
 	ipcRenderer.send('exit-clicked');
 }
 
+function checkSubmit(e) {
+	console.log(e)
+   if(e && e.originalEvent.keyCode == 13) {
+      e.currentTarget.submit();
+   }
+}
+
 function objToArray(toConvert) {
 	// Converts the object that is passed to an array of the values of all of its properties
 	var temp = [];
@@ -611,6 +618,10 @@ $('#editSaveButton').on('click', (event) => {
 		})
 	})
 })
+
+//$('form.data-entry').on('keypress', (event) => {
+//	return checkSubmit(event)
+//})
 
 const draggers = initializeDragging()
 
