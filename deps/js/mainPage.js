@@ -4,7 +4,7 @@ const dragula = require('dragula')
 const uuid = require('uuid/v4')
 const remote = require('electron').remote
 const {BrowserWindow, dialog} = require('electron').remote
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path');
 const url = require('url');
 const jsonfile = require('jsonfile')
@@ -27,6 +27,33 @@ Array.prototype.forEach.call(links, function (link) {
 
 function exitProgram() {
 	ipcRenderer.send('exit-clicked');
+}
+
+function moveFilesToStudyFolder(studyName) {
+	localforage.getItem(studyName).then((data) => {
+		if(!fs.existsSync(path.join(studyFolder, studyName, 'stimuli'))) {
+			fs.mkdirSync(path.join(studyFolder, studyName, 'stimuli'));
+		}
+
+		for(var i in data.stimuli) {
+			var currentLocation = data.stimuli[i].stimulusFile
+			if(currentLocation) {
+				fs.copy(currentLocation, path.join(studyFolder, studyName, 'stimuli', currentLocation.replace(/^.*[\\\/]/, '')))
+			}
+		}
+
+		if(!fs.existsSync(path.join(studyFolder, studyName, 'rawEEG'))) {
+			fs.mkdirSync(path.join(studyFolder, studyName, 'rawEEG'));
+		}
+
+		for(var i in data.recordings) {
+			var currentLocation = data.recordings[i].fileLocation
+			if(currentLocation) {
+				fs.copy(currentLocation, path.join(studyFolder, studyName, 'rawEEG', currentLocation.replace(/^.*[\\\/]/, '')))
+			}
+		}
+
+	})
 }
 
 function checkSubmit(e) {
@@ -93,7 +120,9 @@ function getDirectories (srcpath) {
 
 function writeCurrentStudy(callback) {
 	// Writes the current study to a JSON file under /studies/'filename' after converting objects to arrays
-	fs.mkdirSync(path.join(studyFolder, currentStudy));
+	if(!fs.existsSync(path.join(studyFolder, currentStudy))) {
+		fs.mkdirSync(path.join(studyFolder, currentStudy));
+	}
 
 	localforage.getItem(currentStudy).then((data) => {
 		var UUID = data.UUID;
@@ -119,7 +148,9 @@ function resetCurrentIndicators() {
 
 function writeStudy(filename, studyName) {
 
-	fs.mkdirSync(path.join(studyFolder, filename));
+	if(!fs.existsSync(path.join(studyFolder, currentStudy))) {
+		fs.mkdirSync(path.join(studyFolder, currentStudy));
+	}
 
 	localforage.getItem(studyName).then((data) => {
 		var UUID = data.UUID;

@@ -19,6 +19,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-table": "^1.11.0",
     "dragula": "^3.7.2",
+    "fs-extra": "^2.0.0",
     "jquery": "^3.1.1",
     "jsonfile": "^2.4.0",
     "localforage": "^1.4.3",
