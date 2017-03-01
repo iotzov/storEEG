@@ -553,6 +553,7 @@ $(".btn-recording-drag-wrapper").on('drop', (event) => {
 })
 
 $("#submitStudyButton").on('click', (event) => {
+	moveFilesToStudyFolder(currentStudy)
 	writeCurrentStudy(resetCurrentIndicators)
 	$('#home-button').click()
 	successfulAddAlert()
