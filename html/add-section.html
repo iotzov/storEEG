@@ -2,6 +2,8 @@
 
   <div class="no-display" id="main-add-section">
 
+    <button id="home-button" class="btn btn-primary btn-block">HOME</button>
+
     <div role="navigation">
 
       <ul class="nav nav-tabs nav-justified">
@@ -13,34 +15,34 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="add-subjects">
-          <div class="col-sm-6 fill-height">
-
+          <div class="col-sm-12 fill-height">
+            <div class="row">
             <form class="data-entry" name="subjects">
-              <div class="form-group required">
+              <div class="form-group required col-sm-6">
                 <label class="control-label" for="subjectLabel">Subject ID</label>
                 <input class="form-control" name="label" placeholder="e.g. 'S01' or 'Subject 1'">
               </div>
-              <div class="form-group required">
+              <div class="form-group required col-sm-6">
                 <label class="control-label">Subject Group</label>
                 <input class="form-control" name="group" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Gender</label>
                 <input class="form-control" name="gender" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Year of Birth</label>
                 <input class="form-control" name="yob" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Height(cm)</label>
                 <input class="form-control" name="height" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Weight(kg)</label>
                 <input class="form-control" name="weight" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Handedness</label>
                 <select class="form-control" name="handedness">
                   <option></option>
@@ -49,7 +51,7 @@
                   <option>Ambidextrous</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Vision</label>
                 <select class="form-control" name="vision">
                   <option></option>
@@ -59,7 +61,7 @@
                   <option>NA</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Hearing</label>
                 <select class="form-control" name="hearing">
                   <option></option>
@@ -69,36 +71,39 @@
                   <option>NA</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Additional Information</label>
                 <textarea class="form-control" rows="3" name="additionalInfo"></textarea>
               </div>
               <div class="form-group">
-                <label class="control-label">Channel Locations File</label>
-                <button name="channelLocations" class="btn btn-primary btn-block file-adder">Add File</button>
+                <!--<label class="control-label">Channel Locations File</label>-->
+                <button name="channelLocations" class="btn btn-primary btn-block file-adder">Add a Channel Locations File</button>
               </div>
               <div class="form-group">
-                  <input type="submit" class="btn btn-success btn-block" value="Add">
-                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+                  <div class="col-sm-6"><input type="submit" class="btn btn-success btn-block" value="Add"></div>
+                  <div class="col-sm-6"><button class="btn btn-danger btn-block" type="reset">Clear</button></div>
               </div>
             </form>
+            </div>
 
           </div>
-          <div class="col-sm-6 drag-wrapper">
+          <div class="row">
+          <div class="col-sm-6 col-sm-offset-3 drag-wrapper" style="margin-top: 20px">
 
               <div class="drag-container" id="subjectsDrag"></div>
 
           </div>
         </div>
+        </div>
         <div role="tabpanel" class="tab-pane" id="add-stimuli">
-          <div class="col-sm-6 fill-height">
+          <div class="col-sm-9 fill-height">
 
             <form class="data-entry" name="stimuli">
-              <div class="form-group required">
+              <div class="form-group required col-sm-6">
                 <label class="control-label" for="stimulusLabel">Stimulus ID</label>
                 <input class="form-control" name="label" placeholder="Stimulus name/ID">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Stimulus Type</label>
                 <select class="form-control" name="stimulusType">
                   <option></option>
@@ -112,79 +117,79 @@
                 <textarea class="form-control" name="stimulusDescription" placeholder="Text goes here"></textarea>
               </div>
               <div class="form-group">
-                <label class="control-label" for="subjectLabel">Stimulus File</label>
-                <button name="stimulusFile" class="btn btn-primary btn-block file-adder">Add File</button>
+                <!--<label class="control-label" for="stim-file-adder">Stimulus File</label>-->
+                <button id="stim-file-adder" name="stimulusFile" class="btn btn-primary btn-block file-adder">Add a Stimulus File</button>
               </div>
               <div class="form-group">
-                  <input type="submit" class="btn btn-success btn-block" value="Add">
-                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+                <div class="col-sm-6"><input type="submit" class="btn btn-success btn-block" value="Add"></div>
+                <div class="col-sm-6"><button class="btn btn-danger btn-block" type="reset">Clear</button></div>
               </div>
             </form>
 
           </div>
-          <div class="col-sm-6 drag-wrapper">
+          <div class="col-sm-3 drag-wrapper">
 
               <div class="drag-container" id="stimuliDrag"></div>
 
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="add-recordingParameterSets">
-          <div class="col-sm-6 fill-height">
+          <div class="col-sm-9 fill-height">
 
             <form class="data-entry" name="recordingParameterSets">
-              <div class="form-group required">
+              <div class="form-group required col-sm-6">
                 <label class="control-label">Recording Parameter Set Name/ID</label>
                 <input class="form-control" name="label" placeholder="">
               </div>
-              <div class="form-group required">
+              <div class="form-group required col-sm-6">
                 <label class="control-label">Sampling Rate</label>
                 <input class="form-control" name="samplingRate" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Start Channel</label>
                 <input class="form-control" name="startChannel" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">End Channel</label>
                 <input class="form-control" placeholder="" name="endChannel">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Reference Channels</label>
                 <input class="form-control" placeholder="e.g. '1,2,3'" name="referenceChannels">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Non-Scalp Channels</label>
                 <input class="form-control" placeholder="e.g. '1,2,3'" name="nonScalpChannels">
               </div>
               <div class="form-group">
-                  <input type="submit" class="btn btn-success btn-block" value="Add">
-                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+                <div class="col-sm-6"><input type="submit" class="btn btn-success btn-block" value="Add"></div>
+                <div class="col-sm-6"><button class="btn btn-danger btn-block" type="reset">Clear</button></div>
               </div>
             </form>
           </div>
-          <div class="col-sm-6 fill-height drag-wrapper">
+          <div class="col-sm-3 fill-height drag-wrapper">
 
             <div class="drag-container" id="recordingParameterSetsDrag"></div>
 
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="add-events">
-          <div class="col-sm-6 fill-height">
+          <div class="col-sm-9 fill-height">
 
             <form class="data-entry" name="events">
-              <div class="form-group required">
+              <div class="form-group required col-sm-6">
                 <label class="control-label">Event Name/ID</label>
                 <input class="form-control" name="label" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Start Trigger</label>
                 <input class="form-control" name="startTrigger" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">End Trigger</label>
                 <input class="form-control" name="endTrigger" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label class="control-label">Event Description</label>
                 <textarea class="form-control" name="eventDescription" placeholder="Brief description of the event"></textarea>
               </div>
@@ -198,13 +203,13 @@
                 </div>
 
               <div class="form-group">
-                  <input type="submit" class="btn btn-success btn-block" value="Add">
-                  <button class="btn btn-danger btn-block" type="reset">Clear</button>
+                <div class="col-sm-6"><input type="submit" class="btn btn-success btn-block" value="Add"></div>
+                <div class="col-sm-6"><button class="btn btn-danger btn-block" type="reset">Clear</button></div>
               </div>
             </form>
 
           </div>
-          <div class="col-sm-6 drag-wrapper">
+          <div class="col-sm-3 drag-wrapper">
 
             <div class="drag-container" id="eventsDrag"></div>
 
@@ -240,7 +245,6 @@
       </div>
 
     </div>
-    <footer class="footer"><div class="container"><button id="home-button" class="btn btn-primary btn-block">HOME</button></div></footer>
   </div>
 
   <div class="no-display" id="add-new-section">
