@@ -276,8 +276,11 @@ function createDragObject(item, where) {
 		//'text': '<a data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>',
 		'data-UUID': item.UUID,
 		'data-objType': where,
+		'style': 'text-align: center;'
 	})
-	temp.prop('innerHTML', where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label+'   '+'<a class="mouse-pointer" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>')
+temp.prop('innerHTML', '<a class="mouse-pointer edit-link" data-toggle="modal" data-target="#myModal">' + where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label + '</a>')
+
+	//temp.prop('innerHTML', where.charAt(0).toUpperCase() + where.slice(1, where.length-1) + ' ID: ' + item.label+'   '+'<a class="mouse-pointer" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></a>')
 
 	temp.appendTo($('#' + where + 'Drag'));
 
@@ -467,9 +470,9 @@ $(".file-adder").on('click', function (event) {
 });
 
 $('.data-entry').on('reset', function (event) {
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").removeClass('btn-success');
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").addClass('btn-primary');
-	$("[name='"+event.currentTarget.name+"'] > .form-group > .file-adder").prop('innerHTML', 'Add File');
+	$("[name='"+event.currentTarget.name+"'] .file-adder").removeClass('btn-success');
+	$("[name='"+event.currentTarget.name+"'] .file-adder").addClass('btn-primary');
+	$("[name='"+event.currentTarget.name+"'] .file-adder").prop('innerHTML', 'Add File');
 })
 
 $("#initial-add-form").on('submit', function (event) {

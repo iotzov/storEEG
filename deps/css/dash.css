@@ -1,3 +1,31 @@
+.no-pad {
+  padding: 0;
+}
+
+.home-footer {
+  position:fixed;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  margin-bottom:0px;
+}
+
+#home-button {
+  color: #ffffff;
+  background-color: #204B57;
+  background-image: linear-gradient(to bottom,#5C7C84 0,#204B57 100%);
+}
+
+#help-button {
+  color: #ffffff;
+  background-color: #A64049;
+  background-image: linear-gradient(to bottom,#BA6A71 0,#A64049 100%);
+}
+
+.edit-link {
+  color: #548687;
+}
+
 .mouse-pointer {
   cursor: pointer;
 }
@@ -36,26 +64,40 @@
 }
 */
 
-.drag-wrapper {
+/*.drag-wrapper {
   display: table;
   padding: 0px;
-  background-color: rgba(106, 121, 139, 0.68);
+  background-color: rgba(#566270, 0.44);
   border-radius: 10px;
 }
+*/
 
-.drag-container {
-  display: table-cell;
-  width: 100%;
+.drag-wrapper {
+  padding: 0px;
+  background-color: rgba(#566270, 0.44);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
 }
+
+/*
+.drag-container {
+  width: 100%;
+  display: table-cell;
+}
+*/
 
 .drag-container > div,
 .drag-item {
   margin: 10px;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  border: 1px solid rgb(255, 255, 255);
+  background-color: #E0E3DA;
+  border-radius: 12px;
+  border: 1px solid #FFFFF3;
   transition: opacity 0.4s ease-in-out 0s;
+  display: inline-block;
 }
 
 .drag-container > div {
