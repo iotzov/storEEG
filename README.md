@@ -1,19 +1,35 @@
 # storEEG
 
-storEEG is a data specification and an organizational tool for EEG data.
-It is being created with researchers utilizing EEG data in mind, and so seeks to enable easier collaboration through data sharing, greater organization and record-keeping within individual
-labs, and greater utilization of EEG data in big data approaches by creating an easy to use standard.
+storEEG is an organization tool for EEG data based on the forthcoming
+[BIDS EEG specification](http://bids.neuroimaging.io/).
+storEEG is intended to address the current lack of
+a user-friendly, cross-platform GUI program for organizing
+and managing EEG data. While some tools for this do exist, they
+lack the type of unifying standard that is essential to
+facilitating large-scale data sharing initiatives.
+By adopting the BIDS EEG data specification standard, storEEG
+aims to make data organization, storage, and sharing easy,
+effective, and universal.
 
-There are two parts to the storEEG project:
+storEEG has two main goals that we work towards in development:
 
-1. A data specification for EEG data that facilitates collaboration and data sharing.
+1. Creating a GUI application that is simple and easy to use but also
+   capable of handling the diverse demands that EEG researchers would place on it.
+   The application itself is built with Github's Electron framework, and is mainly written in HTML and Javascript. This enables it to be cross-platform in order to ensure greater adoptability and ease of use. storEEG works on any platform and installation
+   of the 1.0 release will involve simply running the installer on the desired host system, no command-line experience necessary.
 
-   EEG data lacks the same kind of standardization that can be found with other neuroimaging modalities and so sees lesser use in big data and machine learning applications. It is one of the major goals of this project to change that by implementing a simple and robust data specification for use in EEG studies.
+2. Allowing for easier management and organization of EEG data
+   by populating a database with information on the datasets provided by the user.
+   This database can then be searched or queried through any field that is available to storEEG
+   and also gives the user the option of filling in information based on previous entries,
+   simplifying and expediting the often-tedious data entry process.
 
-2. A GUI application that enables simple and streamlined adherence to the specification.
-   The application itself is built with Github's Electron framework, and is mainly written in HTML and Javascript. This enables it to be cross-platform in order to ensure greater adoptability and ease of use.
+storEEG is currently in the **early alpha** phase and **is subject to major changes**. The BIDS EEG specification is also
+not yet finalized and is subject to change as well. storEEG will not transition to a full 1.0 release until the
+BIDS EEG specification is finalized and released.
 
-It is currently in the **early alpha** phase and **is subject to major changes**. Specifications will not be finalized until the 1.0 release!
+We are always looking for more collaborators, contributers, and users, so please help us test
+and improve storEEG and improve the collaborative neuroimaging landscape!
 
 ## Installation
 
