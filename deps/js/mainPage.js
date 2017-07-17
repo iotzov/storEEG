@@ -447,9 +447,9 @@ $(".data-entry").on('submit', handleFormSubmit);
 //	$(this).parent().addClass("active")
 //});
 
-$('#add-button').on('click', (event) => {
+$('#add-new-study-btn').on('click', (event) => {
 	hideAllSections();
-	$('#add-section').show()
+	$('#new-study-initial-page').show()
 })
 
 $('#home-button').on('click', (event) => {
@@ -653,6 +653,45 @@ $('#editSaveButton').on('click', (event) => {
 		})
 	})
 })
+
+// Handler to add more author names
+
+$('#dataset-description-add-authors-btn').click(function(e) {
+
+	e.preventDefault()
+	$(this).before($('<div class="form-group"><input class="form-control" name="Authors[]" placeholder="Author Name"></div>'));
+
+});
+
+// Handler for initial study creation
+
+function createNewStudy(studyData) {
+	if(!fs.existsSync(path.join(studyFolder, studyData.Name))) {
+		fs.mkdirSync(path.join(studyFolder, studyData.Name));
+	};
+
+	currentStudy = {};
+	currentStudy.dataset_description = studyData;
+
+	jsonfile.writeFileSync(path.join(studyFolder, studyData.Name, 'dataset_description.json'), studyData);
+};
+
+$('#dataset-description-create-study-btn').click(function(e) {
+	e.preventDefault();
+	var studyData = $('#new-study-initial-page-form').serializeObject();
+	createNewStudy(studyData)
+	$('#new-study-initial-page').hide();
+	$('#new-study-session-info').show();
+});
+
+// Handler for 1 session studies
+
+$('#multiple-sessions-no-btn').click(function(e) {
+	e.preventDefault();
+	$('#new-study-session-info').hide();
+	$('#new-study-recordings').show();
+});
+
 
 //$('form.data-entry').on('keypress', (event) => {
 //	return checkSubmit(event)

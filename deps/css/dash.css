@@ -1,3 +1,29 @@
+.recording-list-item:hover {
+  background-color: rgba(46, 235, 227, 0.3);
+  padding-left: 0px;
+}
+
+#recordings-added-display-list {
+  list-style: none;
+  font-size: 20px;
+  text-align: center;
+}
+
+.recordings-added-display-box {
+  background-color: rgb(219, 219, 219);
+  height: 300px;
+  overflow-y: scroll;
+  margin-top: 30px;
+}
+
+#new-study-multiple-sessions-btns {
+  margin-top: 30px;
+}
+
+#new-study-multiple-sessions-btns {
+  text-align: center;
+}
+
 .no-pad {
   padding: 0;
 }
@@ -31,9 +57,10 @@
 }
 
 .btn.btn-block.btn-recording-drag {
-  height: 150px;
+  height: 400px;
   text-align: center;
   font-size: 20px;
+  margin-top: 50px;
 }
 
 .btn.btn-block.btn-initial-adder {
