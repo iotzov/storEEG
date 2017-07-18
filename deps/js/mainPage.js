@@ -518,42 +518,42 @@ $("#add-new-study-button").on('click', function (event) {
 	$("#add-new-section").show();
 })
 
-$(".btn-recording-drag").on('click', (event) => {
-	var currentRecording = {};
-	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
-	currentRecording.fileLocation = currentRecording.fileLocation[0];
-	currentRecording.eventUUIDs = [];
-	currentRecording.subjectUUID = "";
-	currentRecording.recordingParameterSetUUID = "";
-	currentRecording.label = "";
-	currentRecording.UUID = uuid();
-
-	openAddRecordingWindow(currentRecording);
-})
-
-$(".btn-recording-drag-wrapper").on('dragover', (event) => {
-	$(".btn-recording-drag").addClass('btn-success');
-	$(".btn-recording-drag").removeClass('btn-primary');
-})
-
-$(".btn-recording-drag-wrapper").on('dragleave', (event) => {
-	$(".btn-recording-drag").removeClass('btn-success');
-	$(".btn-recording-drag").addClass('btn-primary');
-})
-
-$(".btn-recording-drag-wrapper").on('drop', (event) => {
-	event.preventDefault();
-	var currentRecording = {};
-	currentRecording.fileLocation = event.originalEvent.dataTransfer.files[0].path;
-	currentRecording.eventUUIDs = [];
-	currentRecording.subjectUUID = "";
-	currentRecording.recordingParameterSetUUID = "";
-	currentRecording.label = "";
-	currentRecording.UUID = uuid();
-	$(".btn-recording-drag").removeClass('btn-success');
-	$(".btn-recording-drag").addClass('btn-primary');
-	openAddRecordingWindow(currentRecording);
-})
+//$(".btn-recording-drag").on('click', (event) => {
+//	var currentRecording = {};
+//	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+//	currentRecording.fileLocation = currentRecording.fileLocation[0];
+//	currentRecording.eventUUIDs = [];
+//	currentRecording.subjectUUID = "";
+//	currentRecording.recordingParameterSetUUID = "";
+//	currentRecording.label = "";
+//	currentRecording.UUID = uuid();
+//
+//	openAddRecordingWindow(currentRecording);
+//})
+//
+//$(".btn-recording-drag-wrapper").on('dragover', (event) => {
+//	$(".btn-recording-drag").addClass('btn-success');
+//	$(".btn-recording-drag").removeClass('btn-primary');
+//})
+//
+//$(".btn-recording-drag-wrapper").on('dragleave', (event) => {
+//	$(".btn-recording-drag").removeClass('btn-success');
+//	$(".btn-recording-drag").addClass('btn-primary');
+//})
+//
+//$(".btn-recording-drag-wrapper").on('drop', (event) => {
+//	event.preventDefault();
+//	var currentRecording = {};
+//	currentRecording.fileLocation = event.originalEvent.dataTransfer.files[0].path;
+//	currentRecording.eventUUIDs = [];
+//	currentRecording.subjectUUID = "";
+//	currentRecording.recordingParameterSetUUID = "";
+//	currentRecording.label = "";
+//	currentRecording.UUID = uuid();
+//	$(".btn-recording-drag").removeClass('btn-success');
+//	$(".btn-recording-drag").addClass('btn-primary');
+//	openAddRecordingWindow(currentRecording);
+//})
 
 $("#submitStudyButton").on('click', (event) => {
 	moveFilesToStudyFolder(currentStudy)
@@ -691,6 +691,45 @@ $('#multiple-sessions-no-btn').click(function(e) {
 	$('#new-study-session-info').hide();
 	$('#new-study-recordings').show();
 });
+
+// Handlers for adding new recordings to be processed
+
+$(".btn-recording-drag").on('click', (event) => {
+	var currentRecording = {};
+	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+	currentRecording.fileLocation = currentRecording.fileLocation[0];
+	currentRecording.eventUUIDs = [];
+	currentRecording.subjectUUID = "";
+	currentRecording.recordingParameterSetUUID = "";
+	currentRecording.label = "";
+	currentRecording.UUID = uuid();
+
+	openAddRecordingWindow(currentRecording);
+})
+
+$(".btn-recording-drag-wrapper").on('dragover', (event) => {
+	$(".btn-recording-drag").addClass('btn-success');
+	$(".btn-recording-drag").removeClass('btn-primary');
+})
+
+$(".btn-recording-drag-wrapper").on('dragleave', (event) => {
+	$(".btn-recording-drag").removeClass('btn-success');
+	$(".btn-recording-drag").addClass('btn-primary');
+})
+
+$(".btn-recording-drag-wrapper").on('drop', (event) => {
+	event.preventDefault();
+	var currentRecording = {};
+	currentRecording.fileLocation = event.originalEvent.dataTransfer.files[0].path;
+	currentRecording.eventUUIDs = [];
+	currentRecording.subjectUUID = "";
+	currentRecording.recordingParameterSetUUID = "";
+	currentRecording.label = "";
+	currentRecording.UUID = uuid();
+	$(".btn-recording-drag").removeClass('btn-success');
+	$(".btn-recording-drag").addClass('btn-primary');
+	openAddRecordingWindow(currentRecording);
+})
 
 
 //$('form.data-entry').on('keypress', (event) => {
