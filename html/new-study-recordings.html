@@ -1,26 +1,37 @@
 <template class="section-template no-display">
 
-  <div class="col-sm-10 col-sm-offset-1 no-display" id="new-study-recordings">
+  <div id="new-study-recordings" class="no-display">
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
 
-    <div class="new-study-recordings-drag-to btn-recording-drag-wrapper">
-      <button class="btn btn-primary btn-block btn-recording-drag">
-        Drag Files here or Click Here to Add
-      </button>
+        <div class="new-study-recordings-drag-to btn-recording-drag-wrapper">
+          <button class="btn btn-primary btn-block btn-recording-drag">
+            Drag Files here or Click Here to Add
+          </button>
+        </div>
+
+      </div>
     </div>
 
-    <div class="recordings-added-display-box">
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+      <div class="col-sm-8">
+        <div class="recordings-added-display-box">
 
-      <ul id="recordings-added-display-list"></ul>
+          <ul id="recordings-added-display-list"></ul>
 
+        </div>
+      </div>
 
+      <div class="col-sm-4">
+
+          <button class="btn btn-block btn-success">Continue</button>
+          <button class="btn btn-block btn-danger"> Cancel</button>
+
+      </div>
     </div>
 
-    <div id="new-study-recordings-buttons">
-
-
-
     </div>
-
   </div>
 
 </template>
