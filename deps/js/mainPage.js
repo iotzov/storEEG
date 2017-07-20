@@ -694,6 +694,24 @@ $('#multiple-sessions-no-btn').click(function(e) {
 
 // Handlers for adding new recordings to be processed
 
+function removeRecordingListElement(input) {
+	console.log(input)
+}
+
+function updateRecordingsList() {
+	var files = $("#recordings-added-display-list").data().fileList;
+	for(var i = 0; i < files.length; i++) {
+		var tempLI = $("<li>" + files[i].name + "</li>");
+		var tempButton = $("<button class='btn btn-sm btn-danger recording-list-remove-btn'>Remove</button>");
+		tempButton.data().index = i;
+		tempButton.click(function() {
+			$("#recordings-added-display-list").data().fileList.splice($(this).data().index, 1);
+			$(this).parent().remove();
+		});
+		$("#recordings-added-display-list").append(tempLI.append(tempButton));
+	};
+}
+
 $(".btn-recording-drag").on('click', (event) => {
 	var currentRecording = {};
 	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
@@ -719,22 +737,28 @@ $(".btn-recording-drag-wrapper").on('dragleave', (event) => {
 
 $(".btn-recording-drag-wrapper").on('drop', (event) => {
 	event.preventDefault();
-	var currentRecording = {};
-	currentRecording.fileLocation = event.originalEvent.dataTransfer.files[0].path;
-	currentRecording.eventUUIDs = [];
-	currentRecording.subjectUUID = "";
-	currentRecording.recordingParameterSetUUID = "";
-	currentRecording.label = "";
-	currentRecording.UUID = uuid();
+	var files = event.originalEvent.dataTransfer.files;
+	for(i=0; i < files.length; i++){
+		$("#recordings-added-display-list").data().fileList.push(files.item(i));
+	};
 	$(".btn-recording-drag").removeClass('btn-success');
 	$(".btn-recording-drag").addClass('btn-primary');
-	openAddRecordingWindow(currentRecording);
+	updateRecordingsList();
 })
 
+$('#add-new-recordings-cancel').click(function(e) {
+	console.log(dialog.showMessageBox({
+		type: "question",
+		buttons: ["Yes", "No"],
+		message: "Cancel Entry?"
+	}));
+});
 
 //$('form.data-entry').on('keypress', (event) => {
 //	return checkSubmit(event)
 //})
+
+$("#recordings-added-display-list").data().fileList = [];
 
 const draggers = initializeDragging()
 
