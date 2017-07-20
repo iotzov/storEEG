@@ -10,7 +10,7 @@ const url = require('url');
 const jsonfile = require('jsonfile')
 jsonfile.spaces = 2;
 const studyFolder = path.join(__dirname, '..', 'studies');
-var currentStudy = null;
+var currentStudy = {};
 var studyInProgress = 0;
 
 const links = document.querySelectorAll('link[rel="import"]')
@@ -687,25 +687,25 @@ $('#dataset-description-create-study-btn').click(function(e) {
 // Handler for 1 session studies
 
 $('#multiple-sessions-no-btn').click(function(e) {
-	e.preventDefault();
+	
+});
+
+// Handler for multi-session studies
+
+$('#multiple-sessions-yes-btn').click(function(e) {
+	currentStudy.numberOfSessions = $('#numberOfSessions').val();
 	$('#new-study-session-info').hide();
 	$('#new-study-recordings').show();
-});
+})
 
 // Handlers for adding new recordings to be processed
 
-function removeRecordingListElement(input) {
-	console.log(input)
-}
-
-function updateRecordingsList() {
-	var files = $("#recordings-added-display-list").data().fileList;
+function updateRecordingsList(files) {
 	for(var i = 0; i < files.length; i++) {
-		var tempLI = $("<li>" + files[i].name + "</li>");
-		var tempButton = $("<button class='btn btn-sm btn-danger recording-list-remove-btn'>Remove</button>");
-		tempButton.data().index = i;
+		var tempLI = $("<li>" + files[i].name + "     " + "</li>");
+		var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
+		tempLI.data().file = files[i].path;
 		tempButton.click(function() {
-			$("#recordings-added-display-list").data().fileList.splice($(this).data().index, 1);
 			$(this).parent().remove();
 		});
 		$("#recordings-added-display-list").append(tempLI.append(tempButton));
@@ -713,16 +713,18 @@ function updateRecordingsList() {
 }
 
 $(".btn-recording-drag").on('click', (event) => {
-	var currentRecording = {};
-	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
-	currentRecording.fileLocation = currentRecording.fileLocation[0];
-	currentRecording.eventUUIDs = [];
-	currentRecording.subjectUUID = "";
-	currentRecording.recordingParameterSetUUID = "";
-	currentRecording.label = "";
-	currentRecording.UUID = uuid();
 
-	openAddRecordingWindow(currentRecording);
+	var fileLocation = dialog.showOpenDialog({properties: ['openFile', 'multiSelections']});
+
+	for(var i = 0; i < fileLocation.length; i++) {
+		var tempLI = $("<li>" + fileLocation[i].replace(/^.*[\\\/]/, '') + "     " + "</li>");
+		var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
+		tempLI.data().file = fileLocation[i];
+		tempButton.click(function() {
+			$(this).parent().remove();
+		});
+		$("#recordings-added-display-list").append(tempLI.append(tempButton));
+	}
 })
 
 $(".btn-recording-drag-wrapper").on('dragover', (event) => {
@@ -738,27 +740,27 @@ $(".btn-recording-drag-wrapper").on('dragleave', (event) => {
 $(".btn-recording-drag-wrapper").on('drop', (event) => {
 	event.preventDefault();
 	var files = event.originalEvent.dataTransfer.files;
-	for(i=0; i < files.length; i++){
-		$("#recordings-added-display-list").data().fileList.push(files.item(i));
-	};
 	$(".btn-recording-drag").removeClass('btn-success');
 	$(".btn-recording-drag").addClass('btn-primary');
-	updateRecordingsList();
+	updateRecordingsList(files);
 })
 
 $('#add-new-recordings-cancel').click(function(e) {
-	console.log(dialog.showMessageBox({
+	dialog.showMessageBox({
 		type: "question",
 		buttons: ["Yes", "No"],
 		message: "Cancel Entry?"
-	}));
+	});
 });
+
+$('#add-new-recordings-continue').click(function(e) {
+	$('#new-study-recordings').hide();
+	$('')
+})
 
 //$('form.data-entry').on('keypress', (event) => {
 //	return checkSubmit(event)
 //})
-
-$("#recordings-added-display-list").data().fileList = [];
 
 const draggers = initializeDragging()
 
