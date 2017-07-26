@@ -11,8 +11,8 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 750,
+    width: 1265,
+    height: 853,
     icon: __dirname + '/deps/img/repEEG_Icon.png',
     id: 'mainWindow'
   })

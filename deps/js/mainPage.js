@@ -518,43 +518,6 @@ $("#add-new-study-button").on('click', function (event) {
 	$("#add-new-section").show();
 })
 
-//$(".btn-recording-drag").on('click', (event) => {
-//	var currentRecording = {};
-//	currentRecording.fileLocation = dialog.showOpenDialog({properties: ['openFile']});
-//	currentRecording.fileLocation = currentRecording.fileLocation[0];
-//	currentRecording.eventUUIDs = [];
-//	currentRecording.subjectUUID = "";
-//	currentRecording.recordingParameterSetUUID = "";
-//	currentRecording.label = "";
-//	currentRecording.UUID = uuid();
-//
-//	openAddRecordingWindow(currentRecording);
-//})
-//
-//$(".btn-recording-drag-wrapper").on('dragover', (event) => {
-//	$(".btn-recording-drag").addClass('btn-success');
-//	$(".btn-recording-drag").removeClass('btn-primary');
-//})
-//
-//$(".btn-recording-drag-wrapper").on('dragleave', (event) => {
-//	$(".btn-recording-drag").removeClass('btn-success');
-//	$(".btn-recording-drag").addClass('btn-primary');
-//})
-//
-//$(".btn-recording-drag-wrapper").on('drop', (event) => {
-//	event.preventDefault();
-//	var currentRecording = {};
-//	currentRecording.fileLocation = event.originalEvent.dataTransfer.files[0].path;
-//	currentRecording.eventUUIDs = [];
-//	currentRecording.subjectUUID = "";
-//	currentRecording.recordingParameterSetUUID = "";
-//	currentRecording.label = "";
-//	currentRecording.UUID = uuid();
-//	$(".btn-recording-drag").removeClass('btn-success');
-//	$(".btn-recording-drag").addClass('btn-primary');
-//	openAddRecordingWindow(currentRecording);
-//})
-
 $("#submitStudyButton").on('click', (event) => {
 	moveFilesToStudyFolder(currentStudy)
 	writeCurrentStudy(resetCurrentIndicators)
@@ -684,18 +647,40 @@ $('#dataset-description-create-study-btn').click(function(e) {
 	$('#new-study-session-info').show();
 });
 
-// Handler for 1 session studies
+// Handler for all cancel buttons
 
-$('#multiple-sessions-no-btn').click(function(e) {
-	
+$('.cancel-btn').click(function(e) {
+
+	e.preventDefault()
+
+	dialog.showMessageBox({
+		buttons: ["Yes", "No"],
+		message: "Are you sure you want to quit?",
+		type: "question"
+	}, function (response) {
+		if (response==0) {
+			remote.BrowserWindow.getAllWindows()[0].reload()
+		};
+	});
+
 });
 
 // Handler for multi-session studies
 
-$('#multiple-sessions-yes-btn').click(function(e) {
+$('#multiple-sessions-continue-btn').click(function(e) {
 	currentStudy.numberOfSessions = $('#numberOfSessions').val();
-	$('#new-study-session-info').hide();
-	$('#new-study-recordings').show();
+	if (currentStudy.numberOfSessions > 1) {
+		for (var i = 1; i <= currentStudy.numberOfSessions; i++) {
+			var temp = $("<div class='form-group'><label class='control-label'>Session "+i+"</label><input type='text' name='sessionLabels[]' class='form-control' placeholder='Session Label'></div>");
+			$('#new-study-label-sessions').append(temp);
+			//$('#new-study-label-sessions').append($('<h3>hi</h3>'));
+		};
+		$('#new-study-session-info').hide();
+		$('#new-study-name-sessions').show();
+	} else {
+		$('#new-study-session-info').hide();
+		$('#new-study-recordings').show();
+	}
 })
 
 // Handlers for adding new recordings to be processed
@@ -745,22 +730,23 @@ $(".btn-recording-drag-wrapper").on('drop', (event) => {
 	updateRecordingsList(files);
 })
 
-$('#add-new-recordings-cancel').click(function(e) {
-	dialog.showMessageBox({
-		type: "question",
-		buttons: ["Yes", "No"],
-		message: "Cancel Entry?"
-	});
-});
-
 $('#add-new-recordings-continue').click(function(e) {
 	$('#new-study-recordings').hide();
 	$('')
 })
 
-//$('form.data-entry').on('keypress', (event) => {
-//	return checkSubmit(event)
-//})
+// Handler for labeling sessions
+
+$('#sessions-label-continue-btn').click(function (e) {
+	e.preventDefault()
+
+	var temp = $('#new-study-label-sessions').serializeObject();
+	currentStudy.sessionLabels = temp.sessionLabels;
+
+	$('#new-study-name-sessions').hide();
+	$('#new-study-recordings').show();
+})
+
 
 const draggers = initializeDragging()
 

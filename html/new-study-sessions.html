@@ -1,14 +1,39 @@
 <template class="section-template no-display">
 
-  <div class="col-sm-10 col-sm-offset-1 no-display" id="new-study-session-info">
+  <div class="col-sm-12 no-display" id="new-study-session-info">
 
     <div id="new-study-multiple-sessions-btns">
       <h3>How many sessions are in this study?</h3>
-      <div class="form-group">
-        <input type="text" class="form-control" id="numberOfSessions" placeholder="Number of Sessions">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+          <input type="text" class="form-control" id="numberOfSessions" placeholder="Number of Sessions">
+        </div>
       </div>
-      <button class="btn btn-success btn-lg" id="multiple-sessions-yes-btn">Continue</button>
-      <button class="btn btn-danger btn-lg" id="multiple-sessions-no-btn">Cancel</button>
+      <br>
+      <div class="col-sm-6 col-sm-offset-3">
+        <button class="btn btn-success btn-lg" id="multiple-sessions-continue-btn">Continue</button>
+        <button class="btn btn-danger btn-lg cancel-btn" id="multiple-sessions-cancel-btn">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-sm-12 no-display" id="new-study-name-sessions">
+
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <h3>Please label each Session:</h3>
+
+        <form id="new-study-label-sessions"></form>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <button class="btn btn-success btn-lg" id="sessions-label-continue-btn">Continue</button>
+        <button class="btn btn-danger btn-lg cancel-btn" id="sessions-label-cancel-btn">Cancel</button>
+      </div>
     </div>
 
   </div>
