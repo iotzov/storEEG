@@ -1,0 +1,14 @@
+.edit-recordings-wrapper {
+  position: relative;
+  padding: 0 0 0 255px;
+  height: 100%;
+}
+
+.recordings-edit-sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  background: rgb(246, 246, 246);
+}

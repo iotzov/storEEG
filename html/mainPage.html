@@ -13,6 +13,7 @@
     <link href="../deps/css/dash.css" rel="stylesheet">
     <link href="../node_modules/dragula/dist/dragula.css" rel="stylesheet">
     <link href="../node_modules/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href="../deps/css/edit-recordings.css" rel="stylesheet">
 
     <link rel="import" href="home-section.html">
     <!--
@@ -23,6 +24,7 @@
     <link rel="import" href="new-study-initial-page.html">
     <link rel="import" href="new-study-sessions.html">
     <link rel="import" href="new-study-recordings.html">
+    <link rel="import" href="new-study-edit-recordings.html">
     <link id="editForms" rel="import" href="dummyForms.html">
     <script>
       if (typeof module === 'object') {window.module = module; module = undefined;}
@@ -38,8 +40,8 @@
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row fill-height">
-        <div id="main-area" class="col-sm-12 fill-height content-area">
+      <div class="row" style="height:100%;">
+        <div id="main-area" class="col-md-12 content-area">
           <!-- Modal -->
           <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
