@@ -5,10 +5,43 @@
 }
 
 .recordings-edit-sidebar {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   width: 250px;
   background: rgb(246, 246, 246);
+}
+
+.study-info-btn {
+  height: 90px;
+  margin-bottom: 10px;
+}
+
+.study-info-container {
+  border: 1px solid #000;
+  min-height: 200px;
+  text-align: center;
+  background-color: rgb(237, 242, 245);
+}
+
+.study-info-object {
+  border-radius: 5px;
+  border: 1px solid rgb(119, 119, 119);
+  background-color: rgba(255, 255, 255, 0.23);
+  height: 30px;
+}
+
+.edit-study-info-btn {
+  width: 40%
+}
+
+.study-info-element-container {
+  margin-bottom: 30px;
+}
+
+.study-info-btn-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
