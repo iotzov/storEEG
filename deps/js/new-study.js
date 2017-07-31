@@ -122,9 +122,11 @@ $(".btn-recording-drag-wrapper").on('drop', (event) => {
 })
 
 $('#add-new-recordings-continue').click(function(e) {
-	$('#new-study-recordings').hide();
-	$('')
-})
+	//$('#new-study-recordings').hide();
+	$('#recordings-added-display-list').children().each(function (x) {
+		console.log($(this).data('file'));
+	});
+});
 
 // Handler for labeling sessions
 

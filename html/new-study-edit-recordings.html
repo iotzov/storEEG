@@ -5,12 +5,18 @@
     <!-- Sidebar -->
     <div class="recordings-edit-sidebar fill-height">
       <button class="btn btn-block btn-primary study-info-btn">Study Info</button>
-      <ul class="nav nav-pills nav-stacked">
+      <!--<ul class="nav nav-pills nav-stacked">
         <li role="presentation" class="active"><a href="#">One</a></li>
         <li role="presentation"><a href="#">Two</a></li>
         <li role="presentation"><a href="#">Three</a></li>
         <li role="presentation"><a href="#">Four</a></li>
-      </ul>
+      </ul>-->
+      <select class="selectpicker" multiple="multiple" data-actions-box="true" id="edit-recordings-list">
+        <option value="one">one</option>
+        <option value="two">two</option>
+        <option value="three">three</option>
+        <option value="four">four</option>
+      </select>
     </div>
     <!-- /Sidebar -->
 
@@ -41,10 +47,10 @@
         </div>
       </div>
 
-      <div class="row"> <!-- tasks -->
+      <div class="row"> <!-- stimuli -->
 
-        <div id="study-info-task" class="col-sm-12 study-info-container" data-infotype="task">
-          <div class="row"><h4>Tasks</h4></div>
+        <div id="study-info-stimulus" class="col-sm-12 study-info-container" data-infotype="stimulus">
+          <div class="row"><h4>Stimuli</h4></div>
           <div class="row study-info-element-container">
 
           </div>
@@ -70,21 +76,6 @@
 
       </div>
 
-      <div class="row"> <!-- stimuli -->
-
-        <div id="study-info-stimulus" class="col-sm-12 study-info-container" data-infotype="stimulus">
-          <div class="row"><h4>Stimuli</h4></div>
-          <div class="row study-info-element-container">
-
-          </div>
-          <div class="row study-info-btn-container">
-            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="glyphicon glyphicon-import" aria-hidden="true"></span></button>
-          </div>
-        </div>
-
-      </div>
-
       <div class="row"> <!-- recording parameters -->
 
         <div id="study-info-parameters" class="col-sm-12 study-info-container" data-infotype="parameters">
@@ -97,6 +88,21 @@
             <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="glyphicon glyphicon-import" aria-hidden="true"></span></button>
           </div>
         </div>
+      </div>
+
+      <div class="row"> <!-- tasks -->
+
+        <div id="study-info-task" class="col-sm-12 study-info-container" data-infotype="task">
+          <div class="row"><h4>Tasks</h4></div>
+          <div class="row study-info-element-container">
+
+          </div>
+          <div class="row study-info-btn-container">
+            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="glyphicon glyphicon-import" aria-hidden="true"></span></button>
+          </div>
+        </div>
+
       </div>
 
     </div>

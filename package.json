@@ -17,6 +17,7 @@
   "license": "CC0-1.0",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-select": "^1.12.4",
     "bootstrap-table": "^1.11.0",
     "dragula": "^3.7.2",
     "form-serializer": "^2.5.0",
