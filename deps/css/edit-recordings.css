@@ -45,3 +45,7 @@
   bottom: 0;
   width: 100%;
 }
+
+.no-border {
+  border: none;
+}

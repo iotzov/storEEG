@@ -29,6 +29,40 @@ function exitProgram() {
 	ipcRenderer.send('exit-clicked');
 }
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function tsvJSON(tsv){
+
+  var lines=tsv.split("\n");
+
+  var result = [];
+
+  var headers=lines[0].split("\t");
+
+  for(var i=1;i<lines.length;i++){
+
+	  var obj = {};
+	  var currentline=lines[i].split("\t");
+
+	  for(var j=0;j<headers.length;j++){
+		  obj[headers[j]] = currentline[j];
+	  }
+
+	  result.push(obj);
+
+  }
+
+  return result; //JavaScript object
+  //return JSON.stringify(result); //JSON
+}
+
+function importTSVFile(filePath) {
+	var imports = fs.readFileSync(filePath, 'utf8');
+	return tsvJSON(imports);
+}
+
 function moveFilesToStudyFolder(studyName) {
 	localforage.getItem(studyName).then((data) => {
 		if(!fs.existsSync(path.join(studyFolder, studyName, 'stimuli'))) {
@@ -581,22 +615,22 @@ ipcRenderer.on('update-recordings', (event) => {
 	updateObjectDisplays('recordings')
 })
 
-$('#myModal').on('show.bs.modal', (event) => {
-	var thingToEdit = $(event.relatedTarget.parentNode)
-	$('.modal-body').load(thingToEdit.data('objtype')+'.html')
-	$('.modal-title').prop('innerHTML', thingToEdit.data('objtype'))
-	$('#editSaveButton').data('currentItem', thingToEdit.data('uuid'))
-	$('#editSaveButton').data('itemType', thingToEdit.data('objtype'))
-	localforage.getItem(currentStudy).then((data) => {
-		var currentItem = data[thingToEdit.data('objtype')][thingToEdit.data('uuid')];
-		var fields = $('.modal-body > form > .form-group > input')
-		for(var a in fields) {
-			if(currentItem[fields[a].name]){
-				fields[a].value = currentItem[fields[a].name]
-			}
-		}
-	});
-})
+//$('#myModal').on('show.bs.modal', (event) => {
+//	var thingToEdit = $(event.relatedTarget.parentNode)
+//	$('.modal-body').load(thingToEdit.data('objtype')+'.html')
+//	$('.modal-title').prop('innerHTML', thingToEdit.data('objtype'))
+//	$('#editSaveButton').data('currentItem', thingToEdit.data('uuid'))
+//	$('#editSaveButton').data('itemType', thingToEdit.data('objtype'))
+//	localforage.getItem(currentStudy).then((data) => {
+//		var currentItem = data[thingToEdit.data('objtype')][thingToEdit.data('uuid')];
+//		var fields = $('.modal-body > form > .form-group > input')
+//		for(var a in fields) {
+//			if(currentItem[fields[a].name]){
+//				fields[a].value = currentItem[fields[a].name]
+//			}
+//		}
+//	});
+//})
 
 $('#editSaveButton').on('click', (event) => {
 	localforage.getItem(currentStudy).then((data) => {
@@ -616,6 +650,12 @@ $('#editSaveButton').on('click', (event) => {
 		})
 	})
 })
+
+var infobtns = $('.edit-study-info-btn');
+for (var i = 0; i < infobtns.length; i++) {
+	var temp = $(infobtns[i]);
+	temp.data('infotype', temp.parent().parent().data('infotype'));
+};
 
 const draggers = initializeDragging()
 

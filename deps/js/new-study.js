@@ -15,7 +15,17 @@ function createNewStudy(studyData) {
 	};
 
 	currentStudy = {};
-	currentStudy.dataset_description = studyData;
+
+	for(var k in studyData) {
+		currentStudy[k] = studyData[k];
+	};
+
+	currentStudy.subject = [];
+	currentStudy.event = [];
+	currentStudy.parameters = [];
+	currentStudy.task = [];
+	currentStudy.stimulus = [];
+	currentStudy.uuid = uuid();
 
 	jsonfile.writeFileSync(path.join(studyFolder, studyData.Name, 'dataset_description.json'), studyData);
 };
@@ -128,4 +138,31 @@ $('#sessions-label-continue-btn').click(function (e) {
 	$('#new-study-recordings').show();
 })
 
-// Edit recordings 
+// Edit recordings
+
+// Creates elements for edit study info containers
+// insertLocation = string --> '#id-of-container-to-insert-into'
+
+function createStudyInfoElement(insertLocation) {
+
+}
+
+$('.edit-study-info-btn.add').click(function(e) {
+	e.preventDefault();
+	$('#addNewModal .modal-body').load('./forms/' + $(e.currentTarget).data('infotype') + '.html')
+	$('#addNewModal').modal('show');
+	$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter($(e.currentTarget).data('infotype')));
+	$('#addNewModal').data('currentInfoType', $(e.currentTarget).data('infotype'));
+})
+
+$('#addNewModalSaveButton').click(function(e) {
+
+	e.preventDefault();
+	var currentType = $('#addNewModal').data('currentInfoType');
+	var newObject = $('.data-entry').serializeObject();
+	newObject.uuid = uuid();
+	newObject.study = currentStudy.Name;
+	currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
+	$('#addNewModal').modal('hide');
+
+});
