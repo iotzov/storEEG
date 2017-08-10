@@ -149,10 +149,13 @@ $('#sessions-label-continue-btn').click(function (e) {
 // Creates elements for edit study info containers
 // insertLocation = string --> '#id-of-container-to-insert-into'
 
-function createStudyInfoElement(insertLocation, objectIndex) {
+function createStudyInfoElement(insertLocation, objectIndex, objectLabel) {
 
-	console.log(insertLocation);
-	console.log(objectIndex);
+	var tempvar = $('<div></div>');
+	tempvar.addClass('study-info-object');
+	tempvar.text(objectLabel);
+	tempvar.data('infotype', insertLocation);
+	tempvar.data('')
 
 }
 
@@ -172,7 +175,7 @@ $('#addNewModalSaveButton').click(function(e) {
 	newObject.uuid = uuid();
 	newObject.study = currentStudy.Name;
 	currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-	createStudyInfoElement('#study-info-'+$('#addNewModal').data('currentInfoType'), currentStudy[$('#addNewModal').data('currentInfoType')].length-1);
+	createStudyInfoElement($('#addNewModal').data('currentInfoType'), currentStudy[$('#addNewModal').data('currentInfoType')].length-1, newObject.label);
 	$('#addNewModal').modal('hide');
 
 });
