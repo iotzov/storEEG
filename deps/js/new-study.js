@@ -122,10 +122,14 @@ $(".btn-recording-drag-wrapper").on('drop', (event) => {
 })
 
 $('#add-new-recordings-continue').click(function(e) {
-	//$('#new-study-recordings').hide();
+	$('#new-study-recordings').hide();
+	$('#new-study-edit-recordings').show();
 	$('#recordings-added-display-list').children().each(function (x) {
-		console.log($(this).data('file'));
+		var tempvar = $("<option>"+$(this).data('file').replace(/^.*[\\\/]/, '')+"</option>");
+		tempvar.data('file', $(this).data('file'));
+		$('#edit-recordings-list').append(tempvar);
 	});
+	$('.selectpicker').selectpicker('refresh');
 });
 
 // Handler for labeling sessions
@@ -145,7 +149,10 @@ $('#sessions-label-continue-btn').click(function (e) {
 // Creates elements for edit study info containers
 // insertLocation = string --> '#id-of-container-to-insert-into'
 
-function createStudyInfoElement(insertLocation) {
+function createStudyInfoElement(insertLocation, objectIndex) {
+
+	console.log(insertLocation);
+	console.log(objectIndex);
 
 }
 
@@ -165,6 +172,11 @@ $('#addNewModalSaveButton').click(function(e) {
 	newObject.uuid = uuid();
 	newObject.study = currentStudy.Name;
 	currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
+	createStudyInfoElement('#study-info-'+$('#addNewModal').data('currentInfoType'), currentStudy[$('#addNewModal').data('currentInfoType')].length-1);
 	$('#addNewModal').modal('hide');
 
 });
+
+$('#edit-recordings-list').on('hidden.bs.select', function (e) {
+	console.log($('#edit-recordings-list').val());
+})
