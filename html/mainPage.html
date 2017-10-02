@@ -7,15 +7,19 @@
 
     <title>StorEEG Main Menu</title>
 
-    <!-- CSS Imports -->
-    <link href="../deps/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../deps/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="../deps/css/dash.css" rel="stylesheet">
+    <!-- CSS Node Imports -->
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="../deps/css/bootstrap-theme.min.css" rel="stylesheet">-->
     <link href="../node_modules/dragula/dist/dragula.css" rel="stylesheet">
     <link href="../node_modules/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
-    <link href="../deps/css/edit-recordings.css" rel="stylesheet">
     <link href="../node_modules/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
 
+    <!-- CSS Local Imports -->
+    <link href="../deps/css/edit-recordings.css" rel="stylesheet">
+    <link href="../deps/css/dash.css" rel="stylesheet">
+    <link href="../deps/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML Imports -->
     <link rel="import" href="home-section.html">
     <!--
       <link rel="import" href="browse-section.html">
@@ -27,15 +31,19 @@
     <link rel="import" href="new-study-recordings.html">
     <link rel="import" href="new-study-edit-recordings.html">
     <link id="editForms" rel="import" href="dummyForms.html">
+
+    <!-- JS Imports -->
     <script>
       if (typeof module === 'object') {window.module = module; module = undefined;}
     </script>
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="../node_modules/form-serializer/jquery.serialize-object.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
     <script src="../node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="../node_modules/dragula/dist/dragula.min.js"></script>
     <script>
       if (window.module) module = window.module;
     </script>
@@ -73,7 +81,5 @@
     </div>
     <script src="../deps/js/mainPage.js"></script>
     <script src="../deps/js/new-study.js"></script>
-    <script src="../node_modules/dragula/dist/dragula.min.js"></script>
-
   </body>
 </html>

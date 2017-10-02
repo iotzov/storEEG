@@ -432,6 +432,16 @@ function createHomeTable() {
 				pagination: true,
 				showToggle: true,
 				showRefresh: true,
+				iconsPrefix: 'fa',
+        icons: {
+            paginationSwitchDown: 'fa-collapse-down icon-chevron-down',
+            paginationSwitchUp: 'fa-collapse-up icon-chevron-up',
+            refresh: 'fa-refresh icon-refresh',
+            toggle: 'fa-list-alt icon-list-alt',
+            columns: 'fa-th icon-th',
+            detailOpen: 'fa-plus icon-plus',
+            detailClose: 'fa-minus icon-minus'
+        },
 				data
 			});
 			$('[title="Refresh"]').on('click', (event) => {
@@ -573,13 +583,13 @@ $('#eventTabButton').on('click', (event) => {
 	})
 })
 
-$('.tool-button').tooltip({
-	delay: {
-		'show': 300,
-		'hide': 100
-	},
-	placement: 'right',
-})
+//$('.tool-button').tooltip({
+//	delay: {
+//		'show': 300,
+//		'hide': 100
+//	},
+//	placement: 'right',
+//})
 
 $('.collapse').collapse()
 
