@@ -43,11 +43,13 @@
   margin-bottom: 30px;
 }
 
+
 .study-info-btn-container {
   position: absolute;
   bottom: 0;
   width: 100%;
 }
+
 
 .no-border {
   border: none;
