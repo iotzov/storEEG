@@ -1,6 +1,6 @@
 <template class="section-template">
 
-  <div class="col-sm-10 col-sm-offset-1 no-display" id="new-study-initial-page">
+  <div class="col no-display" id="new-study-initial-page">
     <form class="" id="new-study-initial-page-form">
 
       <div class="form-group dataset-description-form required">
@@ -14,7 +14,7 @@
       </div>
 
       <div class="form-group">
-        <button class="btn btn-primary btn-sm" id="dataset-description-add-authors-btn" value="Add Author"><span class="glyphicon glyphicon-plus"></span> Add Author</button>
+        <button class="btn btn-outline-primary btn-sm" id="dataset-description-add-authors-btn" value="Add Author"><span class="glyphicon glyphicon-plus"></span> Add Author</button>
       </div>
 
       <div class="form-group dataset-description-form">
@@ -32,12 +32,17 @@
         <textarea class="form-control" name="studyDescription" placeholder="Description of the Study" rows="4"></textarea>
       </div>
 
-      <div class="form-group">
-        <input class="btn btn-primary btn-lg" type="submit" id="dataset-description-create-study-btn" value="Create Study" style="margin-left:40%;">
-        <button class="btn btn-danger btn-lg cancel-btn" style="margin-left:10px;">Cancel</button>
-      </div>
-
     </form>
+
+    <div class="row justify-content-center">
+      <div class="col">
+        <button class="btn btn-outline-danger btn-block cancel-btn">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-outline-primary btn-block" type="submit" id="dataset-description-create-study-btn">Create Study</button>
+      </div>
+    </div>
+
   </div>
 
 </template>

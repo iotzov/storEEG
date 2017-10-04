@@ -12,6 +12,7 @@ jsonfile.spaces = 2;
 const studyFolder = path.join(__dirname, '..', 'studies');
 var currentStudy = {};
 var studyInProgress = 0;
+$('#mainNavBar').hide()
 
 const links = document.querySelectorAll('link[rel="import"]')
 // Import and add each page to the DOM
@@ -494,6 +495,7 @@ $(".data-entry").on('submit', handleFormSubmit);
 $('#add-new-study-btn').on('click', (event) => {
 	hideAllSections();
 	$('#new-study-initial-page').show()
+	$('#mainNavBar').show()
 })
 
 $('#home-button').on('click', (event) => {

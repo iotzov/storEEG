@@ -1,3 +1,7 @@
+.navbar-nav > .btn {
+  margin-right: 3px;
+}
+
 .recording-list-remove-btn:hover {
   cursor: pointer;
 }

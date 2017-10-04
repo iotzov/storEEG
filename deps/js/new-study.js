@@ -37,6 +37,8 @@ $('#dataset-description-create-study-btn').click(function(e) {
 	createNewStudy(studyData)
 	$('#new-study-initial-page').hide();
 	$('#new-study-session-info').show();
+	$('.navbar-nav > button').removeClass('active')
+	$('.navbar-nav > [name="sessions"]').addClass('active')
 });
 
 // Handler for all cancel buttons
@@ -159,15 +161,16 @@ $('#sessions-label-continue-btn').click(function (e) {
 // Edit recordings
 
 // Creates elements for edit study info containers
-// insertLocation = string --> '#id-of-container-to-insert-into'
+// dataObject => study item object w/ all fields for its type in addition to 'type' field
 
-function createStudyInfoElement(insertLocation, objectIndex, objectLabel) {
+function createStudyInfoElement(dataObject) {
 
 	var tempvar = $('<div></div>');
 	tempvar.addClass('study-info-object');
-	tempvar.text(objectLabel);
-	tempvar.data('infotype', insertLocation);
-	tempvar.data('')
+	tempvar.addClass('col-4')
+	tempvar.text(dataObject.label);
+	tempvar.data('studyElement', dataObject);
+	$('#study-info-' + dataObject.type + '>.study-info-element-container').append(tempvar)
 
 }
 
@@ -186,8 +189,9 @@ $('#addNewModalSaveButton').click(function(e) {
 	var newObject = $('.data-entry').serializeObject();
 	newObject.uuid = uuid();
 	newObject.study = currentStudy.Name;
-	currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-	createStudyInfoElement($('#addNewModal').data('currentInfoType'), currentStudy[$('#addNewModal').data('currentInfoType')].length-1, newObject.label);
+	newObject.type = currentType;
+	//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
+	createStudyInfoElement(newObject);
 	$('#addNewModal').modal('hide');
 
 });
