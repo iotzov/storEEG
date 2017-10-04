@@ -1,3 +1,11 @@
+.recording-list-remove-btn:hover {
+  cursor: pointer;
+}
+
+.small-text {
+  font-size: small;
+}
+
 .width-100 {
   width: 100%;
 }

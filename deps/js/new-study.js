@@ -7,14 +7,12 @@ $('#dataset-description-add-authors-btn').click(function(e) {
 
 });
 
-// Handler for initial study creation
+// Function for initial study creation
 
 function createNewStudy(studyData) {
 	if(!fs.existsSync(path.join(studyFolder, studyData.Name))) {
 		fs.mkdirSync(path.join(studyFolder, studyData.Name));
 	};
-
-	currentStudy = {};
 
 	for(var k in studyData) {
 		currentStudy[k] = studyData[k];
@@ -26,9 +24,12 @@ function createNewStudy(studyData) {
 	currentStudy.task = [];
 	currentStudy.stimulus = [];
 	currentStudy.uuid = uuid();
+	currentStudy.recordings = [];
 
 	jsonfile.writeFileSync(path.join(studyFolder, studyData.Name, 'dataset_description.json'), studyData);
 };
+
+// Handler for initial dataset description continue button
 
 $('#dataset-description-create-study-btn').click(function(e) {
 	e.preventDefault();
@@ -78,8 +79,9 @@ $('#multiple-sessions-continue-btn').click(function(e) {
 
 function updateRecordingsList(files) {
 	for(var i = 0; i < files.length; i++) {
-		var tempLI = $("<li>" + files[i].name + "     " + "</li>");
-		var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
+		var tempLI = $("<li class='small-text'>" + files[i].name + "     " + "</li>");
+		//var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
+		var tempButton = $("<a class='recording-list-remove-btn'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
 		tempLI.data().file = files[i].path;
 		tempButton.click(function() {
 			$(this).parent().remove();
@@ -87,6 +89,8 @@ function updateRecordingsList(files) {
 		$("#recordings-added-display-list").append(tempLI.append(tempButton));
 	};
 }
+
+// Handler for click on initial add recordings button
 
 $(".btn-recording-drag").on('click', (event) => {
 
@@ -103,15 +107,21 @@ $(".btn-recording-drag").on('click', (event) => {
 	}
 })
 
+// handles recolor on drag n dropping files
+
 $(".btn-recording-drag-wrapper").on('dragover', (event) => {
 	$(".btn-recording-drag").addClass('btn-success');
 	$(".btn-recording-drag").removeClass('btn-primary');
 })
 
+// handles recolor on drag n dropping files
+
 $(".btn-recording-drag-wrapper").on('dragleave', (event) => {
 	$(".btn-recording-drag").removeClass('btn-success');
 	$(".btn-recording-drag").addClass('btn-primary');
 })
+
+// handles dropping files onto recording button
 
 $(".btn-recording-drag-wrapper").on('drop', (event) => {
 	event.preventDefault();
@@ -123,19 +133,21 @@ $(".btn-recording-drag-wrapper").on('drop', (event) => {
 
 $('#add-new-recordings-continue').click(function(e) {
 	$('#new-study-recordings').hide();
-	$('#new-study-edit-recordings').show();
+	$('#new-study-add-items').show();
 	$('#recordings-added-display-list').children().each(function (x) {
+		/*
 		var tempvar = $("<option>"+$(this).data('file').replace(/^.*[\\\/]/, '')+"</option>");
 		tempvar.data('file', $(this).data('file'));
 		$('#edit-recordings-list').append(tempvar);
+		*/
+		currentStudy.recordings.push($(this).data('file'));
 	});
-	$('.selectpicker').selectpicker('refresh');
 });
 
 // Handler for labeling sessions
 
 $('#sessions-label-continue-btn').click(function (e) {
-	e.preventDefault()
+	e.preventDefault();
 
 	var temp = $('#new-study-label-sessions').serializeObject();
 	currentStudy.sessionLabels = temp.sessionLabels;
