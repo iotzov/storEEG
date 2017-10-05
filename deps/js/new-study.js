@@ -18,13 +18,13 @@ function createNewStudy(studyData) {
 		currentStudy[k] = studyData[k];
 	};
 
-	currentStudy.subject = [];
-	currentStudy.event = [];
-	currentStudy.parameters = [];
-	currentStudy.task = [];
-	currentStudy.stimulus = [];
-	currentStudy.uuid = uuid();
-	currentStudy.recordings = [];
+	if(currentStudy.subject    == undefined){ currentStudy.subject      = [];};
+	if(currentStudy.event      == undefined){ currentStudy.event        = [];};
+	if(currentStudy.parameters == undefined){ currentStudy.parameters   = [];};
+	if(currentStudy.task       == undefined){ currentStudy.task         = [];};
+	if(currentStudy.stimulus   == undefined){ currentStudy.stimulus     = [];};
+	if(currentStudy.uuid       == undefined){ currentStudy.uuid         = uuid();};
+	if(currentStudy.recordings == undefined){ currentStudy.recordings   = [];};
 
 	jsonfile.writeFileSync(path.join(studyFolder, studyData.Name, 'dataset_description.json'), studyData);
 };
@@ -38,7 +38,8 @@ $('#dataset-description-create-study-btn').click(function(e) {
 	$('#new-study-initial-page').hide();
 	$('#new-study-session-info').show();
 	$('.navbar-nav > button').removeClass('active')
-	$('.navbar-nav > [name="sessions"]').addClass('active')
+	$('.navbar-nav > [data-linkTo="#new-study-session-info"]').addClass('active')
+	$('.navbar-nav > [data-linkTo="#new-study-initial-page"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>')
 });
 
 // Handler for all cancel buttons
@@ -63,6 +64,7 @@ $('.cancel-btn').click(function(e) {
 
 $('#multiple-sessions-continue-btn').click(function(e) {
 	currentStudy.numberOfSessions = $('#numberOfSessions').val();
+	$('#new-study-label-sessions').empty();
 	if (currentStudy.numberOfSessions > 1) {
 		for (var i = 1; i <= currentStudy.numberOfSessions; i++) {
 			var temp = $("<div class='form-group'><label class='control-label'>Session "+i+"</label><input type='text' name='sessionLabels[]' class='form-control' placeholder='Session Label'></div>");
@@ -74,6 +76,7 @@ $('#multiple-sessions-continue-btn').click(function(e) {
 	} else {
 		$('#new-study-session-info').hide();
 		$('#new-study-recordings').show();
+		$('.navbar-nav > [data-linkTo="#new-study-session-info"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 	}
 })
 
@@ -83,7 +86,7 @@ function updateRecordingsList(files) {
 	for(var i = 0; i < files.length; i++) {
 		var tempLI = $("<li class='small-text'>" + files[i].name + "     " + "</li>");
 		//var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
-		var tempButton = $("<a class='recording-list-remove-btn'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
+		var tempButton = $("<a class='recording-list-remove-btn ml-2'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
 		tempLI.data().file = files[i].path;
 		tempButton.click(function() {
 			$(this).parent().remove();
@@ -99,8 +102,8 @@ $(".btn-recording-drag").on('click', (event) => {
 	var fileLocation = dialog.showOpenDialog({properties: ['openFile', 'multiSelections']});
 
 	for(var i = 0; i < fileLocation.length; i++) {
-		var tempLI = $("<li>" + fileLocation[i].replace(/^.*[\\\/]/, '') + "     " + "</li>");
-		var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
+		var tempLI = $("<li class='small-text'>" + fileLocation[i].replace(/^.*[\\\/]/, '') + "     " + "</li>");
+		var tempButton = $("<a class='recording-list-remove-btn ml-2'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
 		tempLI.data().file = fileLocation[i];
 		tempButton.click(function() {
 			$(this).parent().remove();
@@ -156,6 +159,7 @@ $('#sessions-label-continue-btn').click(function (e) {
 
 	$('#new-study-name-sessions').hide();
 	$('#new-study-recordings').show();
+	$('.navbar-nav > [data-linkTo="#new-study-session-info"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 })
 
 // Edit recordings
@@ -167,9 +171,28 @@ function createStudyInfoElement(dataObject) {
 
 	var tempvar = $('<div></div>');
 	tempvar.addClass('study-info-object');
-	tempvar.addClass('col-4')
+	tempvar.addClass('col-6')
 	tempvar.text(dataObject.label);
 	tempvar.data('studyElement', dataObject);
+
+	var removebtn = $("<a class='recording-list-remove-btn'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
+	removebtn.click(function() {
+		$(this).parent().remove();
+	});
+
+	var editbtn   = $("<a class='mx-1'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
+	editbtn.click(function(e) {
+		e.preventDefault();
+
+		$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html');
+		$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
+		$('#addNewModal').data('currentInfoType', dataObject.type);
+		$('#addNewModal').modal('show');
+	});
+
+	tempvar.append(editbtn);
+	tempvar.append(removebtn);
+
 	$('#study-info-' + dataObject.type + '>.study-info-element-container').append(tempvar)
 
 }
@@ -199,3 +222,16 @@ $('#addNewModalSaveButton').click(function(e) {
 $('#edit-recordings-list').on('hidden.bs.select', function (e) {
 	console.log($('#edit-recordings-list').val());
 })
+
+$('.nav-btn').click(function(e) {
+	e.preventDefault();
+	$('.navbar-nav > button').removeClass('active');
+	$('#main-area').children().hide();
+	$(e.currentTarget).addClass('active');
+	$($(e.currentTarget).data('linkto')).show();
+})
+
+$('#add-items-continue-btn').click(function(e) {
+	// Add each recording to #new-study-link-recordings page as a card
+	// attach link to each card to connect study elements to the recording
+});

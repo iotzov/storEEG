@@ -30,6 +30,7 @@
     <link rel="import" href="new-study-sessions.html">
     <link rel="import" href="new-study-add-items.html">
     <link rel="import" href="new-study-recordings.html">
+    <link rel="import" href="new-study-link-recordings.html">
     <!-- <link rel="import" href="new-study-edit-recordings.html"> -->
     <link id="editForms" rel="import" href="dummyForms.html">
 
@@ -50,14 +51,14 @@
     </script>
   </head>
   <body>
-    <nav class="navbar navbar-light bg-light navbar-expand-lg sticky-top" id="mainNavBar">
+    <nav class="navbar navbar-light bg-light navbar-expand-lg sticky-top" id="mainNavBar" style="margin-bottom:1em;">
       <a class="navbar-brand" href="#">storEEG</a>
       <div class="navbar-nav">
-        <button class="btn btn-outline-primary active">Description</button>
-        <button class="btn btn-outline-primary" name="sessions">Sessions</button>
-        <button class="btn btn-outline-primary">Add Recordings</button>
-        <button class="btn btn-outline-primary">Add Elements</button>
-        <button class="btn btn-outline-primary">Link Elements</button>
+        <button class="nav-btn btn btn-outline-primary active" data-linkTo="#new-study-initial-page">Description</button>
+        <button class="nav-btn btn btn-outline-primary" data-linkTo="#new-study-session-info">Sessions</button>
+        <button class="nav-btn btn btn-outline-primary" data-linkTo="#new-study-recordings">Add Recordings</button>
+        <button class="nav-btn btn btn-outline-primary" data-linkTo="#new-study-add-items">Add Elements</button>
+        <button class="nav-btn btn btn-outline-primary" data-linkTo="#new-study-link-recordings">Link Elements</button>
       </div>
     </nav>
     <div class="container-fluid">
