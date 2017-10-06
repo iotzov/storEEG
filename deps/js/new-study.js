@@ -187,7 +187,22 @@ function createStudyInfoElement(dataObject) {
 		$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html');
 		$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
 		$('#addNewModal').data('currentInfoType', dataObject.type);
+		$('#addNewModal').data('editing', $(this).parent());
+		$('#addNewModal').data('mode', 'edit');
+
+		$('#addNewModal').on('shown.bs.modal', function(e) {
+			if($(e.currentTarget).data('mode') == 'edit') {
+				var temp = $(e.currentTarget).data('editing').data('studyElement');
+
+				for(elm in temp) {
+					//$('.modal-body .form-group > :not(label)[name='+elm+']')[0].value = temp[elm];
+					$('.modal-body .form-group > :not(label)[name='+elm+']').val(temp[elm]);
+				};
+			};
+		});
+
 		$('#addNewModal').modal('show');
+
 	});
 
 	tempvar.append(editbtn);
@@ -195,7 +210,7 @@ function createStudyInfoElement(dataObject) {
 
 	$('#study-info-' + dataObject.type + '>.study-info-element-container').append(tempvar)
 
-}
+};
 
 $('.edit-study-info-btn.add').click(function(e) {
 	e.preventDefault();
@@ -203,19 +218,34 @@ $('.edit-study-info-btn.add').click(function(e) {
 	$('#addNewModal').modal('show');
 	$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter($(e.currentTarget).data('infotype')));
 	$('#addNewModal').data('currentInfoType', $(e.currentTarget).data('infotype'));
-})
+	$('#addNewModal').data('mode', 'new');
+});
 
 $('#addNewModalSaveButton').click(function(e) {
 
 	e.preventDefault();
-	var currentType = $('#addNewModal').data('currentInfoType');
-	var newObject = $('.data-entry').serializeObject();
-	newObject.uuid = uuid();
-	newObject.study = currentStudy.Name;
-	newObject.type = currentType;
-	//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-	createStudyInfoElement(newObject);
-	$('#addNewModal').modal('hide');
+	if($('#addNewModal').data('mode') == 'new') {
+		var currentType = $('#addNewModal').data('currentInfoType');
+		var newObject = $('.data-entry').serializeObject();
+		newObject.uuid = uuid();
+		newObject.study = currentStudy.Name;
+		newObject.type = currentType;
+		//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
+		createStudyInfoElement(newObject);
+		$('#addNewModal').modal('hide');
+	} else {
+
+			$($('#addNewModal').data('editing')).remove();
+			var currentType = $('#addNewModal').data('currentInfoType');
+			var newObject = $('.data-entry').serializeObject();
+			newObject.uuid = uuid();
+			newObject.study = currentStudy.Name;
+			newObject.type = currentType;
+			//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
+			createStudyInfoElement(newObject);
+			$('#addNewModal').modal('hide');
+
+	}
 
 });
 
