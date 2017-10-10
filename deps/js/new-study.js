@@ -76,9 +76,11 @@ $('#multiple-sessions-continue-btn').click(function(e) {
 	} else {
 		$('#new-study-session-info').hide();
 		$('#new-study-recordings').show();
+		$('.navbar-nav > button').removeClass('active')
+		$('.navbar-nav > [data-linkTo="#new-study-recordings"]').addClass('active')
 		$('.navbar-nav > [data-linkTo="#new-study-session-info"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 	}
-})
+});
 
 // Handlers for adding new recordings to be processed
 
@@ -134,7 +136,7 @@ $(".btn-recording-drag-wrapper").on('drop', (event) => {
 	$(".btn-recording-drag").removeClass('btn-success');
 	$(".btn-recording-drag").addClass('btn-primary');
 	updateRecordingsList(files);
-})
+});
 
 $('#add-new-recordings-continue').click(function(e) {
 	$('#new-study-recordings').hide();
@@ -146,7 +148,31 @@ $('#add-new-recordings-continue').click(function(e) {
 		$('#edit-recordings-list').append(tempvar);
 		*/
 		currentStudy.recordings.push($(this).data('file'));
+		var cardTemplate = $("<div class='card bg-light mb-2'></div>");
+		var linkbtn = $("<button class='btn btn-outline-primary'>Link Items</button>"); // btn to open linking page
+
+		linkbtn.data('recording', $(this).data('file'));
+
+		linkbtn.click(function(e) {
+			$('#new-study-link-recordings').hide();
+			$('#new-study-link-page').show()
+			$('#new-study-link-page').data('linking', $(this).data('recording'));
+		});
+
+		var cardtitle = $("<h4 class='card-title text-center'>"+ $(this).data('file').replace(/^.*[\\\/]/, '') +"</h4>");
+		var cardbody = $("<div class='card-body'></div>");
+		cardbody.append(linkbtn);
+
+		cardTemplate.append(cardtitle);
+		cardTemplate.append(cardbody);
+
+		$('#new-study-link-recordings > .card-group').append(cardTemplate);
+
 	});
+	$('.card').wrap("<div class='col-4'></div>");
+	$('.navbar-nav > button').removeClass('active');
+	$('.navbar-nav > [data-linkTo="#new-study-add-items"]').addClass('active');
+	$('.navbar-nav > [data-linkTo="#new-study-recordings"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 });
 
 // Handler for labeling sessions
@@ -271,8 +297,57 @@ $('#add-items-continue-btn').click(function(e) {
 		currentStudy[$(this).data('studyElement').type].push($(this).data('studyElement'));
 	});
 
-	var cardTemplate = $("<div class='col-4>'<div class='card bg-light'><div class='card-body'><h4 class='card-title'></h4></div></div></div>");
-
-
+	$('.navbar-nav > button').removeClass('active');
+	$('.navbar-nav > [data-linkTo="#new-study-link-recordings"]').addClass('active');
+	$('#new-study-add-items').hide();
+	$('#new-study-link-recordings').show();
 
 });
+
+$('#link-page-back-btn').click(function(e) {
+	$('#new-study-link-page').hide();
+	$('#new-study-link-recordings').show();
+});
+
+var dragOptions = {
+	// accepts: function(el, target, source, sibling) {
+	// 	if(target.classList.value.indexOf('left-dragger') != -1){
+	// 		console.log('pass')
+	// 		return true;
+	// 	} else {
+	// 		console.log('fail')
+	// 		return false;
+	// 	};
+	// },
+	// copy: function(el, source) {
+	// 	if(source.classList.value.indexOf('left-dragger') != -1){
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	};
+	// },
+	// removeOnSpill: true
+};
+
+// const drakes = {
+// 	'subject': dragula([$("div .subject.left-dragger")[0], $("div .subject.right-dragger")[0]], dragOptions),
+// 	'stimulus': dragula([$("div .stimulus.left-dragger")[0], $("div .stimulus.right-dragger")[0]], dragOptions),
+// 	'parameters': dragula([$("div .parameters.left-dragger")[0], $("div .parameters.right-dragger")[0]], dragOptions),
+// 	'task': dragula([$("div .task.left-dragger")[0], $("div .task.right-dragger")[0]], dragOptions),
+// 	'event': dragula([$("div .event.left-dragger")[0], $("div .event.right-dragger")[0]], dragOptions)
+// };
+
+function testDragging() {
+	var tempVar = $("<div class='study-info-object'>Test</div>");
+	for(var i=0; i<10;i++){
+		$('.right-dragger').append(tempVar);
+		$('.left-dragger').append(tempVar);
+	};
+};
+
+
+dragula([$("div .stimulus.left-dragger")[0], $("div .stimulus.right-dragger")[0]], dragOptions);
+dragula([$("div .parameters.left-dragger")[0], $("div .parameters.right-dragger")[0]], dragOptions);
+dragula([$("div .task.left-dragger")[0], $("div .task.right-dragger")[0]], dragOptions);
+dragula([$("div .event.left-dragger")[0], $("div .event.right-dragger")[0]], dragOptions);
+dragula([$("div .subject.left-dragger")[0], $("div .subject.right-dragger")[0]], dragOptions);

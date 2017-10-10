@@ -70,3 +70,8 @@
 .no-border {
   border: none;
 }
+
+.minh-150 {
+  min-height: 150px;
+  background-color: rgb(100, 144, 156);
+}
