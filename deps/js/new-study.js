@@ -180,7 +180,7 @@ function createStudyInfoElement(dataObject) {
 		$(this).parent().remove();
 	});
 
-	var editbtn   = $("<a class='mx-1'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
+	var editbtn   = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
 	editbtn.click(function(e) {
 		e.preventDefault();
 
@@ -264,4 +264,15 @@ $('.nav-btn').click(function(e) {
 $('#add-items-continue-btn').click(function(e) {
 	// Add each recording to #new-study-link-recordings page as a card
 	// attach link to each card to connect study elements to the recording
+
+	$('[data-linkto="#new-study-add-items"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
+
+	$('.study-info-object').each(function(e) {
+		currentStudy[$(this).data('studyElement').type].push($(this).data('studyElement'));
+	});
+
+	var cardTemplate = $("<div class='col-4>'<div class='card bg-light'><div class='card-body'><h4 class='card-title'></h4></div></div></div>");
+
+
+
 });

@@ -1,3 +1,7 @@
+.study-element-edit-btn:hover {
+  cursor: pointer;
+}
+
 .navbar-nav > .btn {
   margin-right: 3px;
 }
