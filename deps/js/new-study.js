@@ -351,3 +351,68 @@ dragula([$("div .parameters.left-dragger")[0], $("div .parameters.right-dragger"
 dragula([$("div .task.left-dragger")[0], $("div .task.right-dragger")[0]], dragOptions);
 dragula([$("div .event.left-dragger")[0], $("div .event.right-dragger")[0]], dragOptions);
 dragula([$("div .subject.left-dragger")[0], $("div .subject.right-dragger")[0]], dragOptions);
+
+
+/*
+
+Data management functions below
+
+Used to load, store, and modify data stored in .json files on local machine
+
+
+*/
+
+
+function containsItem(dataType, item, study){ // returns true if 'study' contains 'item' of type 'dataType', false otherwise
+
+	var studyItems = study[dataType];
+
+	for(var i=0; i < studyItems.length; i++) {
+
+		if(_.isEqualWith(item, studyItems[i], studyComparison)) {
+			return true;
+		}
+
+	};
+
+	return false;
+
+}
+
+function findMatchingStudies(dataType, item) { // returns list of studies that have element 'item' in them
+
+
+
+}
+
+function loadStudies() {
+
+	studies = jsonfile.readFileSync('studies.json');
+
+}
+
+function saveStudies() {
+
+	jsonfile.writeFile('studies.json', studies);
+
+}
+
+function addStudy(study) {
+
+	jsonfile.readFile('studies.json', function(err, obj) {
+
+		obj.push(study);
+		jsonfile.writeFile('studies.json', obj);
+
+	});
+
+}
+
+function studyComparison(one, two, key) {
+	if(key==='uuid') {
+		return true;
+	};
+	if(key==='study'){
+		return true;
+	};
+}
