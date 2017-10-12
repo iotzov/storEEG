@@ -1,0 +1,3 @@
+createHomeTable()
+
+$('#mainNavBar').hide()

@@ -7,28 +7,6 @@ $('#dataset-description-add-authors-btn').click(function(e) {
 
 });
 
-// Function for initial study creation
-
-function createNewStudy(studyData) {
-	if(!fs.existsSync(path.join(studyFolder, studyData.Name))) {
-		fs.mkdirSync(path.join(studyFolder, studyData.Name));
-	};
-
-	for(var k in studyData) {
-		currentStudy[k] = studyData[k];
-	};
-
-	if(currentStudy.subject    == undefined){ currentStudy.subject      = [];};
-	if(currentStudy.event      == undefined){ currentStudy.event        = [];};
-	if(currentStudy.parameters == undefined){ currentStudy.parameters   = [];};
-	if(currentStudy.task       == undefined){ currentStudy.task         = [];};
-	if(currentStudy.stimulus   == undefined){ currentStudy.stimulus     = [];};
-	if(currentStudy.uuid       == undefined){ currentStudy.uuid         = uuid();};
-	if(currentStudy.recordings == undefined){ currentStudy.recordings   = [];};
-
-	jsonfile.writeFileSync(path.join(studyFolder, studyData.Name, 'dataset_description.json'), studyData);
-};
-
 // Handler for initial dataset description continue button
 
 $('#dataset-description-create-study-btn').click(function(e) {
@@ -81,21 +59,6 @@ $('#multiple-sessions-continue-btn').click(function(e) {
 		$('.navbar-nav > [data-linkTo="#new-study-session-info"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 	}
 });
-
-// Handlers for adding new recordings to be processed
-
-function updateRecordingsList(files) {
-	for(var i = 0; i < files.length; i++) {
-		var tempLI = $("<li class='small-text'>" + files[i].name + "     " + "</li>");
-		//var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
-		var tempButton = $("<a class='recording-list-remove-btn ml-2'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
-		tempLI.data().file = files[i].path;
-		tempButton.click(function() {
-			$(this).parent().remove();
-		});
-		$("#recordings-added-display-list").append(tempLI.append(tempButton));
-	};
-}
 
 // Handler for click on initial add recordings button
 
@@ -190,54 +153,6 @@ $('#sessions-label-continue-btn').click(function (e) {
 
 // Edit recordings
 
-// Creates elements for edit study info containers
-// dataObject => study item object w/ all fields for its type in addition to 'type' field
-
-function createStudyInfoElement(dataObject) {
-
-	var tempvar = $('<div></div>');
-	tempvar.addClass('study-info-object');
-	tempvar.addClass('col-6')
-	tempvar.text(dataObject.label);
-	tempvar.data('studyElement', dataObject);
-
-	var removebtn = $("<a class='recording-list-remove-btn'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
-	removebtn.click(function() {
-		$(this).parent().remove();
-	});
-
-	var editbtn   = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
-	editbtn.click(function(e) {
-		e.preventDefault();
-
-		$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html');
-		$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
-		$('#addNewModal').data('currentInfoType', dataObject.type);
-		$('#addNewModal').data('editing', $(this).parent());
-		$('#addNewModal').data('mode', 'edit');
-
-		$('#addNewModal').on('shown.bs.modal', function(e) {
-			if($(e.currentTarget).data('mode') == 'edit') {
-				var temp = $(e.currentTarget).data('editing').data('studyElement');
-
-				for(elm in temp) {
-					//$('.modal-body .form-group > :not(label)[name='+elm+']')[0].value = temp[elm];
-					$('.modal-body .form-group > :not(label)[name='+elm+']').val(temp[elm]);
-				};
-			};
-		});
-
-		$('#addNewModal').modal('show');
-
-	});
-
-	tempvar.append(editbtn);
-	tempvar.append(removebtn);
-
-	$('#study-info-' + dataObject.type + '>.study-info-element-container').append(tempvar)
-
-};
-
 $('.edit-study-info-btn.add').click(function(e) {
 	e.preventDefault();
 	$('#addNewModal .modal-body').load('./forms/' + $(e.currentTarget).data('infotype') + '.html')
@@ -309,110 +224,8 @@ $('#link-page-back-btn').click(function(e) {
 	$('#new-study-link-recordings').show();
 });
 
-var dragOptions = {
-	// accepts: function(el, target, source, sibling) {
-	// 	if(target.classList.value.indexOf('left-dragger') != -1){
-	// 		console.log('pass')
-	// 		return true;
-	// 	} else {
-	// 		console.log('fail')
-	// 		return false;
-	// 	};
-	// },
-	// copy: function(el, source) {
-	// 	if(source.classList.value.indexOf('left-dragger') != -1){
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	};
-	// },
-	// removeOnSpill: true
-};
+$('.edit-study-info-btn').each(function(e) {
 
-// const drakes = {
-// 	'subject': dragula([$("div .subject.left-dragger")[0], $("div .subject.right-dragger")[0]], dragOptions),
-// 	'stimulus': dragula([$("div .stimulus.left-dragger")[0], $("div .stimulus.right-dragger")[0]], dragOptions),
-// 	'parameters': dragula([$("div .parameters.left-dragger")[0], $("div .parameters.right-dragger")[0]], dragOptions),
-// 	'task': dragula([$("div .task.left-dragger")[0], $("div .task.right-dragger")[0]], dragOptions),
-// 	'event': dragula([$("div .event.left-dragger")[0], $("div .event.right-dragger")[0]], dragOptions)
-// };
+  $(this).data('infotype', $(this).parent().parent().data('infotype'));
 
-function testDragging() {
-	var tempVar = $("<div class='study-info-object'>Test</div>");
-	for(var i=0; i<10;i++){
-		$('.right-dragger').append(tempVar);
-		$('.left-dragger').append(tempVar);
-	};
-};
-
-
-dragula([$("div .stimulus.left-dragger")[0], $("div .stimulus.right-dragger")[0]], dragOptions);
-dragula([$("div .parameters.left-dragger")[0], $("div .parameters.right-dragger")[0]], dragOptions);
-dragula([$("div .task.left-dragger")[0], $("div .task.right-dragger")[0]], dragOptions);
-dragula([$("div .event.left-dragger")[0], $("div .event.right-dragger")[0]], dragOptions);
-dragula([$("div .subject.left-dragger")[0], $("div .subject.right-dragger")[0]], dragOptions);
-
-
-/*
-
-Data management functions below
-
-Used to load, store, and modify data stored in .json files on local machine
-
-
-*/
-
-
-function containsItem(dataType, item, study){ // returns true if 'study' contains 'item' of type 'dataType', false otherwise
-
-	var studyItems = study[dataType];
-
-	for(var i=0; i < studyItems.length; i++) {
-
-		if(_.isEqualWith(item, studyItems[i], studyComparison)) {
-			return true;
-		}
-
-	};
-
-	return false;
-
-}
-
-function findMatchingStudies(dataType, item) { // returns list of studies that have element 'item' in them
-
-
-
-}
-
-function loadStudies() {
-
-	studies = jsonfile.readFileSync('studies.json');
-
-}
-
-function saveStudies() {
-
-	jsonfile.writeFile('studies.json', studies);
-
-}
-
-function addStudy(study) {
-
-	jsonfile.readFile('studies.json', function(err, obj) {
-
-		obj.push(study);
-		jsonfile.writeFile('studies.json', obj);
-
-	});
-
-}
-
-function studyComparison(one, two, key) {
-	if(key==='uuid') {
-		return true;
-	};
-	if(key==='study'){
-		return true;
-	};
-}
+});
