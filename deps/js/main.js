@@ -22,8 +22,7 @@ const _ = require('lodash');
 // global variables
 const studyFolder = path.join(__dirname, '..', 'studies');
 var currentStudy = {};
-var studies = [];
-var studiesMini = [];
+// var studies = [];
 var studyInProgress = 0;
 
 const links = document.querySelectorAll('link[rel="import"]')

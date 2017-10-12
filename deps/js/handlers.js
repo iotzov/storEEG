@@ -105,14 +105,18 @@ $('#add-new-recordings-continue').click(function(e) {
 	$('#new-study-recordings').hide();
 	$('#new-study-add-items').show();
 	$('#recordings-added-display-list').children().each(function (x) {
-		/*
-		var tempvar = $("<option>"+$(this).data('file').replace(/^.*[\\\/]/, '')+"</option>");
-		tempvar.data('file', $(this).data('file'));
-		$('#edit-recordings-list').append(tempvar);
-		*/
-		currentStudy.recordings.push($(this).data('file'));
+
+		var tempRecording = {};
+		tempRecording.subject = [];
+		tempRecording.stimulus = [];
+		tempRecording.event = [];
+		tempRecording.task = [];
+		tempRecording.parameters = [];
+		tempRecording.file = $(this).data('file');
+
+		currentStudy.recordings.push(tempRecording);
 		var cardTemplate = $("<div class='card bg-light mb-2'></div>");
-		var linkbtn = $("<button class='btn btn-outline-primary'>Link Items</button>"); // btn to open linking page
+		var linkbtn = $("<button class='btn btn-outline-primary recording-linker-btn'>Link Items</button>"); // btn to open linking page
 
 		linkbtn.data('recording', $(this).data('file'));
 
@@ -191,10 +195,6 @@ $('#addNewModalSaveButton').click(function(e) {
 
 });
 
-$('#edit-recordings-list').on('hidden.bs.select', function (e) {
-	console.log($('#edit-recordings-list').val());
-})
-
 $('.nav-btn').click(function(e) {
 	e.preventDefault();
 	$('.navbar-nav > button').removeClass('active');
@@ -211,7 +211,9 @@ $('#add-items-continue-btn').click(function(e) {
 
 	$('.study-info-object').each(function(e) {
 		currentStudy[$(this).data('studyElement').type].push($(this).data('studyElement'));
-    $('.right-dragger.'+$(this).data('studyElement').type).append($(this).clone());
+		var tempVar = $(this).clone();
+		tempVar.data('studyElement', $(this).data('studyElement'));
+    $('.right-dragger.'+$(this).data('studyElement').type).append(tempVar);
 	});
 
   $('.right-dragger a').remove();
@@ -243,6 +245,53 @@ $('.navbar-brand').click(function(e) {
 
 $('#link-page-save-btn').click(function(e) {
 
-  
+	// insert uuids of linked elements into recording object
+
+	var currentRecording = _.filter(currentStudy.recordings, function(obj){
+		return obj.file == $('#new-study-link-page').data('linking');
+	})[0];
+
+	_.remove(currentStudy.recordings, function(obj){
+		return obj.file == $('#new-study-link-page').data('linking');
+	})[0];
+
+	$('.left-dragger > .study-info-object').each(function(x) {
+		var tmp = $(this).data('studyElement');
+
+		currentRecording[tmp.type].push(tmp.uuid);
+	});
+
+	currentStudy.recordings.push(currentRecording);
+
+	// add check showing completion to the link btn
+
+	var btnToUpdate = $('.recording-linker-btn').filter(function() {
+		return $(this).data('recording') == currentRecording.file;
+	});
+
+	btnToUpdate.prepend('<i class="fa fa-check" aria-hidden="true"></i>');
+
+	// empty the left draggers and change the page back to #new-study-link-recordings
+
+	$('.left-dragger').empty();
+	$('#new-study-link-page').hide();
+	$('#new-study-link-recordings').show();
+
+});
+
+$('#final-save-btn').click(function(e) {
+	e.preventDefault();
+
+	addStudy(currentStudy);
+
+	jsonfile.writeFileSync(studyFolder + '/' + currentStudy.Name + '/study.json', currentStudy);
+
+	hideAllSections();
+	$('#mainNavBar').hide();
+	$('#home-section').show();
+
+	$('#home-section').prepend($('<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> Study has successfully been added to the repository.</div>'));
+
+	// this is where you would update the main table...if you had one....
 
 });

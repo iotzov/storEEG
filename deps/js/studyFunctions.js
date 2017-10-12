@@ -88,7 +88,7 @@ function createStudyInfoElement(dataObject) {
 
 	var tempvar = $("<div></div>");
 	tempvar.addClass('study-info-object');
-	tempvar.addClass('col-5 m-1 bg-primary text-light test-obj')
+	tempvar.addClass('col-5 m-1 bg-primary text-light')
 	tempvar.text(dataObject.label);
 	tempvar.data('studyElement', dataObject);
 
@@ -163,7 +163,18 @@ function findMatchingStudies(dataType, item) { // returns list of studies that h
 
 function loadStudies() {
 
-	studies = jsonfile.readFileSync('studies.json');
+	// studies = jsonfile.readFileSync('studies.json');
+
+	jsonfile.readFile('studies.json', function(err, data) {
+
+		if(err != null){
+			studies = [];
+			jsonfile.writeFileSync('studies.json', studies);
+		} else {
+			studies = data;
+		};
+
+	});
 
 }
 
@@ -175,12 +186,9 @@ function saveStudies() {
 
 function addStudy(study) {
 
-	jsonfile.readFile('studies.json', function(err, obj) {
-
-		obj.push(study);
-		jsonfile.writeFile('studies.json', obj);
-
-	});
+	loadStudies();
+	studies.push(study);
+	jsonfile.writeFile('studies.json', studies);
 
 }
 
@@ -200,14 +208,6 @@ function studyComparison(one, two, key) {
 
 */
 
-
-function testDragging() {
-  var tempVar = $("<div class='col-3 m-1 bg-primary text-light test-obj'>Test</div>");
-	for(var i=0; i<10;i++){
-		$('.right-dragger').append(tempVar.clone());
-		$('.left-dragger').append(tempVar.clone());
-	};
-};
 
 
 /*
