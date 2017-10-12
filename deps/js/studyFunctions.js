@@ -86,9 +86,9 @@ function updateRecordingsList(files) {
 
 function createStudyInfoElement(dataObject) {
 
-	var tempvar = $('<div></div>');
+	var tempvar = $("<div></div>");
 	tempvar.addClass('study-info-object');
-	tempvar.addClass('col-6')
+	tempvar.addClass('col-5 m-1 bg-primary text-light test-obj')
 	tempvar.text(dataObject.label);
 	tempvar.data('studyElement', dataObject);
 
@@ -201,48 +201,14 @@ function studyComparison(one, two, key) {
 */
 
 
-var dragOptions = {
-	// accepts: function(el, target, source, sibling) {
-	// 	if(target.classList.value.indexOf('left-dragger') != -1){
-	// 		console.log('pass')
-	// 		return true;
-	// 	} else {
-	// 		console.log('fail')
-	// 		return false;
-	// 	};
-	// },
-	// copy: function(el, source) {
-	// 	if(source.classList.value.indexOf('left-dragger') != -1){
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	};
-	// },
-	// removeOnSpill: true
-};
-
-// const drakes = {
-// 	'subject': dragula([$("div .subject.left-dragger")[0], $("div .subject.right-dragger")[0]], dragOptions),
-// 	'stimulus': dragula([$("div .stimulus.left-dragger")[0], $("div .stimulus.right-dragger")[0]], dragOptions),
-// 	'parameters': dragula([$("div .parameters.left-dragger")[0], $("div .parameters.right-dragger")[0]], dragOptions),
-// 	'task': dragula([$("div .task.left-dragger")[0], $("div .task.right-dragger")[0]], dragOptions),
-// 	'event': dragula([$("div .event.left-dragger")[0], $("div .event.right-dragger")[0]], dragOptions)
-// };
-
 function testDragging() {
-	var tempVar = $("<div class='study-info-object'>Test</div>");
+  var tempVar = $("<div class='col-3 m-1 bg-primary text-light test-obj'>Test</div>");
 	for(var i=0; i<10;i++){
-		$('.right-dragger').append(tempVar);
-		$('.left-dragger').append(tempVar);
+		$('.right-dragger').append(tempVar.clone());
+		$('.left-dragger').append(tempVar.clone());
 	};
 };
 
-
-dragula([$("div .stimulus.left-dragger")[0], $("div .stimulus.right-dragger")[0]], dragOptions);
-dragula([$("div .parameters.left-dragger")[0], $("div .parameters.right-dragger")[0]], dragOptions);
-dragula([$("div .task.left-dragger")[0], $("div .task.right-dragger")[0]], dragOptions);
-dragula([$("div .event.left-dragger")[0], $("div .event.right-dragger")[0]], dragOptions);
-dragula([$("div .subject.left-dragger")[0], $("div .subject.right-dragger")[0]], dragOptions);
 
 /*
 

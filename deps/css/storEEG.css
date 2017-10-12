@@ -250,17 +250,9 @@ body, html, .container-fluid {
 }
 
 .study-info-container {
-  border: 1px solid #000;
-  min-height: 200px;
-  text-align: center;
-  background-color: rgb(237, 242, 245);
-}
-
-.study-info-object {
-  border-radius: 5px;
-  border: 1px solid rgb(119, 119, 119);
-  background-color: rgba(255, 255, 255, 0.23);
-  height: 30px;
+  min-height: 10em;
+  border: 1px solid grey;
+  border-radius: 4px;
 }
 
 .edit-study-info-btn {
@@ -268,7 +260,7 @@ body, html, .container-fluid {
 }
 
 .study-info-element-container {
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 
@@ -283,7 +275,19 @@ body, html, .container-fluid {
   border: none;
 }
 
-.minh-150 {
-  min-height: 150px;
-  background-color: rgb(100, 144, 156);
+.study-info-object {
+  border-radius: 5px;
+  height: 2em;
+  overflow: hidden;
+  text-align: center;
+}
+
+.link-recording-wrapper {
+  min-height: 10em;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+.left-dragger {
+  min-height: 5em;
 }

@@ -120,6 +120,7 @@ $('#add-new-recordings-continue').click(function(e) {
 			$('#new-study-link-recordings').hide();
 			$('#new-study-link-page').show()
 			$('#new-study-link-page').data('linking', $(this).data('recording'));
+      $('.left-dragger').empty();
 		});
 
 		var cardtitle = $("<h4 class='card-title text-center'>"+ $(this).data('file').replace(/^.*[\\\/]/, '') +"</h4>");
@@ -129,7 +130,7 @@ $('#add-new-recordings-continue').click(function(e) {
 		cardTemplate.append(cardtitle);
 		cardTemplate.append(cardbody);
 
-		$('#new-study-link-recordings > .card-group').append(cardTemplate);
+		$('#new-study-link-recordings .card-group').append(cardTemplate);
 
 	});
 	$('.card').wrap("<div class='col-4'></div>");
@@ -210,7 +211,10 @@ $('#add-items-continue-btn').click(function(e) {
 
 	$('.study-info-object').each(function(e) {
 		currentStudy[$(this).data('studyElement').type].push($(this).data('studyElement'));
+    $('.right-dragger.'+$(this).data('studyElement').type).append($(this).clone());
 	});
+
+  $('.right-dragger a').remove();
 
 	$('.navbar-nav > button').removeClass('active');
 	$('.navbar-nav > [data-linkTo="#new-study-link-recordings"]').addClass('active');
@@ -227,5 +231,18 @@ $('#link-page-back-btn').click(function(e) {
 $('.edit-study-info-btn').each(function(e) {
 
   $(this).data('infotype', $(this).parent().parent().data('infotype'));
+
+});
+
+$('.navbar-brand').click(function(e) {
+  e.preventDefault();
+  hideAllSections();
+  $('#mainNavBar').hide();
+  $('#home-section').show();
+})
+
+$('#link-page-save-btn').click(function(e) {
+
+  
 
 });
