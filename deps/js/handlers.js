@@ -277,6 +277,8 @@ $('#link-page-save-btn').click(function(e) {
 	$('#new-study-link-page').hide();
 	$('#new-study-link-recordings').show();
 
+	document.body.scrollTop = document.documentElement.scrollTop = 0;
+
 });
 
 $('#final-save-btn').click(function(e) {
@@ -292,6 +294,27 @@ $('#final-save-btn').click(function(e) {
 
 	$('#home-section').prepend($('<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> Study has successfully been added to the repository.</div>'));
 
-	// this is where you would update the main table...if you had one....
+	updateHomeTable();
 
+});
+
+// handler for home page 'new study' button
+
+$('#add-new-study-btn').on('click', (event) => {
+	hideAllSections();
+	$('#new-study-initial-page').show()
+	$('#mainNavBar').show()
+});
+
+// make enter submit the 'add new element' modal form
+$('.modal-body').keypress(function(e) {
+	if(e.key == 'Enter'){
+		$('#addNewModalSaveButton').click();
+	};
+});
+
+// autofocus the first input element when modal is shown
+$('#addNewModal').on('shown.bs.modal', function(e) {
+	console.log(e);
+	$('.modal-body input').first().focus();
 });

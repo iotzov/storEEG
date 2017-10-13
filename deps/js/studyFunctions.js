@@ -163,18 +163,14 @@ function findMatchingStudies(dataType, item) { // returns list of studies that h
 
 function loadStudies() {
 
-	// studies = jsonfile.readFileSync('studies.json');
-
-	jsonfile.readFile('studies.json', function(err, data) {
-
-		if(err != null){
-			studies = [];
-			jsonfile.writeFileSync('studies.json', studies);
-		} else {
-			studies = data;
-		};
-
+	studies = jsonfile.readFileSync('studies.json', {
+		throws: false
 	});
+
+	if(studies == null) {
+		studies = [];
+		jsonfile.writeFileSync('studies.json', studies);
+	};
 
 }
 
@@ -219,94 +215,110 @@ function studyComparison(one, two, key) {
 function createHomeTable() {
 
 	var data = [];
-	localforage.keys().then((keys) => {
-	localforage.iterate((value, key, iterationNumber) => {
-			data.push({
-				studyTitle: value.studyTitle,
-				numSubjects: Object.keys(value.subjects).length,
-				numEvents: Object.keys(value.events).length,
-				studyDescription: value.studyDescription
-			});
-			if(iterationNumber===keys.length) {
-				return data
-			}
-		}).then((data) => {
-			$('#home-table').bootstrapTable({
-				columns: [{
-					checkbox: true
-				}, {
-					field: 'studyTitle',
-					title: 'Study',
-					sortable: true,
-					// formatter: createEditLink
-				}, {
-					field: 'studyDescription',
-					title: 'Study Description',
-					sortable: true
-				}, {
-					field: 'numSubjects',
-					title: 'Number of Subjects',
-					sortable: true
-				}, {
-					field: 'numEvents',
-					title: 'Number of Events',
-					sortable: true
-				}],
-				search: true,
-				pagination: true,
-				showToggle: true,
-				showRefresh: true,
-				iconsPrefix: 'fa',
-        icons: {
-            paginationSwitchDown: 'fa-collapse-down icon-chevron-down',
-            paginationSwitchUp: 'fa-collapse-up icon-chevron-up',
-            refresh: 'fa-refresh icon-refresh',
-            toggle: 'fa-list-alt icon-list-alt',
-            columns: 'fa-th icon-th',
-            detailOpen: 'fa-plus icon-plus',
-            detailClose: 'fa-minus icon-minus'
-        },
-				data
-			});
-			$('[title="Refresh"]').on('click', (event) => {
-				event.preventDefault()
-				updateHomeTable()
-			})
-		})
-	})
+
+	loadStudies();
+
+	for(var i=0; i < studies.length; i++) {
+
+		data.push({
+			name: studies[i].Name,
+			description: studies[i].studyDescription,
+			numSubjects: studies[i].subject.length,
+			numStimuli: studies[i].stimulus.length,
+			uuid: studies[i].uuid
+		});
+
+	};
+
+	$('#home-table').bootstrapTable({
+		columns: [{
+			field: 'name',
+			title: 'Study',
+			sortable: true,
+			formatter: createEditLink
+		}, {
+			field: 'numSubjects',
+			title: 'Number of Subjects',
+			sortable: true
+		}, {
+			field: 'numStimuli',
+			title: 'Number of Stimuli',
+			sortable: true
+		}, {
+			field: 'description',
+			title: 'Study Description',
+			sortable: false
+		}, {
+			field: 'uuid',
+			title: 'UUID',
+			sortable: false,
+			visible: false
+		}],
+		search: true,
+		pagination: true,
+		showToggle: true,
+		showRefresh: true,
+		showColumns: true,
+		iconsPrefix: 'fa',
+		icons: {
+			paginationSwitchDown: 'fa-collapse-down icon-chevron-down',
+			paginationSwitchUp: 'fa-collapse-up icon-chevron-up',
+			refresh: 'fa-refresh icon-refresh',
+			toggle: 'fa-list-alt icon-list-alt',
+			columns: 'fa-th icon-th',
+			detailOpen: 'fa-plus icon-plus',
+			detailClose: 'fa-minus icon-minus'
+		},
+		data
+	});
+
+	$('[title="Refresh"]').on('click', (event) => {
+		event.preventDefault()
+		updateHomeTable()
+	});
 }
 
 function updateHomeTable() {
+
 	var data = [];
-	localforage.keys().then((keys) => {
-	localforage.iterate((value, key, iterationNumber) => {
-			data.push({
-				studyTitle: value.studyTitle,
-				numSubjects: Object.keys(value.subjects).length,
-				numEvents: Object.keys(value.events).length,
-				studyDescription: value.studyDescription
-			});
-			if(iterationNumber===keys.length) {
-				return data
-			}
-		}).then((data) => {
-			if(data){
-				$('#home-table').bootstrapTable('load', data)
-			}
-			else {
-				$('#home-table').bootstrapTable('removeAll')
-			}
-		})
-})
+
+	loadStudies();
+
+	for(var i=0; i < studies.length; i++) {
+
+		data.push({
+			name: studies[i].Name,
+			description: studies[i].studyDescription,
+			numSubjects: studies[i].subject.length,
+			numStimuli: studies[i].stimulus.length
+		});
+
+	};
+
+	if(~_.isEmpty(data)) {
+		$('#home-table').bootstrapTable('load', data)
+	} else {
+		$('#home-table').bootstrapTable('removeAll')
+	};
+
 }
 
-$('#add-new-study-btn').on('click', (event) => {
-	hideAllSections();
-	$('#new-study-initial-page').show()
-	$('#mainNavBar').show()
-})
+function createEditLink(text, row, column) {
+
+	return [
+		'<a href="#">',
+		text,
+		'</a>'
+	].join('');
+
+}
+
+/*
+
+	End table section
+
+*/
 
 function hideAllSections() {
 	$("#main-area > div").hide() // Hide all sections
-	//$(".nav-pills > li").removeClass("active") // De-activate all nav buttons
 }
