@@ -319,6 +319,110 @@ function createEditLink(text, row, column) {
 
 */
 
+
+/*
+
+	Functions for creating/updating/managing the element display table
+
+*/
+
+function createElementTable() {
+
+	var data = [];
+
+	loadElements();
+
+	for(var i in studyElements) {
+
+		for(var j=0; j < studyElements[i].length; j++){
+			data.push({
+				name: studyElements[i][j].label,
+				type: studyElements[i][j].type,
+				uuid: studyElements[i][j].uuid
+			});
+		}
+
+	};
+
+	$('#element-display-table').bootstrapTable({
+		columns: [{
+			checkbox: true
+		}, {
+			field: 'name',
+			title: 'Item Label',
+			sortable: true,
+			// formatter: createEditLink
+		}, {
+			field: 'type',
+			title: 'Element Type',
+			sortable: true
+		}, {
+			field: 'uuid',
+			title: 'UUID',
+			sortable: false,
+			visible: false
+		}],
+		search: true,
+		pagination: true,
+		showToggle: true,
+		showRefresh: true,
+		showColumns: true,
+		pageSize: 25,
+		maintainSelected: true,
+		iconsPrefix: 'fa',
+		icons: {
+			paginationSwitchDown: 'fa-collapse-down icon-chevron-down',
+			paginationSwitchUp: 'fa-collapse-up icon-chevron-up',
+			refresh: 'fa-refresh icon-refresh',
+			toggle: 'fa-list-alt icon-list-alt',
+			columns: 'fa-th icon-th',
+			detailOpen: 'fa-plus icon-plus',
+			detailClose: 'fa-minus icon-minus'
+		},
+		data
+	});
+
+	$('[title="Refresh"]').on('click', (event) => {
+		event.preventDefault()
+		updateElementTable()
+	});
+}
+
+function updateElementTable() {
+
+
+
+}
+
 function hideAllSections() {
 	$("#main-area > div").hide() // Hide all sections
+}
+
+function loadElements() {
+
+	loadStudies();
+
+	keySet = [
+		'subject',
+		'stimulus',
+		'parameters',
+		'task',
+		'event',
+		'recordings'
+	];
+
+	studyElements = {};
+
+	for(var i=0; i < keySet.length; i++) {
+
+		studyElements[keySet[i]] = [];
+
+		for(var j=0; j < studies.length; j++) {
+
+			studyElements[keySet[i]] = _.concat(studyElements[keySet[i]], studies[j][keySet[i]]);
+
+		}
+
+	}
+
 }

@@ -318,3 +318,14 @@ $('#addNewModal').on('shown.bs.modal', function(e) {
 	console.log(e);
 	$('.modal-body input').first().focus();
 });
+
+
+// hide main section and show study element table
+$('#view-study-elements-btn').click(function(e) {
+
+	createElementTable();
+
+	hideAllSections();
+	$('#element-display-page').show()
+
+});
