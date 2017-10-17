@@ -240,8 +240,9 @@ $('.navbar-brand').click(function(e) {
   e.preventDefault();
   hideAllSections();
   $('#mainNavBar').hide();
+	$('#studyElementsNavBar').hide();
   $('#home-section').show();
-})
+});
 
 $('#link-page-save-btn').click(function(e) {
 
@@ -315,7 +316,6 @@ $('.modal-body').keypress(function(e) {
 
 // autofocus the first input element when modal is shown
 $('#addNewModal').on('shown.bs.modal', function(e) {
-	console.log(e);
 	$('.modal-body input').first().focus();
 });
 
@@ -326,6 +326,24 @@ $('#view-study-elements-btn').click(function(e) {
 	createElementTable();
 
 	hideAllSections();
-	$('#element-display-page').show()
+	$('#element-display-page').show();
+	$('#studyElementsNavBar').show();
+
+});
+
+
+$('#export-study-data-btn').click(function(e) {
+
+	hideAllSections();
+	$('#export-data-choose-method').show();
+	$('#studyElementsNavBar').show();
+
+});
+
+$('#export-by-stim-btn').click(function(e) {
+
+});
+
+$('#export-by-rec-btn').click(function(e) {
 
 });

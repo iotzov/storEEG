@@ -1,7 +1,8 @@
 loadStudies();
 createHomeTable();
 
-$('#mainNavBar').hide()
+$('#mainNavBar').hide();
+$('#studyElementsNavBar').hide();
 
 var dragOptions = {
 	accepts: function(el, target, source, sibling) {
