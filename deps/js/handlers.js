@@ -342,8 +342,24 @@ $('#export-study-data-btn').click(function(e) {
 
 $('#export-by-stim-btn').click(function(e) {
 
+	$('#export-data-choose-method').hide();
+	$('#export-data-select').show();
+	initializeSelectDataTable('stimulus');
+
 });
 
 $('#export-by-rec-btn').click(function(e) {
+
+	$('#export-data-choose-method').hide();
+	$('#export-data-select').show();
+	initializeSelectDataTable('recordings');
+
+});
+
+$('#export-by-sub-btn').click(function(e) {
+
+	$('#export-data-choose-method').hide();
+	$('#export-data-select').show();
+	initializeSelectDataTable('subject');
 
 });

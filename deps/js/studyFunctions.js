@@ -272,7 +272,7 @@ function createHomeTable() {
 		data
 	});
 
-	$('[title="Refresh"]').on('click', (event) => {
+	$('.home-table-wrapper [title="Refresh"]').on('click', (event) => {
 		event.preventDefault()
 		updateHomeTable()
 	});
@@ -382,7 +382,7 @@ function createElementTable() {
 		data
 	});
 
-	$('[title="Refresh"]').on('click', (event) => {
+	$('#element-display-page [title="Refresh"]').on('click', (event) => {
 		event.preventDefault()
 		updateElementTable()
 	});
@@ -391,6 +391,53 @@ function createElementTable() {
 function updateElementTable() {
 
 
+
+}
+
+function initializeSelectDataTable(type) {
+
+	loadElements();
+
+	var data = studyElements[type];
+
+	$('#data-select-table').bootstrapTable({
+		columns: [{
+			checkbox: true
+		}, {
+			field: 'label',
+			title: 'Item Label',
+			sortable: true,
+			// formatter: createEditLink
+		}, {
+			field: 'uuid',
+			title: 'UUID',
+			sortable: false,
+			visible: false
+		}],
+		search: true,
+		pagination: true,
+		showToggle: true,
+		showRefresh: true,
+		showColumns: true,
+		pageSize: 25,
+		maintainSelected: true,
+		iconsPrefix: 'fa',
+		icons: {
+			paginationSwitchDown: 'fa-collapse-down icon-chevron-down',
+			paginationSwitchUp: 'fa-collapse-up icon-chevron-up',
+			refresh: 'fa-refresh icon-refresh',
+			toggle: 'fa-list-alt icon-list-alt',
+			columns: 'fa-th icon-th',
+			detailOpen: 'fa-plus icon-plus',
+			detailClose: 'fa-minus icon-minus'
+		},
+		data
+	});
+
+	$('#export-data-select [title="Refresh"]').on('click', (event) => {
+		event.preventDefault()
+		updateElementTable()
+	});
 
 }
 
