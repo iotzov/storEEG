@@ -1,0 +1,8 @@
+TODOs
+revised 10/18/17
+
+- edit-study-page save button does nothing
+- export page btn does nothing
+- implement copying over of recording data on study save
+- add 'get from file' button for recording parameters
+- write python function for exporting

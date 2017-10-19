@@ -101,11 +101,21 @@ function createStudyInfoElement(dataObject) {
 	editbtn.click(function(e) {
 		e.preventDefault();
 
-		$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html');
-		$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
 		$('#addNewModal').data('currentInfoType', dataObject.type);
 		$('#addNewModal').data('editing', $(this).parent());
 		$('#addNewModal').data('mode', 'edit');
+		$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html', function() {
+			if($('#addNewModal').data('currentInfoType') == 'stimulus') {
+
+				var currentEvents = $(e.currentTarget).closest('.main-content').find('.event').children();
+
+				currentEvents.each(function(ev) {
+					var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
+					$('.modal-body .link-event').append(tmp);
+				});
+			};
+		});
+		$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
 
 		$('#addNewModal').on('shown.bs.modal', function(e) {
 			if($(e.currentTarget).data('mode') == 'edit') {
@@ -116,6 +126,26 @@ function createStudyInfoElement(dataObject) {
 					$('.modal-body .form-group > :not(label)[name='+elm+']').val(temp[elm]);
 				};
 			};
+
+			// if($('#addNewModal').data('currentInfoType') == 'stimulus') {
+			//
+			// 	var currentEvents = $(this).closest('.main-content').find('.event').children();
+			//
+			// 	console.log(currentEvents);
+			// 	console.log(e)
+			//
+			// 	currentEvents.each(function(ev) {
+			//
+			// 		var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
+			// 		// tmp.innerHTML($(this).data('studyElement').label);
+			// 		$('.modal-body .link-event').append(tmp);
+			//
+			// 		console.log($('.modal-body .link-event'));
+			//
+			// 	});
+			//
+			// };
+
 		});
 
 		$('#addNewModal').modal('show');
@@ -125,7 +155,7 @@ function createStudyInfoElement(dataObject) {
 	tempvar.append(editbtn);
 	tempvar.append(removebtn);
 
-	$('#study-info-' + dataObject.type + '>.study-info-element-container').append(tempvar)
+	return tempvar
 
 };
 
@@ -137,6 +167,14 @@ Used to load, store, and modify data stored in .json files on local machine
 
 
 */
+
+function getStudyByUUID(uuid) {
+
+	return _.filter(studies, function(obj){
+		return obj.uuid == uuid;
+	})[0];
+
+}
 
 
 function containsItem(dataType, item, study){ // returns true if 'study' contains 'item' of type 'dataType', false otherwise
@@ -235,7 +273,7 @@ function createHomeTable() {
 			field: 'name',
 			title: 'Study',
 			sortable: true,
-			formatter: createEditLink
+			// formatter: createEditLink
 		}, {
 			field: 'numSubjects',
 			title: 'Number of Subjects',
@@ -248,6 +286,11 @@ function createHomeTable() {
 			field: 'description',
 			title: 'Study Description',
 			sortable: false
+		}, {
+			field: 'uuid',
+			title: 'Edit/View Study',
+			sortable: false,
+			formatter: createEditLink
 		}, {
 			field: 'uuid',
 			title: 'UUID',
@@ -276,6 +319,44 @@ function createHomeTable() {
 		event.preventDefault()
 		updateHomeTable()
 	});
+
+	$('.home-table-wrapper .edit-study-link').click(function(e) {
+
+		$('#edit-study-page .edit-study-element-container').empty();
+
+		var study = getStudyByUUID($(this).data('uuid'));
+
+		var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
+
+		for(var i=0; i < elements.length; i++) {
+
+			study[elements[i]].forEach(function(elm) {
+
+				$('#edit-study-page .'+elm.type).append(createStudyInfoElement(elm));
+
+			});
+
+		};
+
+		study.recordings.forEach(function(rec) {
+
+			var tempvar = $("<div></div>");
+			tempvar.addClass('study-info-object');
+			tempvar.addClass('col-5 m-1 bg-primary text-light')
+			tempvar.text(rec.file.replace(/^.*[\\\/]/, ''));
+
+			$('#edit-study-page .recordings').append(tempvar);
+
+		});
+
+		hideAllSections();
+
+		$('#edit-study-page').show();
+		$('#studyElementsNavBar').show();
+
+		//recordings
+	});
+
 }
 
 function updateHomeTable() {
@@ -305,10 +386,33 @@ function updateHomeTable() {
 
 function createEditLink(text, row, column) {
 
+	// temp.click(function(e) {
+	//
+	// 	var study = getStudyByUUID($(this).data('uuid'));
+	//
+	// 	var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
+	//
+	// 	for(var i=0; i < elements.length; i++) {
+	//
+	// 		study[elements[i]].forEach(function(elm) {
+	//
+	// 			$('#edit-study-page .'+elm.type).append(createStudyInfoElement(elm));
+	//
+	// 		});
+	//
+	// 	};
+	//
+	// 	hideAllSections();
+	//
+	// 	$('#edit-study-page').show();
+	//
+	// 	//recordings
+	// });
+
 	return [
-		'<a href="#">',
+		"<a href='#' class='edit-study-link' data-uuid=",
 		text,
-		'</a>'
+		">Edit</a>"
 	].join('');
 
 }

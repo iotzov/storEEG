@@ -160,11 +160,22 @@ $('#sessions-label-continue-btn').click(function (e) {
 
 $('.edit-study-info-btn.add').click(function(e) {
 	e.preventDefault();
-	$('#addNewModal .modal-body').load('./forms/' + $(e.currentTarget).data('infotype') + '.html')
-	$('#addNewModal').modal('show');
 	$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter($(e.currentTarget).data('infotype')));
 	$('#addNewModal').data('currentInfoType', $(e.currentTarget).data('infotype'));
 	$('#addNewModal').data('mode', 'new');
+	$('#addNewModal .modal-body').load('./forms/' + $(e.currentTarget).data('infotype') + '.html', function() {
+		if($('#addNewModal').data('currentInfoType') == 'stimulus') {
+
+			var currentEvents = $(e.currentTarget).closest('.main-content').find('.event').children();
+
+			currentEvents.each(function(ev) {
+				var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
+				$('.modal-body .link-event').append(tmp);
+			});
+		};
+	});
+	$('#addNewModal').modal('show');
+
 });
 
 $('#addNewModalSaveButton').click(function(e) {
@@ -177,10 +188,11 @@ $('#addNewModalSaveButton').click(function(e) {
 		newObject.study = currentStudy.Name;
 		newObject.type = currentType;
 		//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-		createStudyInfoElement(newObject);
+		$('#study-info-' + newObject.type + '>.study-info-element-container').append(createStudyInfoElement(newObject));
 		$('#addNewModal').modal('hide');
 	} else {
 
+			var parent = $($('#addNewModal').data('editing')).parent();
 			$($('#addNewModal').data('editing')).remove();
 			var currentType = $('#addNewModal').data('currentInfoType');
 			var newObject = $('.data-entry').serializeObject();
@@ -188,7 +200,8 @@ $('#addNewModalSaveButton').click(function(e) {
 			newObject.study = currentStudy.Name;
 			newObject.type = currentType;
 			//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-			createStudyInfoElement(newObject);
+			// $('#study-info-' + newObject.type + '>.study-info-element-container').append(createStudyInfoElement(newObject));
+			parent.append(createStudyInfoElement(newObject));
 			$('#addNewModal').modal('hide');
 
 	}
