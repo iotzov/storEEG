@@ -18,6 +18,8 @@ const url = require('url');
 const jsonfile = require('jsonfile');
 jsonfile.spaces = 2;
 const _ = require('lodash');
+const spawn = require('child_process');
+
 
 // global variables
 const studyFolder = path.join(__dirname, '..', 'studies');
