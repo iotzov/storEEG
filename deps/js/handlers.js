@@ -376,3 +376,21 @@ $('#export-by-sub-btn').click(function(e) {
 	initializeSelectDataTable('subject');
 
 });
+
+$('#export-data-btn').click(function(e) {
+
+	var selections = $('#data-select-table').bootstrapTable('getSelections');
+
+	console.log('Exporting data for these selections: ');
+
+	for(var i=0; i < selections.length; i++) {
+
+		console.log(selections[i].type);
+		console.log(selections[i].label);
+
+	};
+
+	console.log('These studies match:');
+	var matching = findMatchingStudies()
+
+});

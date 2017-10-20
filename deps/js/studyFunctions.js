@@ -88,7 +88,7 @@ function createStudyInfoElement(dataObject) {
 
 	var tempvar = $("<div></div>");
 	tempvar.addClass('study-info-object');
-	tempvar.addClass('col-5 m-1 bg-primary text-light')
+	tempvar.addClass('col-2 m-2 bg-primary text-light')
 	tempvar.text(dataObject.label);
 	tempvar.data('studyElement', dataObject);
 
@@ -177,25 +177,21 @@ function getStudyByUUID(uuid) {
 }
 
 
-function containsItem(dataType, item, study){ // returns true if 'study' contains 'item' of type 'dataType', false otherwise
+function containsItem(item, study){ // returns true if 'study' contains 'item' of type 'dataType', false otherwise
 
-	var studyItems = study[dataType];
+	var type = item.type;
 
-	for(var i=0; i < studyItems.length; i++) {
-
-		if(_.isEqualWith(item, studyItems[i], studyComparison)) {
-			return true;
-		}
-
-	};
-
-	return false;
+	return !_.isEmpty(_.filter(study[type], function(obj) {
+		return obj.uuid == item.uuid
+	}));
 
 }
 
-function findMatchingStudies(dataType, item) { // returns list of studies that have element 'item' in them
+function findMatchingStudies(item) { // returns list of studies that have element 'item' in them
 
-
+	return _.filter(studies, function(obj) {
+		return containsItem(item, obj);
+	});
 
 }
 
