@@ -188,7 +188,8 @@ $('#addNewModalSaveButton').click(function(e) {
 		newObject.study = currentStudy.Name;
 		newObject.type = currentType;
 		//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-		$('#study-info-' + newObject.type + '>.study-info-element-container').append(createStudyInfoElement(newObject));
+		// $('#study-info-' + newObject.type + '>.study-info-element-container').append(createStudyInfoElement(newObject));
+		$('.' + newObject.type + '.new-items').append(createStudyInfoElement(newObject));
 		$('#addNewModal').modal('hide');
 	} else {
 
@@ -243,11 +244,11 @@ $('#link-page-back-btn').click(function(e) {
 	$('#new-study-link-recordings').show();
 });
 
-$('.edit-study-info-btn').each(function(e) {
-
-  $(this).data('infotype', $(this).parent().parent().data('infotype'));
-
-});
+// $('.edit-study-info-btn').each(function(e) {
+//
+//   $(this).data('infotype', $(this).parent().parent().data('infotype'));
+//
+// });
 
 $('.navbar-brand').click(function(e) {
   e.preventDefault();
@@ -321,7 +322,7 @@ $('#add-new-study-btn').on('click', (event) => {
 });
 
 // make enter submit the 'add new element' modal form
-$('.modal-body').keypress(function(e) {
+$('#addNewModal .modal-body').keypress(function(e) {
 	if(e.key == 'Enter'){
 		$('#addNewModalSaveButton').click();
 	};
@@ -329,7 +330,7 @@ $('.modal-body').keypress(function(e) {
 
 // autofocus the first input element when modal is shown
 $('#addNewModal').on('shown.bs.modal', function(e) {
-	$('.modal-body input').first().focus();
+	$('#addNewModal .modal-body input').first().focus();
 });
 
 
@@ -392,5 +393,32 @@ $('#export-data-btn').click(function(e) {
 
 	console.log('These studies match:');
 	var matching = findMatchingStudies()
+
+});
+
+$('.edit-study-info-btn.import').click(function(e) {
+
+	createModalTable_import($(e.currentTarget).data('infotype'));
+
+	$('#tableModalSaveButton').one('click', function(e) {
+
+		var selections = $('#import-link-table').bootstrapTable('getSelections');
+		if(_.isEmpty(selections)) {
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+		} else {
+
+			var type = selections[0].type;
+			_.forEach(selections, function(o) {
+				$('.new-items.'+type).append(createStudyInfoElement(o));
+			});
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+
+		};
+
+	});
+
+	$('#tableModal').modal('show');
 
 });

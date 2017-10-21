@@ -3,91 +3,142 @@
   <div id="new-study-add-items" class="no-display col main-content">
 
     <div class="row justify-content-center">
-        <h3>
-          Add or Import Study Elements
-        </h3>
+      <h3>
+        Add or Import Study Elements
+      </h3>
     </div>
 
     <div id="edit-study-info">
 
-      <div class="row justify-content-around mb-2"> <!-- subjects -->
-        <div id="study-info-subject" class="col-5 study-info-container" data-infotype="subject">
-          <div class="row justify-content-center"><h4>Subjects</h4></div>
-          <div class="row study-info-element-container justify-content-around subject"></div>
-          <div class="row justify-content-between study-info-btn-container">
-            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
-            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+      <!-- subjects -->
+      <div class="row">
+        <div class="col">
+
+          <div class="row justify-content-center">
+            <a href="javascript:void(0);" class="font-xl" onclick="$('#study-info-subject').toggle()">Subjects</a>
           </div>
-        </div>
 
-        <div id="study-info-stimulus" class="col-5 study-info-container" data-infotype="stimulus"> <!-- stimuli -->
-          <div class="row justify-content-center"><h4>Stimuli</h4></div>
-          <div class="row study-info-element-container justify-content-around stimulus"></div>
-          <div class="row justify-content-between study-info-btn-container">
-            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
-            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+          <div id="study-info-subject" class="row mb-3 no-display" data-infotype="subject">
+            <div class="col mx-3">
+              <div class="row mt-1 link-recording-wrapper pb-5 new-items subject"></div>
+              <div class="row mt-2 justify-content-between study-info-btn-container">
+                <button data-infotype="subject" class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+                <button data-infotype="subject" class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+              </div>
+            </div>
           </div>
-        </div>
 
-      </div>
-
-      <div class="row justify-content-around mb-2"> <!-- events -->
-
-        <div id="study-info-event" class="col-5 study-info-container" data-infotype="event">
-          <div class="row justify-content-center"><h4>Events</h4></div>
-          <div class="row study-info-element-container justify-content-around event"></div>
-          <div class="row justify-content-between study-info-btn-container">
-            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
-            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
-          </div>
-        </div>
-
-        <div id="study-info-parameters" class="col-5 study-info-container" data-infotype="parameters"> <!-- recording parameters -->
-          <div class="row justify-content-center"><h4>Recording Parameters</h4></div>
-          <div class="row study-info-element-container justify-content-around parameters"></div>
-          <div class="row justify-content-between study-info-btn-container">
-            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
-            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
-          </div>
         </div>
       </div>
 
-      <div class="row justify-content-around mb-2"> <!-- tasks -->
+      <!-- stimuli -->
+      <div class="row">
+        <div class="col">
 
-        <div id="study-info-task" class="col-5 study-info-container" data-infotype="task">
-          <div class="row justify-content-center"><h4>Tasks</h4></div>
-          <div class="row study-info-element-container justify-content-around task"></div>
-          <div class="row justify-content-between study-info-btn-container">
-            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
-            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+          <div class="row justify-content-center">
+            <a href="javascript:void(0);" class="font-xl" onclick="$('#study-info-stimulus').toggle()">Stimuli</a>
           </div>
+
+          <div id="study-info-stimulus" class="row mb-3 no-display" data-infotype="stimulus">
+            <div class="col mx-3">
+              <div class="row mt-1 link-recording-wrapper pb-5 new-items stimulus"></div>
+              <div class="row justify-content-between study-info-btn-container">
+                <button data-infotype="stimulus" class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+                <button data-infotype="stimulus" class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+              </div>
+            </div>
+
+          </div>
+
         </div>
-
-        <!-- placeholder -->
-        <!-- <div id="study-info-placeholder" class="col-5 study-info-container" data-infotype="placeholder">
-          <div class="row justify-content-center"><h4>Placeholder</h4></div>
-          <div class="row study-info-element-container justify-content-around"></div>
-          <div class="row justify-content-between study-info-btn-container">
-            <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
-            <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
-          </div>
-        </div> -->
-
       </div>
 
+      <!-- events -->
+      <div class="row">
+        <div class="col">
+
+          <div class="row justify-content-center">
+            <a href="javascript:void(0);" class="font-xl" onclick="$('#study-info-event').toggle()">Events</a>
+          </div>
+
+          <div id="study-info-event" class="row mb-3 no-display" data-infotype="event">
+            <div class="col mx-3">
+              <div class="row mt-1 link-recording-wrapper pb-5 new-items event"></div>
+              <div class="row justify-content-between study-info-btn-container">
+                <button data-infotype="event" class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+                <button data-infotype="event" class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- recording parameters -->
+      <div class="row">
+        <div class="col">
+
+          <div class="row justify-content-center">
+            <a href="javascript:void(0);" class="font-xl" onclick="$('#study-info-parameters').toggle()">Recording Parameters</a>
+          </div>
+
+          <div id="study-info-parameters" class="row mb-3 no-display" data-infotype="parameters">
+            <div class="col mx-3">
+              <div class="row mt-1 link-recording-wrapper pb-5 new-items parameters"></div>
+              <div class="row justify-content-between study-info-btn-container">
+                <button data-infotype="parameters" class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+                <button data-infotype="parameters" class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- tasks -->
+      <div class="row">
+        <div class="col">
+
+          <div class="row justify-content-center">
+            <a href="javascript:void(0);" class="font-xl" onclick="$('#study-info-task').toggle()">Tasks</a>
+          </div>
+
+          <div id="study-info-task" class="row mb-3 no-display" data-infotype="task">
+            <div class="col mx-3">
+              <div class="row mt-1 link-recording-wrapper pb-5 new-items task"></div>
+              <div class="row justify-content-between study-info-btn-container">
+                <button data-infotype="task" class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+                <button data-infotype="task" class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- placeholder -->
+      <!-- <div id="study-info-placeholder" class="col-5" data-infotype="placeholder">
+      <div class="row justify-content-center"><h4>Placeholder</h4></div>
+      <div class="row link-recording-wrapper pb-5 new-items justify-content-around"></div>
+      <div class="row justify-content-between study-info-btn-container">
+      <button class="btn btn-primary btn-sm edit-study-info-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+      <button class="btn btn-primary btn-sm edit-study-info-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
     </div>
+  </div> -->
 
-    <div class="row justify-content-around" style="margin-top: 1em;">
+</div>
 
-      <div class="col-6">
-        <button class="btn btn-block btn-outline-danger cancel-btn">Quit</button>
-      </div>
-      <div class="col-6">
-        <button class="btn btn-block btn-outline-success" id="add-items-continue-btn">Save</button>
-      </div>
+<div class="row justify-content-around" style="margin-top: 1em;">
 
-    </div>
-
+  <div class="col-6">
+    <button class="btn btn-block btn-outline-danger cancel-btn">Quit</button>
   </div>
+  <div class="col-6">
+    <button class="btn btn-block btn-outline-success" id="add-items-continue-btn">Save</button>
+  </div>
+
+</div>
+
+</div>
 
 </template>

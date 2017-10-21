@@ -88,7 +88,8 @@ function createStudyInfoElement(dataObject) {
 
 	var tempvar = $("<div></div>");
 	tempvar.addClass('study-info-object');
-	tempvar.addClass('col-2 m-2 bg-primary text-light')
+	tempvar.addClass('col-2 m-2 text-light text-truncate');
+	tempvar.addClass(dataObject.type+'-color');
 	tempvar.text(dataObject.label);
 	tempvar.data('studyElement', dataObject);
 
@@ -127,33 +128,14 @@ function createStudyInfoElement(dataObject) {
 				};
 			};
 
-			// if($('#addNewModal').data('currentInfoType') == 'stimulus') {
-			//
-			// 	var currentEvents = $(this).closest('.main-content').find('.event').children();
-			//
-			// 	console.log(currentEvents);
-			// 	console.log(e)
-			//
-			// 	currentEvents.each(function(ev) {
-			//
-			// 		var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
-			// 		// tmp.innerHTML($(this).data('studyElement').label);
-			// 		$('.modal-body .link-event').append(tmp);
-			//
-			// 		console.log($('.modal-body .link-event'));
-			//
-			// 	});
-			//
-			// };
-
 		});
 
 		$('#addNewModal').modal('show');
 
 	});
 
-	tempvar.append(editbtn);
-	tempvar.append(removebtn);
+	tempvar.prepend(editbtn);
+	tempvar.prepend(removebtn);
 
 	return tempvar
 
@@ -186,7 +168,6 @@ function getItemByUUID(uuid) {
 	})[0];
 
 }
-
 
 function containsItem(item, study){ // returns true if 'study' contains 'item' of type 'dataType', false otherwise
 
@@ -483,11 +464,53 @@ function createElementTable() {
 	});
 }
 
-function updateElementTable() {
+function updateElementTable() {}
 
+/*
 
+	End element display table section
+
+*/
+
+/*
+
+	functions for creating/modifying modal table
+
+*/
+
+function createModalTable_import(type) {
+
+	$('#import-link-table').bootstrapTable({
+		columns: [{
+			checkbox: true
+		}, {
+			field: 'label',
+			title: 'Label',
+			sortable: true,
+		}, {
+			field: 'study',
+			title: 'Study',
+			sortable: true,
+		}, {
+			field: 'uuid',
+			title: 'UUID',
+			sortable: false,
+		}],
+		pagination: false,
+		showColumns: false,
+		trimOnSearch: false,
+		clickToSelect: true,
+		height: 400,
+		data: studyElements[type]
+	});
 
 }
+
+/*
+
+	end modal table section
+
+*/
 
 function initializeSelectDataTable(type) {
 

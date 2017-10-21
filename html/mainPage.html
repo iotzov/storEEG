@@ -70,31 +70,45 @@
       <div class="navbar-nav"></div>
     </nav>
     <div id="main-area" class="container-fluid content-area">
-      <!-- Modal -->
+      <!-- add/edit data modal -->
       <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="addNewModalLabel"></h4>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer no-border">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="addNewModalSaveButton">Save</button>
-                </div>
-                <!--<div class="modal-footer">
-
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="editSaveButton">Save changes</button>
-
-                </div>-->
-              </div>
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="addNewModalLabel"></h4>
             </div>
-          </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer no-border">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="addNewModalSaveButton">Save</button>
+            </div>
+        </div>
+      </div>
     </div>
+
+    <!-- import/link items modal -->
+    <div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="tableModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tableModalLabel"></h4>
+          </div>
+          <div class="modal-body" style="border: none;">
+            <table id="import-link-table"></table>
+          </div>
+          <div class="modal-footer no-border mt-4">
+            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#tableModalSaveButton').off('click');">Close</button>
+            <button type="button" class="btn btn-primary" id="tableModalSaveButton">Save</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</div>
     <script src="../deps/js/main.js"></script>
     <script src="../deps/js/studyFunctions.js"></script>
     <script src="../deps/js/handlers.js"></script>

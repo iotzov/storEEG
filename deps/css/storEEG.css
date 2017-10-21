@@ -1,3 +1,23 @@
+.subject-color {
+  background-color: #49D394;
+}
+
+.stimulus-color {
+  background-color: #685BD3;
+}
+
+.event-color {
+  background-color: #FFDA58;
+}
+
+.task-color {
+  background-color: #FF8558;
+}
+
+.parameters-color {
+  background-color: #83BE00;
+}
+
 .font-xl {
   font-size: x-large;
 }
@@ -253,11 +273,13 @@ body, html, .container-fluid {
   margin-bottom: 10px;
 }
 
+/* if this remains commented, delete it
 .study-info-container {
   min-height: 10em;
   border: 1px solid grey;
   border-radius: 4px;
 }
+*/
 
 .edit-study-info-btn {
   width: 40%
@@ -290,6 +312,7 @@ body, html, .container-fluid {
   min-height: 10em;
   border: 1px solid grey;
   border-radius: 4px;
+  padding-left: 10%;
 }
 
 .left-dragger {

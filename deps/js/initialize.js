@@ -4,6 +4,7 @@ createHomeTable();
 
 $('#mainNavBar').hide();
 $('#studyElementsNavBar').hide();
+// $('#tableModal').modal({show: false});
 
 var dragOptions = {
 	accepts: function(el, target, source, sibling) {
