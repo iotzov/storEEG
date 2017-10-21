@@ -2,9 +2,9 @@
 
   <div id="new-study-link-recordings" class="no-display col main-content">
 
-    <div class="row">
+    <div class="row recording-card-container">
 
-      <div class="card-group"></div>
+      <!-- <div class="card-group"></div> -->
 
     </div>
 
@@ -22,63 +22,104 @@
 
   </div>
 
-  <div id="new-study-link-page" class="col no-display main-content">
+  <div id="new-study-link-page" class="no-display col main-content">
 
     <!-- subjects -->
-    <div class="row justify-content-center"><h4>Subjects</h4></div>
-    <div class="row mb-4">
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 left-dragger subject"></div>
-      </div>
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 right-dragger subject"></div>
+    <div class="row">
+      <div class="col">
+        <div class="row justify-content-center">
+          <a href="javascript:void(0);" class="font-xl" onclick="$('.linking-container.subject').toggle()">Subjects</a>
+        </div>
+        <div class="row mb-4">
+          <div class="col mx-3 linking-container no-display subject">
+            <div class="row mt-1 link-recording-wrapper subject"></div>
+            <div class="row mt-2 justify-content-center study-info-btn-container">
+              <div class="col-11">
+                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="subject">Link</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- stimuli -->
-    <div class="row justify-content-center"><h4>Stimuli</h4></div>
-    <div class="row mb-4">
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 left-dragger stimulus"></div>
-      </div>
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 right-dragger stimulus"></div>
+    <div class="row">
+      <div class="col">
+        <div class="row justify-content-center">
+          <a href="javascript:void(0);" class="font-xl" onclick="$('.linking-container.stimulus').toggle()">Stimuli</a>
+        </div>
+        <div class="row mb-4">
+          <div class="col mx-3 linking-container no-display stimulus">
+            <div class="row mt-1 link-recording-wrapper stimulus"></div>
+            <div class="row mt-2 justify-content-center study-info-btn-container">
+              <div class="col-11">
+                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="stimulus">Link</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- tasks -->
-    <div class="row justify-content-center"><h4>Tasks</h4></div>
-    <div class="row mb-4">
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 left-dragger task"></div>
-      </div>
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 right-dragger task"></div>
-      </div>
-    </div>
-
-     <!-- events -->
-    <div class="row justify-content-center"><h4>Events</h4></div>
-    <div class="row mb-4">
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 left-dragger event"></div>
-      </div>
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 right-dragger event"></div>
+    <div class="row">
+      <div class="col">
+        <div class="row justify-content-center">
+          <a href="javascript:void(0);" class="font-xl" onclick="$('.linking-container.task').toggle()">Tasks</a>
+        </div>
+        <div class="row mb-4">
+          <div class="col mx-3 linking-container no-display task">
+            <div class="row mt-1 link-recording-wrapper task"></div>
+            <div class="row mt-2 justify-content-center study-info-btn-container">
+              <div class="col-11">
+                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="task">Link</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-     <!-- recordings params -->
-    <div class="row justify-content-center"><h4>Recording Parameters</h4></div>
-    <div class="row mb-4">
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 left-dragger parameters"></div>
-      </div>
-      <div class="col mx-3 link-recording-wrapper">
-        <div class="row justify-content-around mt-1 right-dragger parameters"></div>
+    <!-- events -->
+    <div class="row">
+      <div class="col">
+        <div class="row justify-content-center">
+          <a href="javascript:void(0);" class="font-xl" onclick="$('.linking-container.event').toggle()">Events</a>
+        </div>
+        <div class="row mb-4">
+          <div class="col mx-3 linking-container no-display event">
+            <div class="row mt-1 link-recording-wrapper event"></div>
+            <div class="row mt-2 justify-content-center study-info-btn-container">
+              <div class="col-11">
+                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="event">Link</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- recordings params -->
+    <div class="row">
+      <div class="col">
+        <div class="row justify-content-center">
+          <a href="javascript:void(0);" class="font-xl" onclick="$('.linking-container.parameters').toggle()">Recording Parameters</a>
+        </div>
+        <div class="row mb-4">
+          <div class="col mx-3 linking-container no-display parameters">
+            <div class="row mt-1 link-recording-wrapper parameters"></div>
+            <div class="row mt-2 justify-content-center study-info-btn-container">
+              <div class="col-11">
+                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="parameters">Link</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- buttons -->
     <div class="row">
       <div class="col-6"><button id="link-page-back-btn" class="btn btn-outline-danger btn-block">Back</button></div>
       <div class="col-6"><button id="link-page-save-btn" class="btn btn-outline-success btn-block">Save</button></div>

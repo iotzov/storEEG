@@ -10,6 +10,10 @@ function exitProgram() {
 	ipcRenderer.send('exit-clicked');
 }
 
+function restartApp(){
+	remote.BrowserWindow.getAllWindows()[0].reload();
+}
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -44,9 +48,7 @@ function importTSVFile(filePath) {
 	return tsvJSON(imports);
 }
 
-// Function for initial study creation
-
-function createNewStudy(studyData) {
+function createNewStudy(studyData) { // Function for initial study creation
 	if(!fs.existsSync(path.join(studyFolder, studyData.Name))) {
 		fs.mkdirSync(path.join(studyFolder, studyData.Name));
 	};
@@ -66,9 +68,7 @@ function createNewStudy(studyData) {
 	jsonfile.writeFileSync(path.join(studyFolder, studyData.Name, 'dataset_description.json'), studyData);
 };
 
-// updates list of recordings on the add recording page
-
-function updateRecordingsList(files) {
+function updateRecordingsList(files) { // updates list of recordings on the add recording page
 	for(var i = 0; i < files.length; i++) {
 		var tempLI = $("<li class='small-text'>" + files[i].name + "     " + "</li>");
 		//var tempButton = $("<button class='btn btn-xs btn-danger recording-list-remove-btn'>Remove</button>");
@@ -81,10 +81,9 @@ function updateRecordingsList(files) {
 	};
 }
 
-// Creates elements for edit study info containers
-// dataObject => study item object w/ all fields for its type in addition to 'type' field
-
 function createStudyInfoElement(dataObject) {
+	// Creates elements for edit study info containers
+	// dataObject => study item object w/ all fields for its type in addition to 'type' field
 
 	var tempvar = $("<div></div>");
 	tempvar.addClass('study-info-object');
@@ -140,6 +139,17 @@ function createStudyInfoElement(dataObject) {
 	return tempvar
 
 };
+
+function createRecordingObject(rec) {
+
+	var tempvar = $("<div></div>");
+	tempvar.addClass('study-info-object');
+	tempvar.addClass('col-2 m-2 text-light text-truncate recordings-color')
+	tempvar.text(rec.file.replace(/^.*[\\\/]/, ''));
+
+	return tempvar
+
+}
 
 /*
 
@@ -200,6 +210,35 @@ function loadStudies() {
 
 }
 
+function loadElements() {
+
+	loadStudies();
+
+	keySet = [
+		'subject',
+		'stimulus',
+		'parameters',
+		'task',
+		'event',
+		'recordings'
+	];
+
+	studyElements = {};
+
+	for(var i=0; i < keySet.length; i++) {
+
+		studyElements[keySet[i]] = [];
+
+		for(var j=0; j < studies.length; j++) {
+
+			studyElements[keySet[i]] = _.concat(studyElements[keySet[i]], studies[j][keySet[i]]);
+
+		}
+
+	}
+
+}
+
 function saveStudies() {
 
 	jsonfile.writeFile('studies.json', studies);
@@ -223,6 +262,43 @@ function studyComparison(one, two, key) {
 	};
 }
 
+function writeStudyToFile(study, callback) {
+	// writes the js object representing the study to 'studyInfo.json' under that study's top folder
+	// each study's top folder is identical to its 'Name' property
+
+	if(!fs.existsSync(path.join(studyFolder, study.Name))) {
+		fs.mkdirSync(path.join(studyFolder, study.Name));
+	};
+
+	jsonfile.writeFile(path.join(studyFolder, study.Name, 'studyInfo.json'), study, callback);
+
+}
+
+function copyRecordings(study, callback) {
+	// copies each file under the 'recordings' of a study to its top folder
+	// original file names are preserved
+
+	console.log(callback);
+
+	_.forEach(study.recordings, function(rec) {
+
+		var dest = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
+
+		console.log(rec);
+
+		fs.copy(rec.file, dest, (err) => {
+			if(err) throw err;
+			console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
+			console.log(dest);
+			rec.file = dest;
+		});
+		console.log(rec);
+
+	});
+
+	callback();
+
+}
 
 /*
 
@@ -329,12 +405,7 @@ function createHomeTable() {
 
 		study.recordings.forEach(function(rec) {
 
-			var tempvar = $("<div></div>");
-			tempvar.addClass('study-info-object');
-			tempvar.addClass('col-5 m-1 bg-primary text-light')
-			tempvar.text(rec.file.replace(/^.*[\\\/]/, ''));
-
-			$('#edit-study-page .recordings').append(tempvar);
+			$('#edit-study-page .recordings').append(createRecordingObject(rec));
 
 		});
 
@@ -506,6 +577,48 @@ function createModalTable_import(type) {
 
 }
 
+function createModalTable_link(type) {
+
+	$('#import-link-table').bootstrapTable({
+		columns: [{
+			checkbox: true
+		}, {
+			field: 'label',
+			title: 'Label',
+			sortable: true,
+		}, {
+			field: 'study',
+			title: 'Study',
+			sortable: true,
+		}, {
+			field: type + 'Description',
+			title: 'Description',
+			sortable: false
+		}, {
+			field: 'uuid',
+			title: 'UUID',
+			sortable: false,
+			visible: false,
+		}],
+		pagination: false,
+		showColumns: true,
+		clickToSelect: true,
+		height: 400,
+		iconsPrefix: 'fa',
+		icons: {
+			paginationSwitchDown: 'fa-collapse-down icon-chevron-down',
+			paginationSwitchUp: 'fa-collapse-up icon-chevron-up',
+			refresh: 'fa-refresh icon-refresh',
+			toggle: 'fa-list-alt icon-list-alt',
+			columns: 'fa-th icon-th',
+			detailOpen: 'fa-plus icon-plus',
+			detailClose: 'fa-minus icon-minus'
+		},
+		data: currentStudy[type]
+	});
+
+}
+
 /*
 
 	end modal table section
@@ -561,33 +674,4 @@ function initializeSelectDataTable(type) {
 
 function hideAllSections() {
 	$("#main-area > div").hide() // Hide all sections
-}
-
-function loadElements() {
-
-	loadStudies();
-
-	keySet = [
-		'subject',
-		'stimulus',
-		'parameters',
-		'task',
-		'event',
-		'recordings'
-	];
-
-	studyElements = {};
-
-	for(var i=0; i < keySet.length; i++) {
-
-		studyElements[keySet[i]] = [];
-
-		for(var j=0; j < studies.length; j++) {
-
-			studyElements[keySet[i]] = _.concat(studyElements[keySet[i]], studies[j][keySet[i]]);
-
-		}
-
-	}
-
 }

@@ -32,7 +32,7 @@ $('.cancel-btn').click(function(e) {
 		type: "question"
 	}, function (response) {
 		if (response==0) {
-			remote.BrowserWindow.getAllWindows()[0].reload()
+			restartApp();
 		};
 	});
 
@@ -115,7 +115,7 @@ $('#add-new-recordings-continue').click(function(e) {
 		tempRecording.file = $(this).data('file');
 
 		currentStudy.recordings.push(tempRecording);
-		var cardTemplate = $("<div class='card bg-light mb-2'></div>");
+		var cardTemplate = $("<div class='card bg-light mb-2 text-center'></div>");
 		var linkbtn = $("<button class='btn btn-outline-primary recording-linker-btn'>Link Items</button>"); // btn to open linking page
 
 		linkbtn.data('recording', $(this).data('file'));
@@ -124,17 +124,16 @@ $('#add-new-recordings-continue').click(function(e) {
 			$('#new-study-link-recordings').hide();
 			$('#new-study-link-page').show()
 			$('#new-study-link-page').data('linking', $(this).data('recording'));
-      $('.left-dragger').empty();
 		});
 
-		var cardtitle = $("<h4 class='card-title text-center'>"+ $(this).data('file').replace(/^.*[\\\/]/, '') +"</h4>");
+		var cardtitle = $("<h4 class='card-title'>"+ $(this).data('file').replace(/^.*[\\\/]/, '') +"</h4>");
 		var cardbody = $("<div class='card-body'></div>");
 		cardbody.append(linkbtn);
 
 		cardTemplate.append(cardtitle);
 		cardTemplate.append(cardbody);
 
-		$('#new-study-link-recordings .card-group').append(cardTemplate);
+		$('.recording-card-container').append(cardTemplate);
 
 	});
 	$('.card').wrap("<div class='col-4'></div>");
@@ -237,6 +236,8 @@ $('#add-items-continue-btn').click(function(e) {
 	$('#new-study-add-items').hide();
 	$('#new-study-link-recordings').show();
 
+	$('.link-recording-wrapper.new-items').empty()
+
 });
 
 $('#link-page-back-btn').click(function(e) {
@@ -270,9 +271,8 @@ $('#link-page-save-btn').click(function(e) {
 		return obj.file == $('#new-study-link-page').data('linking');
 	})[0];
 
-	$('.left-dragger > .study-info-object').each(function(x) {
+	$('#new-study-link-page .study-info-object').each(function(x) {
 		var tmp = $(this).data('studyElement');
-
 		currentRecording[tmp.type].push(tmp.uuid);
 	});
 
@@ -288,7 +288,7 @@ $('#link-page-save-btn').click(function(e) {
 
 	// empty the left draggers and change the page back to #new-study-link-recordings
 
-	$('.left-dragger').empty();
+	$('#new-study-link-page .study-info-object').remove();
 	$('#new-study-link-page').hide();
 	$('#new-study-link-recordings').show();
 
@@ -301,15 +301,18 @@ $('#final-save-btn').click(function(e) {
 
 	addStudy(currentStudy);
 
-	jsonfile.writeFileSync(studyFolder + '/' + currentStudy.Name + '/study.json', currentStudy);
+	// jsonfile.writeFileSync(studyFolder + '/' + currentStudy.Name + '/study.json', currentStudy);
 
-	hideAllSections();
-	$('#mainNavBar').hide();
-	$('#home-section').show();
+	copyRecordings(currentStudy);
+	writeStudyToFile(currentStudy, restartApp);
 
-	$('#home-section').prepend($('<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> Study has successfully been added to the repository.</div>'));
-
-	updateHomeTable();
+	// hideAllSections();
+	// $('#mainNavBar').hide();
+	// $('#home-section').show();
+	//
+	// $('#home-section').prepend($('<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> Study has successfully been added to the repository.</div>'));
+	//
+	// updateHomeTable();
 
 });
 
@@ -417,6 +420,36 @@ $('.edit-study-info-btn.import').click(function(e) {
 
 		};
 
+	});
+
+	$('#tableModal').modal('show');
+
+});
+
+$('.linking-btn').click(function(e) {
+
+	var type = $(e.currentTarget).data('infotype');
+
+	createModalTable_link(type);
+
+	$('#import-link-table').bootstrapTable('uncheckAll');
+
+	$('#tableModalSaveButton').one('click', function(e) {
+
+		var selections = $('#import-link-table').bootstrapTable('getSelections');
+		if(_.isEmpty(selections)) {
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+		} else {
+			_.forEach(selections, function(o) {
+				var tmp = createStudyInfoElement(o);
+				$(tmp).find('.study-element-edit-btn').remove();
+				$(tmp).find('.recording-list-remove-btn').addClass('mr-1')
+				$('#new-study-link-page .link-recording-wrapper.'+type).append(tmp);
+			});
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+		}
 	});
 
 	$('#tableModal').modal('show');
