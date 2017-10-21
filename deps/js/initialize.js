@@ -1,4 +1,5 @@
 loadStudies();
+loadElements();
 createHomeTable();
 
 $('#mainNavBar').hide();

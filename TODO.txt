@@ -8,3 +8,5 @@ revised 10/18/17
 + write python function for exporting
 - 'get from file' btn for recording parameters
 + change studyelement color to non-primary
++ add some screen to show/edit recording links
++ edit recording boxes should be collapsed by default

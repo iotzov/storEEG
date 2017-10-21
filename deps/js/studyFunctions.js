@@ -176,6 +176,17 @@ function getStudyByUUID(uuid) {
 
 }
 
+function getItemByUUID(uuid) {
+
+	loadElements();
+	var tmp = _.flatten(_.values(studyElements));
+
+	return _.filter(tmp, function(obj) {
+		return obj.uuid == uuid;
+	})[0];
+
+}
+
 
 function containsItem(item, study){ // returns true if 'study' contains 'item' of type 'dataType', false otherwise
 
@@ -319,6 +330,7 @@ function createHomeTable() {
 	$('.home-table-wrapper .edit-study-link').click(function(e) {
 
 		$('#edit-study-page .edit-study-element-container').empty();
+		$('#edit-study-page .edit-study-element-container').toggle();
 
 		var study = getStudyByUUID($(this).data('uuid'));
 
@@ -382,29 +394,6 @@ function updateHomeTable() {
 
 function createEditLink(text, row, column) {
 
-	// temp.click(function(e) {
-	//
-	// 	var study = getStudyByUUID($(this).data('uuid'));
-	//
-	// 	var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
-	//
-	// 	for(var i=0; i < elements.length; i++) {
-	//
-	// 		study[elements[i]].forEach(function(elm) {
-	//
-	// 			$('#edit-study-page .'+elm.type).append(createStudyInfoElement(elm));
-	//
-	// 		});
-	//
-	// 	};
-	//
-	// 	hideAllSections();
-	//
-	// 	$('#edit-study-page').show();
-	//
-	// 	//recordings
-	// });
-
 	return [
 		"<a href='#' class='edit-study-link' data-uuid=",
 		text,
@@ -415,7 +404,7 @@ function createEditLink(text, row, column) {
 
 /*
 
-	End table section
+	End home table section
 
 */
 
@@ -438,7 +427,8 @@ function createElementTable() {
 			data.push({
 				name: studyElements[i][j].label,
 				type: studyElements[i][j].type,
-				uuid: studyElements[i][j].uuid
+				uuid: studyElements[i][j].uuid,
+				study: studyElements[i][j].study
 			});
 		}
 
@@ -461,6 +451,11 @@ function createElementTable() {
 			title: 'UUID',
 			sortable: false,
 			visible: false
+		}, {
+			field: 'study',
+			title: 'Original Study',
+			sortable: true,
+			visible: true
 		}],
 		search: true,
 		pagination: true,
