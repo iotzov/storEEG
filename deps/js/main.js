@@ -6,19 +6,20 @@
 */
 
 // requires
-const ipcRenderer = require('electron').ipcRenderer
-const localforage = require('localforage')
-const dragula = require('dragula')
-const uuid = require('uuid/v4')
-const remote = require('electron').remote
-const {BrowserWindow, dialog} = require('electron').remote
-const fs = require('fs-extra')
+const ipcRenderer = require('electron').ipcRenderer;
+const localforage = require('localforage');
+const dragula = require('dragula');
+const uuid = require('uuid/v4');
+const remote = require('electron').remote;
+const {BrowserWindow, dialog} = require('electron').remote;
+const fs = require('fs-extra');
 const path = require('path');
 const url = require('url');
 const jsonfile = require('jsonfile');
 jsonfile.spaces = 2;
 const _ = require('lodash');
-const spawn = require('child_process');
+const cp = require('child_process');
+const pyshell = require('python-shell');
 
 
 // global variables

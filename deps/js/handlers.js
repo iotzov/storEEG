@@ -303,8 +303,8 @@ $('#final-save-btn').click(function(e) {
 
 	// jsonfile.writeFileSync(studyFolder + '/' + currentStudy.Name + '/study.json', currentStudy);
 
-	copyRecordings(currentStudy);
-	writeStudyToFile(currentStudy, restartApp);
+	copyRecordings(currentStudy, writeStudyToFile);
+	// writeStudyToFile(currentStudy, restartApp);
 
 	// hideAllSections();
 	// $('#mainNavBar').hide();

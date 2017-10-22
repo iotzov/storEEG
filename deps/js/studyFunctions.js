@@ -270,7 +270,11 @@ function writeStudyToFile(study, callback) {
 		fs.mkdirSync(path.join(studyFolder, study.Name));
 	};
 
-	jsonfile.writeFile(path.join(studyFolder, study.Name, 'studyInfo.json'), study, callback);
+	if(callback) {
+		jsonfile.writeFile(path.join(studyFolder, study.Name, 'studyInfo.json'), study, callback);
+	} else {
+		jsonfile.writeFile(path.join(studyFolder, study.Name, 'studyInfo.json'), study);
+	};
 
 }
 
@@ -278,25 +282,32 @@ function copyRecordings(study, callback) {
 	// copies each file under the 'recordings' of a study to its top folder
 	// original file names are preserved
 
-	console.log(callback);
+	// _.forEach(study.recordings, function(rec) {
+	//
+	// 	var dest = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
+	//
+		// fs.copy(rec.file, dest, (err) => {
+		// 	if(err) throw err;
+		// 	console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
+		// 	rec.file = dest;
+		// });
+	//
+	// });
 
-	_.forEach(study.recordings, function(rec) {
+	for(var i=0; i<study.recordings.length; i++) {
 
-		var dest = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
+		var dest = path.join(studyFolder, study.Name, study.recordings[i].file.replace(/^.*[\\\/]/, ''));
 
-		console.log(rec);
-
-		fs.copy(rec.file, dest, (err) => {
+		fs.copy(study.recordings[i].file, dest, (err) => {
 			if(err) throw err;
-			console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
-			console.log(dest);
-			rec.file = dest;
+			console.log('Copied ' + study.recordings[i].file.replace(/^.*[\\\/]/, '') + ' successfully.');
 		});
-		console.log(rec);
 
-	});
+		study.recordings[i].file = dest;
 
-	callback();
+	};
+
+	typeof callback === 'function' && callback(study, restartApp);
 
 }
 
