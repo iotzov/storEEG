@@ -331,7 +331,7 @@ function displayRecording(recording) {
 		scriptPath: pythonFolder
 	};
 
-	pyshell.run(path.join(pythonFolder, 'displayRecording.py'), options, function(err, msg) {
+	pyshell.run('displayRecording.py', options, function(err, msg) {
 
 		if(err) throw err;
 		console.log('Success displaying '+recording.file.replace(/^.*[\\\/]/, ''));
