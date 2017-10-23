@@ -326,7 +326,9 @@ function displayRecording(recording) {
 
 	var options = {
 		mode: 'json',
-		args: [recording.uuid]
+		args: [recording.uuid],
+		pythonPath: 'python3',
+		scriptPath: pythonFolder
 	};
 
 	pyshell.run(path.join(pythonFolder, 'displayRecording.py'), options, function(err, msg) {

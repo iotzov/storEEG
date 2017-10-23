@@ -1,3 +1,7 @@
+.recording-view-btn:hover {
+  cursor: pointer;
+}
+
 .subject-color {
   background-color: #49D394;
 }
