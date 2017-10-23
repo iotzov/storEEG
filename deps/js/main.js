@@ -24,6 +24,7 @@ const pyshell = require('python-shell');
 
 // global variables
 const studyFolder = path.join(__dirname, '..', 'studies');
+const pythonFolder = path.join(__dirname, '..', 'deps', 'python')
 var currentStudy = {};
 // var studies = [];
 var studyElements = {};

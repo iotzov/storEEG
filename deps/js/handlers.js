@@ -113,6 +113,7 @@ $('#add-new-recordings-continue').click(function(e) {
 		tempRecording.task = [];
 		tempRecording.parameters = [];
 		tempRecording.file = $(this).data('file');
+		tempRecording.uuid = uuid();
 
 		currentStudy.recordings.push(tempRecording);
 		var cardTemplate = $("<div class='card bg-light mb-2 text-center'></div>");

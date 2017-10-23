@@ -147,6 +147,17 @@ function createRecordingObject(rec) {
 	tempvar.addClass('col-2 m-2 text-light text-truncate recordings-color')
 	tempvar.text(rec.file.replace(/^.*[\\\/]/, ''));
 
+	var viewbtn = $('<a class="mx-1 recording-view-btn"><i class="fa fa-eye" aria-hidden="true"></i></a>');
+	viewbtn.click(function(e) {
+
+		e.preventDefault();
+
+		displayRecording(rec);
+
+	});
+
+	tempvar.append(viewbtn);
+
 	return tempvar
 
 }
@@ -308,6 +319,22 @@ function copyRecordings(study, callback) {
 	};
 
 	typeof callback === 'function' && callback(study, restartApp);
+
+}
+
+function displayRecording(recording) {
+
+	var options = {
+		mode: 'json',
+		args: [recording.uuid]
+	};
+
+	pyshell.run(path.join(pythonFolder, 'displayRecording.py'), options, function(err, msg) {
+
+		if(err) throw err;
+		console.log('Success displaying '+recording.file.replace(/^.*[\\\/]/, ''));
+
+	});
 
 }
 
