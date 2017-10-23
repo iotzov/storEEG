@@ -11,6 +11,7 @@ function exitProgram() {
 }
 
 function restartApp(){
+	console.log('oh jesus christ')
 	remote.BrowserWindow.getAllWindows()[0].reload();
 }
 
@@ -93,8 +94,10 @@ function createStudyInfoElement(dataObject) {
 	tempvar.data('studyElement', dataObject);
 
 	var removebtn = $("<a class='recording-list-remove-btn'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
-	removebtn.click(function() {
+	removebtn.click(function(e) {
+		var container = $(this).closest('.link-recording-wrapper');
 		$(this).parent().remove();
+		container.trigger('elementsChanged');
 	});
 
 	var editbtn   = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
@@ -157,6 +160,8 @@ function createRecordingObject(rec) {
 	});
 
 	tempvar.append(viewbtn);
+
+	tempvar.data('studyElement', rec);
 
 	return tempvar
 
@@ -333,10 +338,21 @@ function displayRecording(recording) {
 
 	pyshell.run('displayRecording.py', options, function(err, msg) {
 
-		if(err) throw err;
+		if(err) console.log(err);
 		console.log('Success displaying '+recording.file.replace(/^.*[\\\/]/, ''));
 
 	});
+
+}
+
+function updateEditStudyPageToggle(event) {
+
+	var toUpdate = $(event.currentTarget);
+
+	var newNumber = $('.edit-study-element-container.' + toUpdate.data('type')).children().length;
+	var newText = toUpdate.data('textstring') + newNumber + ')';
+
+	toUpdate.text(newText);
 
 }
 
@@ -427,7 +443,7 @@ function createHomeTable() {
 	$('.home-table-wrapper .edit-study-link').click(function(e) {
 
 		$('#edit-study-page .edit-study-element-container').empty();
-		$('#edit-study-page .edit-study-element-container').toggle();
+		$('#edit-study-page .edit-study-element-container').hide();
 
 		var study = getStudyByUUID($(this).data('uuid'));
 
@@ -450,6 +466,10 @@ function createHomeTable() {
 		});
 
 		hideAllSections();
+
+		$('.edit-study-page-container-toggle').trigger('updateThis');
+
+		$('#edit-study-page').data('editing', study);
 
 		$('#edit-study-page').show();
 		$('#studyElementsNavBar').show();
@@ -715,3 +735,19 @@ function initializeSelectDataTable(type) {
 function hideAllSections() {
 	$("#main-area > div").hide() // Hide all sections
 }
+
+function channelLocationsFileSelection() {
+
+	// var fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+
+	// console.log(fileLocation);
+
+	// $('.channel-locations-button').data('fileLocation', fileLocation[0]);
+
+	// $('.channel-locations-button').after('    '+fileLocation[0].replace(/^.*[\\\/]/, ''));
+
+	// $('#addNewModal').data('fileLocation', fileLocation[0]);
+
+	console.log('success');
+
+};

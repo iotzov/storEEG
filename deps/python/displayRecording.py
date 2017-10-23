@@ -19,15 +19,16 @@ recording = next((item for item in recordings if item['uuid'] == rec_uuid), None
 data = mne.io.read_raw_edf(recording['file'])
 locs = mne.channels.read_montage('biosemi64')
 
-origNames = data.info['ch_names']
-
-newNames = locs.ch_names
-newNames = newNames[0:64]
-
-data.rename_channels(dict(zip(origNames, newNames)))
-
-data.set_montage(locs)
-data.plot_sensors()
+# origNames = data.info['ch_names']
+#
+# newNames = locs.ch_names
+# newNames = newNames[0:64]
+#
+# data.rename_channels(dict(zip(origNames, newNames)))
+#
+# data.set_montage(locs)
+# data.plot_sensors()
+locs.plot()
 
 scalings = dict(eeg=35e-6)
 color = dict(eeg='midnightblue')

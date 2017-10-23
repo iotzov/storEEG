@@ -187,11 +187,12 @@ $('#addNewModalSaveButton').click(function(e) {
 		newObject.uuid = uuid();
 		newObject.study = currentStudy.Name;
 		newObject.type = currentType;
-		//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-		// $('#study-info-' + newObject.type + '>.study-info-element-container').append(createStudyInfoElement(newObject));
+		if(currentType == 'parameters') {
+			newObject.channelLocations = $('#addNewModal').data('fileLocation');
+		};
 		$('.' + newObject.type + '.new-items').append(createStudyInfoElement(newObject));
 		$('#addNewModal').modal('hide');
-	} else {
+	} else if($('#addNewModal').data('mode') == 'edit') {
 
 			var parent = $($('#addNewModal').data('editing')).parent();
 			$($('#addNewModal').data('editing')).remove();
@@ -200,12 +201,23 @@ $('#addNewModalSaveButton').click(function(e) {
 			newObject.uuid = uuid();
 			newObject.study = currentStudy.Name;
 			newObject.type = currentType;
-			//currentStudy[$('#addNewModal').data('currentInfoType')].push(newObject);
-			// $('#study-info-' + newObject.type + '>.study-info-element-container').append(createStudyInfoElement(newObject));
+			if(currentType == 'parameters') {
+				newObject.channelLocations = $('#addNewModal').data('fileLocation');
+			};
 			parent.append(createStudyInfoElement(newObject));
 			$('#addNewModal').modal('hide');
 
-	}
+	} else if($('#addNewModal').data('mode') == 'new_editStudy') {
+
+		var currentType = $('#addNewModal').data('currentInfoType');
+		var newObject = $('.data-entry').serializeObject();
+		newObject.uuid = uuid();
+		newObject.study = $('#edit-study-page').data('editing').Name;
+		newObject.type = currentType;
+		$('.' + newObject.type + '.edit-study-element-container').append(createStudyInfoElement(newObject));
+		$('#addNewModal').modal('hide');
+
+	};
 
 });
 
@@ -335,6 +347,18 @@ $('#addNewModal .modal-body').keypress(function(e) {
 // autofocus the first input element when modal is shown
 $('#addNewModal').on('shown.bs.modal', function(e) {
 	$('#addNewModal .modal-body input').first().focus();
+	if($('#addNewModal').data('currentInfoType') == 'parameters') {
+		$('.channel-locations-button').click(function(e) {
+
+			e.preventDefault();
+			var fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+
+			console.log(fileLocation);
+
+			$('#addNewModal').data('fileLocation', fileLocation[0]);
+
+		});
+	}
 });
 
 
@@ -456,3 +480,38 @@ $('.linking-btn').click(function(e) {
 	$('#tableModal').modal('show');
 
 });
+
+$('#edit-study-save-btn').click(function(e) {
+
+
+
+});
+
+$('.edit-study-page-container-toggle').on('updateThis', updateEditStudyPageToggle);
+
+$('.edit-study-element-container').on('elementsChanged', function(e) {
+
+	$($(this).data('titledby')).trigger('updateThis');
+
+});
+
+$('.modify-study-btn.add').click(function(e) {
+
+	e.preventDefault();
+	$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter($(e.currentTarget).data('infotype')));
+	$('#addNewModal').data('currentInfoType', $(e.currentTarget).data('infotype'));
+	$('#addNewModal').data('mode', 'new');
+	$('#addNewModal .modal-body').load('./forms/' + $(e.currentTarget).data('infotype') + '.html', function() {
+		if($('#addNewModal').data('currentInfoType') == 'stimulus') {
+
+			var currentEvents = $(e.currentTarget).closest('.main-content').find('.event').children();
+
+			currentEvents.each(function(ev) {
+				var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
+				$('.modal-body .link-event').append(tmp);
+			});
+		};
+	});
+	$('#addNewModal').modal('show');
+
+})
