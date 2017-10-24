@@ -10,7 +10,9 @@ standalone .exe style installer.
 
 1. Pull repo from github: `git clone https://github.com/iotzov/storEEG`
 
-2. install Node.js: `sudo apt-get install nodejs`
+2. install Node.js: `sudo apt-get install nodejs-legacy`
+
+3. install npm: `sudo apt-get install npm`
 
 3. move to app directory: `cd ./storEEG/`
 
@@ -21,5 +23,7 @@ standalone .exe style installer.
 ### optional, but necessary for plotting/exporting functionality
 
 a. install python3: `sudo apt-get install python3`
+
+b. install pip: `sudo apt-get install python3-pip`
 
 b. install python3 dependencies: `pip3 install numpy scipy matplotlib mne`
