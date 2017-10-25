@@ -173,8 +173,8 @@ $('.edit-study-info-btn.add').click(function(e) {
 				$('.modal-body .link-event').append(tmp);
 			});
 		};
+		$('#addNewModal').modal('show');
 	});
-	$('#addNewModal').modal('show');
 
 });
 
@@ -215,6 +215,7 @@ $('#addNewModalSaveButton').click(function(e) {
 		newObject.study = $('#edit-study-page').data('editing').Name;
 		newObject.type = currentType;
 		$('.' + newObject.type + '.edit-study-element-container').append(createStudyInfoElement(newObject));
+		$('.' + newObject.type + '.edit-study-element-container').trigger('elementsChanged');
 		$('#addNewModal').modal('hide');
 
 	};
@@ -235,7 +236,7 @@ $('#add-items-continue-btn').click(function(e) {
 
 	$('[data-linkto="#new-study-add-items"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 
-	$('.study-info-object').each(function(e) {
+	$('#new-study-add-items .study-info-object').each(function(e) {
 		currentStudy[$(this).data('studyElement').type].push($(this).data('studyElement'));
 		var tempVar = $(this).clone();
 		tempVar.data('studyElement', $(this).data('studyElement'));
@@ -314,18 +315,7 @@ $('#final-save-btn').click(function(e) {
 
 	addStudy(currentStudy);
 
-	// jsonfile.writeFileSync(studyFolder + '/' + currentStudy.Name + '/study.json', currentStudy);
-
 	copyRecordings(currentStudy, writeStudyToFile);
-	// writeStudyToFile(currentStudy, restartApp);
-
-	// hideAllSections();
-	// $('#mainNavBar').hide();
-	// $('#home-section').show();
-	//
-	// $('#home-section').prepend($('<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> Study has successfully been added to the repository.</div>'));
-	//
-	// updateHomeTable();
 
 });
 
@@ -483,7 +473,33 @@ $('.linking-btn').click(function(e) {
 
 $('#edit-study-save-btn').click(function(e) {
 
+	var study = $('#edit-study-page').data('editing');
 
+	var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
+
+	_.forEach(elements, function(elm) {
+		study[elm] = [];
+	});
+
+	$('#edit-study-page .study-info-object').each(function(e) {
+		if($(this).data('studyElement').type){
+			study[$(this).data('studyElement').type].push($(this).data('studyElement'));
+		};
+	});
+
+	studies[studies.findIndex(function(s) {
+		return s.uuid == study.uuid
+	})] = study;
+
+	// updateHomeTable();
+
+	saveStudies();
+
+	$('#edit-study-page .edit-study-element-container').empty();
+
+	hideAllSections();
+
+	$('#home-section').show(updateHomeTable);
 
 });
 
@@ -500,18 +516,18 @@ $('.modify-study-btn.add').click(function(e) {
 	e.preventDefault();
 	$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter($(e.currentTarget).data('infotype')));
 	$('#addNewModal').data('currentInfoType', $(e.currentTarget).data('infotype'));
-	$('#addNewModal').data('mode', 'new');
+	$('#addNewModal').data('mode', 'new_editStudy');
 	$('#addNewModal .modal-body').load('./forms/' + $(e.currentTarget).data('infotype') + '.html', function() {
 		if($('#addNewModal').data('currentInfoType') == 'stimulus') {
 
-			var currentEvents = $(e.currentTarget).closest('.main-content').find('.event').children();
+			var currentEvents = $(e.currentTarget).closest('.main-content').find('.edit-study-element-container.event').children();
 
 			currentEvents.each(function(ev) {
 				var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
 				$('.modal-body .link-event').append(tmp);
 			});
 		};
+		$('#addNewModal').modal('show');
 	});
-	$('#addNewModal').modal('show');
 
 })

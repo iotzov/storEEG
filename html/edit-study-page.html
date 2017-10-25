@@ -5,28 +5,40 @@
     <!-- subjects -->
     <div class="row item-row">
       <div class="col">
+
         <div class="row justify-content-center">
-          <a id="subject-edit-study-title" data-textstring="Subjects (N = " data-type="subject" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-element-container.subject').toggle()">Subjects</a>
+          <a id="subject-edit-study-title" data-textstring="Subjects (N = " data-type="subject" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-item-and-button-container.subject').toggle()">Subjects</a>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-4 edit-study-item-and-button-container subject">
           <div class="col mx-3">
-            <div data-titledby="#subject-edit-study-title" class="row mt-1 edit-study-element-container link-recording-wrapper subject"></div>
+            <div data-titledby="#subject-edit-study-title" class="pb-5 row mt-1 edit-study-element-container link-recording-wrapper subject"></div>
+            <div class="row mt-2 justify-content-between study-info-btn-container">
+              <button data-infotype="subject" class="btn btn-primary btn-sm modify-study-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+              <button data-infotype="subject" class="btn btn-primary btn-sm modify-study-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
     <!-- stimuli -->
     <div class="row item-row">
       <div class="col">
+
         <div class="row justify-content-center">
-          <a id="stimulus-edit-study-title" data-textstring="Stimuli (N = " data-type="stimulus" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-element-container.stimulus').toggle()">Stimuli</a>
+          <a id="stimulus-edit-study-title" data-textstring="Stimuli (N = " data-type="stimulus" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-item-and-button-container.stimulus').toggle()">Stimuli</a>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-4 edit-study-item-and-button-container stimulus">
           <div class="col mx-3">
-            <div data-titledby="#stimulus-edit-study-title" class="row mt-1 edit-study-element-container link-recording-wrapper stimulus"></div>
+            <div data-titledby="#stimulus-edit-study-title" class="pb-5 row mt-1 edit-study-element-container link-recording-wrapper stimulus"></div>
+            <div class="row justify-content-between study-info-btn-container">
+              <button data-infotype="stimulus" class="btn btn-primary btn-sm modify-study-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+              <button data-infotype="stimulus" class="btn btn-primary btn-sm modify-study-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+            </div>
           </div>
         </div>
+
       </div>
 
     </div>
@@ -34,59 +46,80 @@
     <!-- tasks -->
     <div class="row item-row">
       <div class="col">
+
         <div class="row justify-content-center">
-          <a id="task-edit-study-title" data-textstring="Tasks (N = " data-type="task" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-element-container.task').toggle()">Tasks</a>
+          <a id="task-edit-study-title" data-textstring="Tasks (N = " data-type="task" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-item-and-button-container.task').toggle()">Tasks</a>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-4 edit-study-item-and-button-container task">
           <div class="col mx-3">
-            <div data-titledby="#task-edit-study-title" class="row mt-1 edit-study-element-container link-recording-wrapper task"></div>
+            <div data-titledby="#task-edit-study-title" class="pb-5 row mt-1 edit-study-element-container link-recording-wrapper task"></div>
+            <div class="row justify-content-between study-info-btn-container">
+              <button data-infotype="task" class="btn btn-primary btn-sm modify-study-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+              <button data-infotype="task" class="btn btn-primary btn-sm modify-study-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
     <!-- events -->
     <div class="row item-row">
       <div class="col">
+
         <div class="row justify-content-center">
-          <a id="event-edit-study-title" data-textstring="Events (N = " data-type="event" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-element-container.event').toggle()">Events</a>
+          <a id="event-edit-study-title" data-textstring="Events (N = " data-type="event" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-item-and-button-container.event').toggle()">Events</a>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-4 edit-study-item-and-button-container event">
           <div class="col mx-3">
-            <div data-titledby="#event-edit-study-title" class="row mt-1 edit-study-element-container link-recording-wrapper event"></div>
+            <div data-titledby="#event-edit-study-title" class="pb-5 row mt-1 edit-study-element-container link-recording-wrapper event"></div>
+            <div class="row justify-content-between study-info-btn-container">
+              <button data-infotype="event" class="btn btn-primary btn-sm modify-study-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+              <button data-infotype="event" class="btn btn-primary btn-sm modify-study-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+            </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
 
     <!-- recordings params -->
     <div class="row item-row">
       <div class="col">
         <div class="row justify-content-center">
-          <a id="parameters-edit-study-title" data-textstring="Recording Parameters (N = " data-type="parameters" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-element-container.parameters').toggle()">Recording Parameters</a>
+          <a id="parameters-edit-study-title" data-textstring="Recording Parameters (N = " data-type="parameters" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-item-and-button-container.parameters').toggle()">Recording Parameters</a>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-4 edit-study-item-and-button-container parameters">
           <div class="col mx-3">
-            <div data-titledby="#parameters-edit-study-title" class="row mt-1 edit-study-element-container link-recording-wrapper parameters"></div>
+            <div data-titledby="#parameters-edit-study-title" class="pb-5 row mt-1 edit-study-element-container link-recording-wrapper parameters"></div>
+            <div class="row justify-content-between study-info-btn-container">
+              <button data-infotype="parameters" class="btn btn-primary btn-sm modify-study-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+              <button data-infotype="parameters" class="btn btn-primary btn-sm modify-study-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
     <!-- recordings -->
     <div class="row item-row">
       <div class="col">
+
         <div class="row justify-content-center">
-          <a id="recordings-edit-study-title" data-textstring="Recordings (N = " data-type="recordings" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-element-container.recordings').toggle()">Recordings</a>
+          <a id="recordings-edit-study-title" data-textstring="Recordings (N = " data-type="recordings" href="javascript:void(0);" class="font-xl edit-study-page-container-toggle" onclick="$('.edit-study-item-and-button-container.recordings').toggle()">Recordings</a>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-4 edit-study-item-and-button-container recordings">
           <div class="col mx-3">
-            <div data-titledby="#recordings-edit-study-title" class="row mt-1 edit-study-element-container link-recording-wrapper recordings"></div>
+            <div data-titledby="#recordings-edit-study-title" class="pb-5 row mt-1 edit-study-element-container link-recording-wrapper recordings"></div>
+            <!-- <div class="row justify-content-between study-info-btn-container no-display">
+              <button data-infotype="task" class="btn btn-primary btn-sm modify-study-btn add">Add <span class="fa fa-plus" aria-hidden="true"></span></button>
+              <button data-infotype="task" class="btn btn-primary btn-sm modify-study-btn import">Import <span class="fa fa-upload" aria-hidden="true"></span></button>
+            </div> -->
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
 
     <!-- buttons -->

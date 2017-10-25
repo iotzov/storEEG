@@ -436,14 +436,14 @@ function createHomeTable() {
 	});
 
 	$('.home-table-wrapper [title="Refresh"]').on('click', (event) => {
-		event.preventDefault()
-		updateHomeTable()
+		event.preventDefault();
+		updateHomeTable();
 	});
 
 	$('.home-table-wrapper .edit-study-link').click(function(e) {
 
 		$('#edit-study-page .edit-study-element-container').empty();
-		$('#edit-study-page .edit-study-element-container').hide();
+		$('#edit-study-page .edit-study-item-and-button-container').hide();
 
 		var study = getStudyByUUID($(this).data('uuid'));
 
@@ -453,7 +453,7 @@ function createHomeTable() {
 
 			study[elements[i]].forEach(function(elm) {
 
-				$('#edit-study-page .'+elm.type).append(createStudyInfoElement(elm));
+				$('#edit-study-page .'+elm.type+'.edit-study-element-container').append(createStudyInfoElement(elm));
 
 			});
 
@@ -461,7 +461,7 @@ function createHomeTable() {
 
 		study.recordings.forEach(function(rec) {
 
-			$('#edit-study-page .recordings').append(createRecordingObject(rec));
+			$('#edit-study-page .recordings.edit-study-element-container').append(createRecordingObject(rec));
 
 		});
 
@@ -491,16 +491,54 @@ function updateHomeTable() {
 			name: studies[i].Name,
 			description: studies[i].studyDescription,
 			numSubjects: studies[i].subject.length,
-			numStimuli: studies[i].stimulus.length
+			numStimuli: studies[i].stimulus.length,
+			uuid: studies[i].uuid
 		});
 
 	};
 
 	if(~_.isEmpty(data)) {
-		$('#home-table').bootstrapTable('load', data)
+		$('#home-table').bootstrapTable('load', data);
 	} else {
 		$('#home-table').bootstrapTable('removeAll')
 	};
+
+	$('.home-table-wrapper .edit-study-link').click(function(e) {
+
+		$('#edit-study-page .edit-study-element-container').empty();
+		$('#edit-study-page .edit-study-item-and-button-container').hide();
+
+		var study = getStudyByUUID($(this).data('uuid'));
+
+		var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
+
+		for(var i=0; i < elements.length; i++) {
+
+			study[elements[i]].forEach(function(elm) {
+
+				$('#edit-study-page .'+elm.type+'.edit-study-element-container').append(createStudyInfoElement(elm));
+
+			});
+
+		};
+
+		study.recordings.forEach(function(rec) {
+
+			$('#edit-study-page .recordings.edit-study-element-container').append(createRecordingObject(rec));
+
+		});
+
+		hideAllSections();
+
+		$('.edit-study-page-container-toggle').trigger('updateThis');
+
+		$('#edit-study-page').data('editing', study);
+
+		$('#edit-study-page').show();
+		$('#studyElementsNavBar').show();
+
+		//recordings
+	});
 
 }
 
@@ -733,7 +771,9 @@ function initializeSelectDataTable(type) {
 }
 
 function hideAllSections() {
-	$("#main-area > div").hide() // Hide all sections
+	$('.main-content').hide();
+	$('#studyElementsNavBar').hide();
+	$('#mainNavBar').hide();
 }
 
 function channelLocationsFileSelection() {

@@ -293,6 +293,10 @@ body, html, .container-fluid {
   width: 40%
 }
 
+.modify-study-btn {
+  width: 40%;
+}
+
 .study-info-element-container {
   margin-bottom: 35px;
 }
