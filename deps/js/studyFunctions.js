@@ -299,15 +299,15 @@ function copyRecordings(study, callback) {
 	// original file names are preserved
 
 	// _.forEach(study.recordings, function(rec) {
-	//
+  //
 	// 	var dest = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
-	//
-		// fs.copy(rec.file, dest, (err) => {
-		// 	if(err) throw err;
-		// 	console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
-		// 	rec.file = dest;
-		// });
-	//
+  //
+	// 	fs.copy(rec.file, dest, (err) => {
+	// 		if(err) throw err;
+	// 		console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
+	// 		rec.file = dest;
+	// 	});
+  //
 	// });
 
 	for(var i=0; i<study.recordings.length; i++) {
