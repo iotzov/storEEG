@@ -181,6 +181,7 @@ $('.edit-study-info-btn.add').click(function(e) {
 $('#addNewModalSaveButton').click(function(e) {
 
 	e.preventDefault();
+	$('.stim-location-input').prop('disabled', false);
 	if($('#addNewModal').data('mode') == 'new') {
 		var currentType = $('#addNewModal').data('currentInfoType');
 		var newObject = $('.data-entry').serializeObject();

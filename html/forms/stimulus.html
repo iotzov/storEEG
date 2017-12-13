@@ -30,9 +30,41 @@
     </div>
   </div>
   <div class="row">
-  <div class="form-group col">
-    <label class="control-label">Stimulus Description</label>
-    <textarea class="form-control" name="stimulusDescription" placeholder="Text goes here"></textarea>
+    <div class="form-group col">
+      <label class="control-label">Stimulus Description</label>
+      <textarea class="form-control" name="stimulusDescription" placeholder="Text goes here"></textarea>
+    </div>
   </div>
-</div>
+  <div class="row justify-content-around">
+    <div class="form-group ">
+      <button class="btn btn-primary stim-attach-btn">Attach Stim</button>
+    </div>
+    <div class="form-group ">
+      <button class="btn btn-danger stim-remove-btn">Remove Stim</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col">
+      <input class="form-control stim-location-input" name="stimulusLocation" disabled>
+    </div>
+  </div>
 </form>
+
+<script>
+  $('.stim-attach-btn').click(function(e) {
+
+    e.preventDefault();
+    var fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+    if(!_.isEmpty(fileLocation)){
+      $('.stim-location-input').val(fileLocation);
+    };
+
+  });
+
+  $('.stim-remove-btn').click(function(e) {
+
+    e.preventDefault();
+    $('.stim-location-input').val('');
+
+  });
+</script>
