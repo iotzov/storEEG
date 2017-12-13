@@ -10,3 +10,5 @@ revised 10/18/17
 + change studyelement color to non-primary
 + add some screen to show/edit recording links
 + edit recording boxes should be collapsed by default
++ hitting enter on form to add new elements in new study restarts the program
+  only seems to work for stimuli and task elements

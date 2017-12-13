@@ -193,22 +193,24 @@ $('#addNewModalSaveButton').click(function(e) {
 		};
 		$('.' + newObject.type + '.new-items').append(createStudyInfoElement(newObject));
 		$('#addNewModal').modal('hide');
-	} else if($('#addNewModal').data('mode') == 'edit') {
+	}
+	else if($('#addNewModal').data('mode') == 'edit') {
 
-			var parent = $($('#addNewModal').data('editing')).parent();
-			$($('#addNewModal').data('editing')).remove();
-			var currentType = $('#addNewModal').data('currentInfoType');
-			var newObject = $('.data-entry').serializeObject();
-			newObject.uuid = uuid();
-			newObject.study = currentStudy.Name;
-			newObject.type = currentType;
-			if(currentType == 'parameters') {
-				newObject.channelLocations = $('#addNewModal').data('fileLocation');
-			};
-			parent.append(createStudyInfoElement(newObject));
-			$('#addNewModal').modal('hide');
+		var parent = $($('#addNewModal').data('editing')).parent();
+		$($('#addNewModal').data('editing')).remove();
+		var currentType = $('#addNewModal').data('currentInfoType');
+		var newObject = $('.data-entry').serializeObject();
+		newObject.uuid = uuid();
+		newObject.study = currentStudy.Name;
+		newObject.type = currentType;
+		if(currentType == 'parameters') {
+			newObject.channelLocations = $('#addNewModal').data('fileLocation');
+		};
+		parent.append(createStudyInfoElement(newObject));
+		$('#addNewModal').modal('hide');
 
-	} else if($('#addNewModal').data('mode') == 'new_editStudy') {
+	}
+	else if($('#addNewModal').data('mode') == 'new_editStudy') {
 
 		var currentType = $('#addNewModal').data('currentInfoType');
 		var newObject = $('.data-entry').serializeObject();
@@ -274,7 +276,7 @@ $('.navbar-brand').click(function(e) {
   $('#home-section').show();
 });
 
-$('#link-page-save-btn').click(function(e) {
+$('#new-study-link-page-save-btn').click(function(e) {
 
 	// insert uuids of linked elements into recording object
 
@@ -331,6 +333,7 @@ $('#add-new-study-btn').on('click', (event) => {
 // make enter submit the 'add new element' modal form
 $('#addNewModal .modal-body').keypress(function(e) {
 	if(e.key == 'Enter'){
+		e.preventDefault();
 		$('#addNewModalSaveButton').click();
 	};
 });
@@ -532,3 +535,12 @@ $('.modify-study-btn.add').click(function(e) {
 	});
 
 })
+
+
+$('#edit-study-back-btn').click(function(e) {
+	// Back button on the page for editing an already added study
+	// Shows the home page and resets the edit study page
+
+	$('#studyElementsNavBar .navbar-brand').click();
+
+});
