@@ -12,4 +12,4 @@ def displayRaw(self):
     D, T = self._data.shape
 
     # plt.imshow(self._data[0:63,:], cmap=plt.cm.jet, extent=(0,T,0,D), origin='upper', aspect='auto')
-    plt.imshow(self._data, cmap=plt.cm.jet, extent=(0,T,0,D), origin='upper', aspect='auto')
+    plt.imshow(self._data, cmap=plt.cm.jet, extent=(0,T,0,D), origin='lower', aspect='auto')

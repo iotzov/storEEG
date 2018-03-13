@@ -1,0 +1,9 @@
+EXG7
+EXG8
+GSR1
+GSR2
+Erg1
+Erg2
+Resp
+Plet
+Temp
