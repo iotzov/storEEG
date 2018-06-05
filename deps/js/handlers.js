@@ -449,6 +449,9 @@ $('.linking-btn').click(function(e) {
 
 	var type = $(e.currentTarget).data('infotype');
 
+	$('#import-link-table').bootstrapTable('destroy');
+	$('#tableModal').modal('hide');
+
 	createModalTable_link(type);
 
 	$('#import-link-table').bootstrapTable('uncheckAll');
