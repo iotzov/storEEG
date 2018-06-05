@@ -20,6 +20,12 @@ jsonfile.spaces = 2;
 const _ = require('lodash');
 const cp = require('child_process');
 const pyshell = require('python-shell');
+const Mousetrap = require('mousetrap')
+
+// bind konami code for opening dev DevTools
+Mousetrap.bind('up up down down left right left right b a enter', function() {
+  remote.BrowserWindow.getFocusedWindow().webContents.openDevTools()
+});
 
 
 // global variables

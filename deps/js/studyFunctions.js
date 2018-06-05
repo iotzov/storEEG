@@ -159,7 +159,7 @@ function createRecordingObject(rec) {
 
 	});
 
-	tempvar.append(viewbtn);
+	tempvar.prepend(viewbtn);
 
 	tempvar.data('studyElement', rec);
 
