@@ -147,19 +147,26 @@ function createRecordingObject(rec) {
 
 	var tempvar = $("<div></div>");
 	tempvar.addClass('study-info-object');
-	tempvar.addClass('col-2 m-2 text-light text-truncate recordings-color')
+	tempvar.addClass('col-2 m-2 text-light text-truncate recordings-color');
+	// tempvar.attr('data-toggle', 'popover');
+	// tempvar.attr('data-content', "<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+	// tempvar.attr('title', 'title');
+	tempvar.popover({
+		html: true,
+		content: function(item) {
+			var buttons = $();
+			buttons = buttons.add($("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>").click(function(e) {
+				console.log('make this open the linking page')
+				console.log(rec)
+			}));
+			buttons = buttons.add($("<i class='fa fa-eye' aria-hidden='true'></i>").click(function(e) {
+				e.preventDefault();
+				displayRecording(rec);
+			}));
+			return(buttons)
+		}
+	})
 	tempvar.text(rec.file.replace(/^.*[\\\/]/, ''));
-
-	var viewbtn = $('<a class="mx-1 recording-view-btn"><i class="fa fa-eye" aria-hidden="true"></i></a>');
-	viewbtn.click(function(e) {
-
-		e.preventDefault();
-
-		displayRecording(rec);
-
-	});
-
-	tempvar.prepend(viewbtn);
 
 	tempvar.data('studyElement', rec);
 

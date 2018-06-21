@@ -114,6 +114,7 @@ $('#add-new-recordings-continue').click(function(e) {
 		tempRecording.parameters = [];
 		tempRecording.file = $(this).data('file');
 		tempRecording.uuid = uuid();
+		tempRecording.study = currentStudy.uuid;
 
 		currentStudy.recordings.push(tempRecording);
 		var cardTemplate = $("<div class='card bg-light mb-2 text-center'></div>");
@@ -257,7 +258,7 @@ $('#add-items-continue-btn').click(function(e) {
 
 });
 
-$('#link-page-back-btn').click(function(e) {
+$('#new-study-link-page-back-btn').click(function(e) {
 	$('#new-study-link-page').hide();
 	$('#new-study-link-recordings').show();
 });
