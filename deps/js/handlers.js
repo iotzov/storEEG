@@ -1,5 +1,4 @@
 // Handler to add more author names
-
 $('#dataset-description-add-authors-btn').click(function(e) {
 
 	e.preventDefault()
@@ -8,7 +7,6 @@ $('#dataset-description-add-authors-btn').click(function(e) {
 });
 
 // Handler for initial dataset description continue button
-
 $('#dataset-description-create-study-btn').click(function(e) {
 	e.preventDefault();
 	var studyData = $('#new-study-initial-page-form').serializeObject();
@@ -21,7 +19,6 @@ $('#dataset-description-create-study-btn').click(function(e) {
 });
 
 // Handler for all cancel buttons
-
 $('.cancel-btn').click(function(e) {
 
 	e.preventDefault()
@@ -39,7 +36,6 @@ $('.cancel-btn').click(function(e) {
 });
 
 // Handler for multi-session studies
-
 $('#multiple-sessions-continue-btn').click(function(e) {
 	currentStudy.numberOfSessions = $('#numberOfSessions').val();
 	$('#new-study-label-sessions').empty();
@@ -61,7 +57,6 @@ $('#multiple-sessions-continue-btn').click(function(e) {
 });
 
 // Handler for click on initial add recordings button
-
 $(".btn-recording-drag").on('click', (event) => {
 
 	var fileLocation = dialog.showOpenDialog({properties: ['openFile', 'multiSelections']});
@@ -78,21 +73,18 @@ $(".btn-recording-drag").on('click', (event) => {
 })
 
 // handles recolor on drag n dropping files
-
 $(".btn-recording-drag-wrapper").on('dragover', (event) => {
 	$(".btn-recording-drag").addClass('btn-success');
 	$(".btn-recording-drag").removeClass('btn-primary');
 })
 
 // handles recolor on drag n dropping files
-
 $(".btn-recording-drag-wrapper").on('dragleave', (event) => {
 	$(".btn-recording-drag").removeClass('btn-success');
 	$(".btn-recording-drag").addClass('btn-primary');
 })
 
 // handles dropping files onto recording button
-
 $(".btn-recording-drag-wrapper").on('drop', (event) => {
 	event.preventDefault();
 	var files = event.originalEvent.dataTransfer.files;
@@ -126,6 +118,7 @@ $('#add-new-recordings-continue').click(function(e) {
 			$('#new-study-link-recordings').hide();
 			$('#new-study-link-page').show()
 			$('#new-study-link-page').data('linking', $(this).data('recording'));
+			$('#new-study-link-page').data('currentStudy', currentStudy);
 		});
 
 		var cardtitle = $("<h4 class='card-title'>"+ $(this).data('file').replace(/^.*[\\\/]/, '') +"</h4>");
@@ -141,11 +134,19 @@ $('#add-new-recordings-continue').click(function(e) {
 	$('.card').wrap("<div class='col-4'></div>");
 	$('.navbar-nav > button').removeClass('active');
 	$('.navbar-nav > [data-linkTo="#new-study-add-items"]').addClass('active');
+	$('.navbar-nav > [data-linkTo="#new-study-recordings"] .fa').remove();
 	$('.navbar-nav > [data-linkTo="#new-study-recordings"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 });
 
-// Handler for labeling sessions
+// Handler for editing links of recordings in existing studies
+$('#link-page-back-btn').click(function(e) {
 
+	$('#edit-study-link-page').hide();
+	$('#edit-study-page').show();
+
+});
+
+// Handler for labeling sessions
 $('#sessions-label-continue-btn').click(function (e) {
 	e.preventDefault();
 
@@ -158,7 +159,6 @@ $('#sessions-label-continue-btn').click(function (e) {
 })
 
 // Edit recordings
-
 $('.edit-study-info-btn.add').click(function(e) {
 	e.preventDefault();
 	$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter($(e.currentTarget).data('infotype')));
@@ -238,6 +238,7 @@ $('#add-items-continue-btn').click(function(e) {
 	// Add each recording to #new-study-link-recordings page as a card
 	// attach link to each card to connect study elements to the recording
 
+	$('[data-linkto="#new-study-add-items"] .fa').remove();
 	$('[data-linkto="#new-study-add-items"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 
 	$('#new-study-add-items .study-info-object').each(function(e) {
@@ -324,7 +325,6 @@ $('#final-save-btn').click(function(e) {
 });
 
 // handler for home page 'new study' button
-
 $('#add-new-study-btn').on('click', (event) => {
 	hideAllSections();
 	$('#new-study-initial-page').show()
@@ -356,7 +356,6 @@ $('#addNewModal').on('shown.bs.modal', function(e) {
 	}
 });
 
-
 // hide main section and show study element table
 $('#view-study-elements-btn').click(function(e) {
 
@@ -367,7 +366,6 @@ $('#view-study-elements-btn').click(function(e) {
 	$('#studyElementsNavBar').show();
 
 });
-
 
 $('#export-study-data-btn').click(function(e) {
 
@@ -453,7 +451,7 @@ $('.linking-btn').click(function(e) {
 	$('#import-link-table').bootstrapTable('destroy');
 	$('#tableModal').modal('hide');
 
-	createModalTable_link(type);
+	createModalTable_link(type, $(e.currentTarget).closest('.main-content').data('currentStudy'));
 
 	$('#import-link-table').bootstrapTable('uncheckAll');
 
@@ -493,6 +491,14 @@ $('#edit-study-save-btn').click(function(e) {
 		if($(this).data('studyElement').type){
 			study[$(this).data('studyElement').type].push($(this).data('studyElement'));
 		};
+	});
+
+	study.recordings = [];
+
+	_.forEach($('#edit-study-page .recordings-color'), function(elm) {
+
+		study.recordings.push(elm)
+
 	});
 
 	studies[studies.findIndex(function(s) {
@@ -539,7 +545,6 @@ $('.modify-study-btn.add').click(function(e) {
 	});
 
 })
-
 
 $('#edit-study-back-btn').click(function(e) {
 	// Back button on the page for editing an already added study

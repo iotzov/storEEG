@@ -155,17 +155,19 @@ function createRecordingObject(rec) {
 		html: true,
 		content: function(item) {
 			var buttons = $();
-			buttons = buttons.add($("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>").click(function(e) {
-				console.log('make this open the linking page')
-				console.log(rec)
+			buttons = buttons.add($("<i class='fa fa-link mx-1' aria-hidden='true'></i>").click(function(e) {
+				$('#edit-study-page').hide();
+				$('#edit-study-link-page').show();
+				$('#edit-study-link-page').data('currentStudy', $('#edit-study-page').data('editing'));
+				$(e.currentTarget).closest('.popover').hide();
 			}));
-			buttons = buttons.add($("<i class='fa fa-eye' aria-hidden='true'></i>").click(function(e) {
+			buttons = buttons.add($("<i class='fa fa-eye mx-1' aria-hidden='true'></i>").click(function(e) {
 				e.preventDefault();
 				displayRecording(rec);
 			}));
 			return(buttons)
 		}
-	})
+	});
 	tempvar.text(rec.file.replace(/^.*[\\\/]/, ''));
 
 	tempvar.data('studyElement', rec);
@@ -390,7 +392,8 @@ function createHomeTable() {
 			description: studies[i].studyDescription,
 			numSubjects: studies[i].subject.length,
 			numStimuli: studies[i].stimulus.length,
-			uuid: studies[i].uuid
+			uuid: studies[i].uuid,
+			numRecordings: studies[i].recordings.length
 		});
 
 	};
@@ -401,6 +404,10 @@ function createHomeTable() {
 			title: 'Study',
 			sortable: true,
 			// formatter: createEditLink
+		}, {
+			field: 'numRecordings',
+			title: 'Number of Recordings',
+			sortable: true
 		}, {
 			field: 'numSubjects',
 			title: 'Number of Subjects',
@@ -499,7 +506,8 @@ function updateHomeTable() {
 			description: studies[i].studyDescription,
 			numSubjects: studies[i].subject.length,
 			numStimuli: studies[i].stimulus.length,
-			uuid: studies[i].uuid
+			uuid: studies[i].uuid,
+			numRecordings: studies[i].recordings.length
 		});
 
 	};
@@ -682,7 +690,7 @@ function createModalTable_import(type) {
 
 }
 
-function createModalTable_link(type) {
+function createModalTable_link(type, study) {
 
 	$('#import-link-table').bootstrapTable({
 		columns: [{
@@ -719,7 +727,7 @@ function createModalTable_link(type) {
 			detailOpen: 'fa-plus icon-plus',
 			detailClose: 'fa-minus icon-minus'
 		},
-		data: currentStudy[type]
+		data: study[type]
 	});
 
 }
