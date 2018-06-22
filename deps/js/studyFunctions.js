@@ -148,6 +148,7 @@ function createRecordingObject(rec) {
 	var tempvar = $("<div></div>");
 	tempvar.addClass('study-info-object');
 	tempvar.addClass('col-2 m-2 text-light text-truncate recordings-color');
+	tempvar.attr('id', rec.uuid);
 	// tempvar.attr('data-toggle', 'popover');
 	// tempvar.attr('data-content', "<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
 	// tempvar.attr('title', 'title');
@@ -165,6 +166,12 @@ function createRecordingObject(rec) {
 				e.preventDefault();
 				displayRecording(rec);
 			}));
+			var tmp = $("<i class='fa fa-trash mx-1' aria-hidden='true'></i>").data('target', rec.uuid);
+			tmp.click(function(e) {
+				$('#'+$(this).data('target')).remove();
+				$(e.currentTarget).closest('.popover').hide();
+			});
+			buttons = buttons.add(tmp);
 			return(buttons)
 		}
 	});
@@ -267,6 +274,15 @@ function loadElements() {
 function saveStudies() {
 
 	jsonfile.writeFile('studies.json', studies);
+
+}
+
+function saveThese(toSave) {
+
+	jsonfile.writeFile('studies.json', toSave, function(err) {
+		console.log(err)
+	});
+	console.log(toSave)
 
 }
 
