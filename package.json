@@ -1,6 +1,6 @@
 {
   "name": "storEEG",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "A repository application for storing/managing/sharing EEG datasets",
   "main": "main.js",
   "scripts": {
