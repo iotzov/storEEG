@@ -143,6 +143,8 @@ $('#add-new-recordings-continue').click(function(e) {
 $('#link-page-back-btn').click(function(e) {
 
 	$('#edit-study-link-page').hide();
+	$('#edit-study-link-page .linking-container').hide();
+	$('#edit-study-link-page .link-recording-wrapper').empty();
 	$('#edit-study-page').show();
 
 });
@@ -477,6 +479,39 @@ $('.linking-btn').click(function(e) {
 
 });
 
+$('.edit-linking-btn').click(function(e) {
+
+	var type = $(e.currentTarget).data('infotype');
+
+	$('#import-link-table').bootstrapTable('destroy');
+	$('#tableModal').modal('hide');
+
+	createModalTable_link(type, $(e.currentTarget).closest('.main-content').data('currentStudy'));
+
+	$('#import-link-table').bootstrapTable('uncheckAll');
+
+	$('#tableModalSaveButton').one('click', function(e) {
+
+		var selections = $('#import-link-table').bootstrapTable('getSelections');
+		if(_.isEmpty(selections)) {
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+		} else {
+			_.forEach(selections, function(o) {
+				var tmp = createStudyInfoElement(o);
+				$(tmp).find('.study-element-edit-btn').remove();
+				$(tmp).find('.recording-list-remove-btn').addClass('mr-1')
+				$('#edit-study-link-page .link-recording-wrapper.'+type).append(tmp);
+			});
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+		}
+	});
+
+	$('#tableModal').modal('show');
+
+});
+
 $('#edit-study-save-btn').click(function(e) {
 
 	var study = $('#edit-study-page').data('editing');
@@ -579,5 +614,93 @@ $('#edit-study-back-btn').click(function(e) {
 	// Shows the home page and resets the edit study page
 
 	$('#studyElementsNavBar .navbar-brand').click();
+	$('.popover').popover('hide');
 
 });
+
+// button that saves links for recordings that have already been added to study
+$('#link-page-save-btn').click(function(e) {
+
+	var rec = $('#edit-study-link-page').data('currentRecording');
+	var study = $('#edit-study-page').data('editing');
+
+	console.log(rec);
+	console.log(study);
+
+	var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
+
+	_.forEach(elements, function(elm) {
+		rec[elm] = [];
+	});
+
+	_.forEach($('#edit-study-link-page .study-info-object'), function(obj) {
+		obj = $(obj).data('studyElement');
+		rec[obj.type].push(obj.uuid);
+	});
+
+	_.forEach(study.recordings, function(elm, i) {
+
+		if(elm.uuid == rec.uuid) {
+			study.recordings[i] = rec;
+			console.log('successfully edited rec');
+		};
+
+	});
+
+	$('#edit-study-page').data('editing', study);
+
+	$('#edit-study-link-page .link-recording-wrapper').empty();
+	$('#edit-study-page .link-recording-wrapper.recordings').empty();
+	_.forEach(study.recordings, function(item) {
+		$('#edit-study-page .link-recording-wrapper.recordings').append(createRecordingObject(item));
+	});
+	$('#edit-study-link-page .linking-container').hide();
+	$('#edit-study-link-page').hide();
+	$('#edit-study-page').show();
+
+})
+
+// handles display of edit study info modal
+$('#editStudyInfoModal').on('shown.bs.modal', function(e) {
+
+	var study = $('#edit-study-page').data('editing');
+
+	var info = ['Name', 'Funding', 'HowToAcknowledge', 'studyDescription'];
+
+	$('#editStudyInfoModal .modal-body').load('./forms/studyInfo.html', function(e) {
+		$('#edit-study-add-authors-btn').click(editStudyAddAuthor);
+		_.forEach(info, function(elm) {
+			$('#editStudyInfoModal [name="'+elm+'"]').val(study[elm]);
+		});
+
+		var authors = study.Authors;
+
+		for(var i = 0; i < authors.length; i++) {
+			if(i == 0) {
+				$('#editStudyInfoModal [name="Authors[]"]').val(authors[i]);
+			} else {
+				$('#edit-study-add-authors-btn').before($('<div class="form-group"><input class="form-control" name="Authors[]" placeholder="Author Name"></div>'));
+				$($('#editStudyInfoModal [name="Authors[]"]')[i]).val(authors[i]);
+			}
+		};
+		$('#editStudyInfoModalSaveButton').click(editStudyInfoSave);
+	});
+});
+
+// handles saving of edit study info modal
+function editStudyInfoSave(e) {
+
+	// console.log($('#editStudyInfoModal .form-control').serializeObject());
+
+	var newInfo = $('#editStudyInfoModal .form-control').serializeObject();
+	var study = $('#edit-study-page').data('editing');
+
+	_.forEach(newInfo, function(item, key) {
+		study[key] = item;
+	});
+
+	$('#edit-study-page').data('editing', study);
+
+	$('#editStudyInfoModal').modal('hide');
+
+};

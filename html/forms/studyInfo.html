@@ -1,0 +1,32 @@
+<form class="" id="edit-study-info-form">
+
+  <div class="form-group dataset-description-form required">
+    <label class="control-label">Study Name</label>
+    <input class="form-control" name="Name" placeholder="Name">
+  </div>
+
+  <div class="form-group dataset-description-form">
+    <label class="control-label">Author Name(s)</label>
+    <input class="form-control" name="Authors[]" placeholder="Author Name">
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-outline-primary btn-sm" id="edit-study-add-authors-btn" value="Add Author" onclick="editStudyAddAuthor"><span class="glyphicon glyphicon-plus"></span> Add Author</button>
+  </div>
+
+  <div class="form-group dataset-description-form">
+    <label class="control-label">Study Funding</label>
+    <input class="form-control" name="Funding" placeholder="Funding">
+  </div>
+
+  <div class="form-group dataset-description-form">
+    <label class="control-label">How to Acknowledge</label>
+    <input class="form-control" name="HowToAcknowledge" placeholder="Desired Acknowledgement">
+  </div>
+
+  <div class="form-group dataset-description-form">
+    <label class="control-label">Study Description</label>
+    <textarea class="form-control" name="studyDescription" placeholder="Description of the Study" rows="4"></textarea>
+  </div>
+
+</form>

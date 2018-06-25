@@ -156,12 +156,7 @@ function createRecordingObject(rec) {
 		html: true,
 		content: function(item) {
 			var buttons = $();
-			buttons = buttons.add($("<i class='fa fa-link mx-1' aria-hidden='true'></i>").click(function(e) {
-				$('#edit-study-page').hide();
-				$('#edit-study-link-page').show();
-				$('#edit-study-link-page').data('currentStudy', $('#edit-study-page').data('editing'));
-				$(e.currentTarget).closest('.popover').hide();
-			}));
+			buttons = buttons.add($("<i class='fa fa-link mx-1' aria-hidden='true'></i>").click(rec,recordingEditLinks));
 			buttons = buttons.add($("<i class='fa fa-eye mx-1' aria-hidden='true'></i>").click(function(e) {
 				e.preventDefault();
 				displayRecording(rec);
@@ -183,6 +178,43 @@ function createRecordingObject(rec) {
 
 }
 
+function recordingEditLinks(e) {
+
+	var rec = e.data;
+	$('#edit-study-link-page').data('currentRecording', rec);
+
+	$('#edit-study-page').hide();
+	$('#edit-study-link-page').show();
+
+	$('#edit-study-link-page').data('currentStudy', $('#edit-study-page').data('editing'));
+	$('#edit-study-link-page').data('currentRecording', rec);
+	// $(e.currentTarget).closest('.popover').popover('hide');
+	$('.popover').popover('hide');
+
+	var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
+
+	var currentStudy = $('#edit-study-link-page').data('currentStudy');
+
+	for(var i = 0; i < elements.length; i++) {
+
+		_.forEach(rec[elements[i]], function(elm) {
+
+			$('#edit-study-link-page .link-recording-wrapper.'+elements[i]).append(createStudyInfoElement(getItemByUUID(elm)));
+
+		});
+
+	};
+
+};
+
+function editStudyAddAuthor(e) {
+
+	e.preventDefault();
+	console.log($(this));
+	$(this).before($('<div class="form-group"><input class="form-control" name="Authors[]" placeholder="Author Name"></div>'));
+
+}
+
 /*
 
 Data management functions below
@@ -192,6 +224,7 @@ Used to load, store, and modify data stored in .json files on local machine
 
 */
 
+// returns study with corresponding uuid
 function getStudyByUUID(uuid) {
 
 	return _.filter(studies, function(obj){
@@ -200,6 +233,18 @@ function getStudyByUUID(uuid) {
 
 }
 
+// replaces item in study w/ matching uuid with obj
+function replaceItem(uuid, study, obj) {
+
+	for(var i = 0; i < study[obj.type].length; i++) {
+
+
+
+	};
+
+}
+
+// returns study element corresponding to uuid
 function getItemByUUID(uuid) {
 
 	loadElements();

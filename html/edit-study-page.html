@@ -122,6 +122,16 @@
       </div>
     </div>
 
+    <!-- study info -->
+    <div class="row">
+      <div class="col mx-3">
+        <div class="row justify-content-center">
+          <!-- <a id="study-info-edit-study-title" href="javascript:void(0);" class="font-xl " onclick="$('.edit-study-info-container').toggle()">Study Info</a> -->
+          <a id="study-info-edit-study-title" href="javascript:void(0);" class="font-xl " onclick="$('#editStudyInfoModal').modal('toggle')">Study Info</a>
+        </div>
+      </div>
+    </div>
+
     <!-- buttons -->
     <div class="row justify-content-center" style="margin-top:2em;">
       <div class="col-6"><button id="edit-study-back-btn" class="btn btn-outline-danger btn-block">Back</button></div>
@@ -143,7 +153,7 @@
             <div class="row mt-1 link-recording-wrapper subject"></div>
             <div class="row mt-2 justify-content-center study-info-btn-container">
               <div class="col-11">
-                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="subject">Link</button>
+                <button class="btn btn-outline-success btn-block edit-linking-btn" data-infotype="subject">Link</button>
               </div>
             </div>
           </div>
@@ -162,7 +172,7 @@
             <div class="row mt-1 link-recording-wrapper stimulus"></div>
             <div class="row mt-2 justify-content-center study-info-btn-container">
               <div class="col-11">
-                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="stimulus">Link</button>
+                <button class="btn btn-outline-success btn-block edit-linking-btn" data-infotype="stimulus">Link</button>
               </div>
             </div>
           </div>
@@ -181,7 +191,7 @@
             <div class="row mt-1 link-recording-wrapper task"></div>
             <div class="row mt-2 justify-content-center study-info-btn-container">
               <div class="col-11">
-                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="task">Link</button>
+                <button class="btn btn-outline-success btn-block edit-linking-btn" data-infotype="task">Link</button>
               </div>
             </div>
           </div>
@@ -200,7 +210,7 @@
             <div class="row mt-1 link-recording-wrapper event"></div>
             <div class="row mt-2 justify-content-center study-info-btn-container">
               <div class="col-11">
-                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="event">Link</button>
+                <button class="btn btn-outline-success btn-block edit-linking-btn" data-infotype="event">Link</button>
               </div>
             </div>
           </div>
@@ -219,7 +229,7 @@
             <div class="row mt-1 link-recording-wrapper parameters"></div>
             <div class="row mt-2 justify-content-center study-info-btn-container">
               <div class="col-11">
-                <button class="btn btn-outline-success btn-block linking-btn" data-infotype="parameters">Link</button>
+                <button class="btn btn-outline-success btn-block edit-linking-btn" data-infotype="parameters">Link</button>
               </div>
             </div>
           </div>
