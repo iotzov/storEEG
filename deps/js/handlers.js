@@ -161,7 +161,7 @@ $('#sessions-label-continue-btn').click(function (e) {
 	$('.navbar-nav > [data-linkTo="#new-study-session-info"]').prepend('<i class="fa fa-check" aria-hidden="true"></i>');
 })
 
-// Edit recordings
+// handler for adding new study elements
 $('.edit-study-info-btn.add').click(function(e) {
 	e.preventDefault();
 	$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter($(e.currentTarget).data('infotype')));
@@ -203,7 +203,6 @@ $('#addNewModalSaveButton').click(function(e) {
 		$($('#addNewModal').data('editing')).remove();
 		var currentType = $('#addNewModal').data('currentInfoType');
 		var newObject = $('.data-entry').serializeObject();
-		newObject.uuid = uuid();
 		newObject.study = currentStudy.Name;
 		newObject.type = currentType;
 		if(currentType == 'parameters') {
@@ -446,6 +445,33 @@ $('.edit-study-info-btn.import').click(function(e) {
 
 });
 
+$('.modify-study-btn.import').click(function(e) {
+
+	createModalTable_import($(e.currentTarget).data('infotype'));
+
+	$('#tableModalSaveButton').one('click', function(e) {
+
+		var selections = $('#import-link-table').bootstrapTable('getSelections');
+		if(_.isEmpty(selections)) {
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+		} else {
+
+			var type = selections[0].type;
+			_.forEach(selections, function(o) {
+				$('.edit-study-element-container.'+type).append(createStudyInfoElement(o));
+			});
+			$('#import-link-table').bootstrapTable('destroy');
+			$('#tableModal').modal('hide');
+
+		};
+
+	});
+
+	$('#tableModal').modal('show');
+
+});
+
 $('.linking-btn').click(function(e) {
 
 	var type = $(e.currentTarget).data('infotype');
@@ -540,12 +566,6 @@ $('#edit-study-save-btn').click(function(e) {
 		return s.uuid == study.uuid
 	})] = study;
 
-	console.log(study)
-	console.log(studies[1].recordings)
-
-	// updateHomeTable();
-
-	// saveThese(studies);
 	saveStudies();
 
 	$('#edit-study-page .edit-study-element-container').empty();
@@ -631,9 +651,6 @@ $('#link-page-save-btn').click(function(e) {
 	var rec = $('#edit-study-link-page').data('currentRecording');
 	var study = $('#edit-study-page').data('editing');
 
-	console.log(rec);
-	console.log(study);
-
 	var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
 
 	_.forEach(elements, function(elm) {
@@ -649,7 +666,6 @@ $('#link-page-save-btn').click(function(e) {
 
 		if(elm.uuid == rec.uuid) {
 			study.recordings[i] = rec;
-			console.log('successfully edited rec');
 		};
 
 	});

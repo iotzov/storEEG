@@ -102,19 +102,18 @@ function createStudyInfoElement(dataObject) {
 			editbtn.click(dataObject, function(e) {
 				$('.popover').popover('hide');
 				e.preventDefault();
-				console.log(e);
 				var dataObject = e.data;
 				$('#addNewModal').data('currentInfoType', dataObject.type);
 				$('#addNewModal').data('editing', $('#'+dataObject.uuid));
 				$('#addNewModal').data('mode', 'edit');
 				$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html', function() {
-					// if($('#addNewModal').data('currentInfoType') == 'stimulus') {
-					// 	var currentEvents = $('#'+dataObject.uuid).closest('.main-content').find('.event').children();
-					// 	currentEvents.each(function(ev) {
-					// 		var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
-					// 		$('.modal-body .link-event').append(tmp);
-					// 	});
-					// };
+					if($('#addNewModal').data('currentInfoType') == 'stimulus') {
+						var currentEvents = $('#'+dataObject.uuid).closest('.main-content').find('.event').children('.study-info-object');
+						currentEvents.each(function(ev) {
+							var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
+							$('.modal-body .link-event').append(tmp);
+						});
+					};
 				});
 				$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
 				$('#addNewModal').on('shown.bs.modal', function(e) {
@@ -129,11 +128,11 @@ function createStudyInfoElement(dataObject) {
 				$('#addNewModal').modal('show');
 			});
 			buttons = buttons.add(editbtn);
-			var tmp = $("<i class='fa fa-trash mx-1' aria-hidden='true'></i>").data('target', dataObject.uuid);
+			var tmp = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-trash mx-1' aria-hidden='true'></i></a>").data('target', dataObject.uuid);
 			tmp.click(function(e) {
 				var container = 	$('#'+$(this).data('target')).closest('.link-recording-wrapper');
 				$('#'+$(this).data('target')).remove();
-				$(e.currentTarget).closest('.popover').hide();
+				$('.popover').popover('hide');
 				container.trigger('elementsChanged');
 			});
 			buttons = buttons.add(tmp);
@@ -870,5 +869,5 @@ function sortContainer(container) {
   for (var i = 0; i < list.length; i++) {
     list[i].parentNode.appendChild(list[i]);
   }
-	
+
 };
