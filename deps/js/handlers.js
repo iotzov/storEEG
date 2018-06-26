@@ -555,11 +555,18 @@ $('#edit-study-save-btn').click(function(e) {
 
 });
 
-$('.edit-study-page-container-toggle').on('updateThis', updateEditStudyPageToggle);
+// $('.edit-study-page-container-toggle').on('updateThis', updateEditStudyPageToggle);
 
 $('.edit-study-element-container').on('elementsChanged', function(e) {
 
-	$($(this).data('titledby')).trigger('updateThis');
+	var toUpdate = $($(this).data('titledby'));
+
+	sortContainer($(e.currentTarget));
+
+	var newNumber = $('.edit-study-element-container.' + toUpdate.data('type')).children().length;
+	var newText = toUpdate.data('textstring') + newNumber + ')';
+
+	toUpdate.text(newText);
 
 });
 
@@ -704,3 +711,7 @@ function editStudyInfoSave(e) {
 	$('#editStudyInfoModal').modal('hide');
 
 };
+
+$('.edit-study-page-container-toggle').click(function(e) {
+	$('.popover').popover('hide');
+});

@@ -92,52 +92,57 @@ function createStudyInfoElement(dataObject) {
 	tempvar.addClass(dataObject.type+'-color');
 	tempvar.text(dataObject.label);
 	tempvar.data('studyElement', dataObject);
+	tempvar.attr('id', dataObject.uuid);
 
-	var removebtn = $("<a class='recording-list-remove-btn'><i class='fa fa-trash-o' aria-hidden='true'></i></a>");
-	removebtn.click(function(e) {
-		var container = $(this).closest('.link-recording-wrapper');
-		$(this).parent().remove();
-		container.trigger('elementsChanged');
-	});
-
-	var editbtn   = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
-	editbtn.click(function(e) {
-		e.preventDefault();
-
-		$('#addNewModal').data('currentInfoType', dataObject.type);
-		$('#addNewModal').data('editing', $(this).parent());
-		$('#addNewModal').data('mode', 'edit');
-		$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html', function() {
-			if($('#addNewModal').data('currentInfoType') == 'stimulus') {
-
-				var currentEvents = $(e.currentTarget).closest('.main-content').find('.event').children();
-
-				currentEvents.each(function(ev) {
-					var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
-					$('.modal-body .link-event').append(tmp);
+	tempvar.popover({
+		html: true,
+		content: function(item) {
+			var buttons = $();
+			var editbtn   = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
+			editbtn.click(dataObject, function(e) {
+				$('.popover').popover('hide');
+				e.preventDefault();
+				console.log(e);
+				var dataObject = e.data;
+				$('#addNewModal').data('currentInfoType', dataObject.type);
+				$('#addNewModal').data('editing', $('#'+dataObject.uuid));
+				$('#addNewModal').data('mode', 'edit');
+				$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html', function() {
+					// if($('#addNewModal').data('currentInfoType') == 'stimulus') {
+					// 	var currentEvents = $('#'+dataObject.uuid).closest('.main-content').find('.event').children();
+					// 	currentEvents.each(function(ev) {
+					// 		var tmp = $('<option>' + $(this).data('studyElement').label + '</option>');
+					// 		$('.modal-body .link-event').append(tmp);
+					// 	});
+					// };
 				});
-			};
-		});
-		$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
-
-		$('#addNewModal').on('shown.bs.modal', function(e) {
-			if($(e.currentTarget).data('mode') == 'edit') {
-				var temp = $(e.currentTarget).data('editing').data('studyElement');
-
-				for(elm in temp) {
-					//$('.modal-body .form-group > :not(label)[name='+elm+']')[0].value = temp[elm];
-					$('.modal-body .form-group > :not(label)[name='+elm+']').val(temp[elm]);
-				};
-			};
-
-		});
-
-		$('#addNewModal').modal('show');
-
+				$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
+				$('#addNewModal').on('shown.bs.modal', function(e) {
+					if($(e.currentTarget).data('mode') == 'edit') {
+						var temp = $(e.currentTarget).data('editing').data('studyElement');
+						for(elm in temp) {
+							//$('.modal-body .form-group > :not(label)[name='+elm+']')[0].value = temp[elm];
+							$('.modal-body .form-group > :not(label)[name='+elm+']').val(temp[elm]);
+						};
+					};
+				});
+				$('#addNewModal').modal('show');
+			});
+			buttons = buttons.add(editbtn);
+			var tmp = $("<i class='fa fa-trash mx-1' aria-hidden='true'></i>").data('target', dataObject.uuid);
+			tmp.click(function(e) {
+				var container = 	$('#'+$(this).data('target')).closest('.link-recording-wrapper');
+				$('#'+$(this).data('target')).remove();
+				$(e.currentTarget).closest('.popover').hide();
+				container.trigger('elementsChanged');
+			});
+			buttons = buttons.add(tmp);
+			return(buttons)
+		}
 	});
 
-	tempvar.prepend(editbtn);
-	tempvar.prepend(removebtn);
+	// tempvar.prepend(editbtn);
+	// tempvar.prepend(removebtn);
 
 	return tempvar
 
@@ -415,17 +420,6 @@ function displayRecording(recording) {
 
 }
 
-function updateEditStudyPageToggle(event) {
-
-	var toUpdate = $(event.currentTarget);
-
-	var newNumber = $('.edit-study-element-container.' + toUpdate.data('type')).children().length;
-	var newText = toUpdate.data('textstring') + newNumber + ')';
-
-	toUpdate.text(newText);
-
-}
-
 /*
 
   Functions for creating and managing drag n drop functionality
@@ -542,17 +536,14 @@ function createHomeTable() {
 
 		hideAllSections();
 
-		$('.edit-study-page-container-toggle').trigger('updateThis');
+		$('.edit-study-element-container').trigger('elementsChanged');
 
 		$('#edit-study-page').data('editing', study);
 
 		$('#edit-study-page').show();
 		$('#studyElementsNavBar').show();
-
-		//recordings
 	});
-
-}
+};
 
 function updateHomeTable() {
 
@@ -866,4 +857,18 @@ function channelLocationsFileSelection() {
 
 	console.log('success');
 
+};
+
+function sortContainer(container) {
+
+  var sort_by_name = function(a, b) {
+    return a.innerHTML.toLowerCase().localeCompare(b.innerHTML.toLowerCase());
+  }
+
+  var list = container.children().get();
+  list.sort(sort_by_name);
+  for (var i = 0; i < list.length; i++) {
+    list[i].parentNode.appendChild(list[i]);
+  }
+	
 };
