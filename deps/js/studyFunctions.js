@@ -405,7 +405,7 @@ function displayRecording(recording) {
 	var options = {
 		mode: 'json',
 		args: [recording.uuid],
-		pythonPath: 'python3',
+		// pythonPath: 'python3',
 		scriptPath: pythonFolder
 	};
 
