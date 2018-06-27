@@ -127,6 +127,11 @@ function createStudyInfoElement(dataObject) {
 				$('#addNewModal').modal('show');
 			});
 			buttons = buttons.add(editbtn);
+			if(dataObject.type == 'stimulus') {
+				buttons = buttons.add($("<i class='fa fa-eye mx-1' aria-hidden='true'></i>").click(function(e) {
+					opn($('#'+dataObject.uuid).data('studyElement').stimulusLocation);
+				}));
+			};
 			var tmp = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-trash mx-1' aria-hidden='true'></i></a>").data('target', dataObject.uuid);
 			tmp.click(function(e) {
 				var container = 	$('#'+$(this).data('target')).closest('.link-recording-wrapper');
