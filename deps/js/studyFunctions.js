@@ -104,7 +104,7 @@ function createStudyInfoElement(dataObject) {
 				e.preventDefault();
 				var dataObject = e.data;
 				$('#addNewModal').data('currentInfoType', dataObject.type);
-				$('#addNewModal').data('editing', $('#'+dataObject.uuid));
+				$('#addNewModal').data('editing', dataObject.uuid);
 				$('#addNewModal').data('mode', 'edit');
 				$('#addNewModal .modal-body').load('./forms/' + dataObject.type + '.html', function() {
 					if($('#addNewModal').data('currentInfoType') == 'stimulus') {
@@ -118,10 +118,9 @@ function createStudyInfoElement(dataObject) {
 				$('#addNewModalLabel').text('Add New ' + capitalizeFirstLetter(dataObject.type));
 				$('#addNewModal').on('shown.bs.modal', function(e) {
 					if($(e.currentTarget).data('mode') == 'edit') {
-						var temp = $(e.currentTarget).data('editing').data('studyElement');
-						for(elm in temp) {
+						for(elm in dataObject) {
 							//$('.modal-body .form-group > :not(label)[name='+elm+']')[0].value = temp[elm];
-							$('.modal-body .form-group > :not(label)[name='+elm+']').val(temp[elm]);
+							$('.modal-body .form-group > :not(label)[name='+elm+']').val(dataObject[elm]);
 						};
 					};
 				});
@@ -514,6 +513,8 @@ function createHomeTable() {
 		$('#edit-study-page .edit-study-item-and-button-container').hide();
 
 		var study = getStudyByUUID($(this).data('uuid'));
+
+		currentStudy = study;
 
 		var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
 

@@ -199,12 +199,15 @@ $('#addNewModalSaveButton').click(function(e) {
 	}
 	else if($('#addNewModal').data('mode') == 'edit') {
 
-		var parent = $($('#addNewModal').data('editing')).parent();
-		$($('#addNewModal').data('editing')).remove();
+		var editing = $('#'+$('#addNewModal').data('editing'));
+		var parent = editing.parent();
+		var oldUUID = editing.data('studyElement').uuid;
+		editing.remove();
 		var currentType = $('#addNewModal').data('currentInfoType');
 		var newObject = $('.data-entry').serializeObject();
 		newObject.study = currentStudy.Name;
 		newObject.type = currentType;
+		newObject.uuid = oldUUID;
 		if(currentType == 'parameters') {
 			newObject.channelLocations = $('#addNewModal').data('fileLocation');
 		};
