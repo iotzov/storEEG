@@ -108,6 +108,7 @@ $('#add-new-recordings-continue').click(function(e) {
 		tempRecording.file = $(this).data('file');
 		tempRecording.uuid = uuid();
 		tempRecording.study = currentStudy.uuid;
+		tempRecording.md5 = getmd5(tempRecording.file);
 
 		currentStudy.recordings.push(tempRecording);
 		var cardTemplate = $("<div class='card bg-light mb-2 text-center'></div>");
@@ -324,7 +325,13 @@ $('#final-save-btn').click(function(e) {
 
 	addStudy(currentStudy);
 
-	copyRecordings(currentStudy, writeStudyToFile);
+	_.forEach(currentStudy.recordings, function(rec) {
+		copyRecording(rec, currentStudy.Name);
+	});
+
+	_.forEach(currentStudy.stimulus, function(stim) {
+		copyStimulus(stim, currentStudy.Name);
+	})
 
 });
 
@@ -731,6 +738,14 @@ function editStudyInfoSave(e) {
 
 };
 
+// hides popovers when a container on the edit study page is
+// expanded or collapsed
 $('.edit-study-page-container-toggle').click(function(e) {
 	$('.popover').popover('hide');
+});
+
+// add informative tooltip to import study btn
+$('#import-saved-study-btn').tooltip({
+	placement: 'bottom',
+	title: 'Add exported study to storEEG'
 });

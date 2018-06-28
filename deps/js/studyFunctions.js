@@ -129,7 +129,13 @@ function createStudyInfoElement(dataObject) {
 			buttons = buttons.add(editbtn);
 			if(dataObject.type == 'stimulus') {
 				buttons = buttons.add($("<i class='fa fa-eye mx-1' aria-hidden='true'></i>").click(function(e) {
+					try {
 					opn($('#'+dataObject.uuid).data('studyElement').stimulusLocation);
+					console.log('Success displaying '+$('#'+dataObject.uuid).data('studyElement').stimulusLocation.replace(/^.*[\\\/]/, ''));
+				} catch (err) {
+					console.log('Error displaying '+$('#'+dataObject.uuid).data('studyElement').stimulusLocation.replace(/^.*[\\\/]/, ''));
+					console.error(err);
+				}
 				}));
 			};
 			var tmp = $("<a class='mx-1 study-element-edit-btn'><i class='fa fa-trash mx-1' aria-hidden='true'></i></a>").data('target', dataObject.uuid);
@@ -344,6 +350,7 @@ function addStudy(study) {
 	loadStudies();
 	studies.push(study);
 	jsonfile.writeFile('studies.json', studies);
+	jsonfile.writeFile(path.join(studyFolder, study.Name, 'studyInfo.json'), study);
 
 }
 
@@ -356,9 +363,9 @@ function studyComparison(one, two, key) {
 	};
 }
 
+// writes the js object representing the study to 'studyInfo.json' under that study's top folder
+// each study's top folder is identical to its 'Name' property
 function writeStudyToFile(study, callback) {
-	// writes the js object representing the study to 'studyInfo.json' under that study's top folder
-	// each study's top folder is identical to its 'Name' property
 
 	if(!fs.existsSync(path.join(studyFolder, study.Name))) {
 		fs.mkdirSync(path.join(studyFolder, study.Name));
@@ -372,36 +379,116 @@ function writeStudyToFile(study, callback) {
 
 }
 
-function copyRecordings(study, callback) {
-	// copies each file under the 'recordings' of a study to its top folder
-	// original file names are preserved
+// write info for all studies to the studyInfo.json file
+// in each study's directory
+function writeAllStudies() {
 
-	// _.forEach(study.recordings, function(rec) {
-  //
-	// 	var dest = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
-  //
-	// 	fs.copy(rec.file, dest, (err) => {
-	// 		if(err) throw err;
-	// 		console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
-	// 		rec.file = dest;
-	// 	});
-  //
-	// });
-
-	for(var i=0; i<study.recordings.length; i++) {
-
-		var dest = path.join(studyFolder, study.Name, study.recordings[i].file.replace(/^.*[\\\/]/, ''));
-
-		fs.copy(study.recordings[i].file, dest, (err) => {
-			if(err) throw err;
-			console.log('Copied ' + study.recordings[i].file.replace(/^.*[\\\/]/, '') + ' successfully.');
+	_.forEach(studies, function(study) {
+		jsonfile.writeFile(path.join(studyFolder, study.Name, 'studyInfo.json'), study, function(e) {
+			console.log('Wrote '+study.Name);
 		});
+	});
 
-		study.recordings[i].file = dest;
+}
 
-	};
+// function copyRecordings(study, callback) {
+// 	// copies each file under the 'recordings' of a study to its top folder
+// 	// original file names are preserved
+//
+// 	// _.forEach(study.recordings, function(rec) {
+//   //
+// 	// 	var dest = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
+//   //
+// 	// 	fs.copy(rec.file, dest, (err) => {
+// 	// 		if(err) throw err;
+// 	// 		console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
+// 	// 		rec.file = dest;
+// 	// 	});
+//   //
+// 	// });
+//
+// 	for(var i=0; i<study.recordings.length; i++) {
+//
+// 		console.log(study.recordings[i].file.replace(/^.*[\\\/]/, ''));
+// 		console.log(study.recordings[i].file);
+//
+// 		var dest = path.join(studyFolder, study.Name, study.recordings[i].file.replace(/^.*[\\\/]/, ''));
+//
+// 		console.log(dest);
+//
+// 		fs.copy(study.recordings[i].file, dest, (err) => {
+// 			if(err) throw err;
+// 			console.log('Copied ' + study.recordings[i].file.replace(/^.*[\\\/]/, '') + ' successfully.');
+// 		});
+//
+// 		study.recordings[i].file = dest;
+//
+// 	};
+//
+// 	typeof callback === 'function' && callback(study, restartApp);
+//
+// }
 
-	typeof callback === 'function' && callback(study, restartApp);
+// File functions
+
+// copy passed recording file to `studies` folder
+async function copyRecording(recording, studyName) {
+	// recording - object, recording object containing path of file to be copied
+	// studyName - string, name of the study (found in study.Name)
+
+	try {
+		await fs.copy(recording.file, path.join(studyFolder, studyName, recording.file.replace(/^.*[\\\/]/, '')))
+		console.log('Copied study '+studyName+' file '+recording.file.replace(/^.*[\\\/]/, ''));
+	} catch (err) {
+		console.error(error)
+	}
+
+}
+
+// copy passed stimulus file to `stimuli` folder under `studies` folder
+async function copyStimulus(stimulus, studyName) {
+	// stimulus - object, stimulus object containing path of file to be copied
+	// studyName - string, name of the study (found in study.Name)
+
+	try {
+		await fs.copy(stimulus.stimulusLocation, path.join(studyFolder, studyName, 'stimuli', stimulus.stimulusLocation.replace(/^.*[\\\/]/, '')))
+		console.log('Copied study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''));
+	} catch (err) {
+		console.error(error)
+	}
+
+}
+
+// copy passed stimulus file to `stimuli` folder under `studies` folder
+async function copyChannelLocations(locs, studyName) {
+	// stimulus - object, stimulus object containing path of file to be copied
+	// studyName - string, name of the study (found in study.Name)
+
+	try {
+		await fs.copy(stimulus.stimulusLocation, path.join(studyFolder, studyName, 'stimuli', stimulus.stimulusLocation.replace(/^.*[\\\/]/, '')))
+		console.log('Copied study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''));
+	} catch (err) {
+		console.error(error)
+	}
+
+}
+
+// returns md5 hash of the requested file
+function getmd5(toHash) {
+	// toHash - full path of the file to be hashed
+	// returns - string, md5 hash of requested file
+
+	return md5.sync(toHash)
+
+};
+
+// checks if the md5 hash of requested file is identical to passed hash
+function checkFile(aHash, aPath) {
+	// aHash - string, hash returned by getmd5() function
+	// aPath - string, path to file to check
+	// returns - true if identical, false otherwise
+
+	return aHash == getmd5(aPath);
 
 }
 
@@ -422,6 +509,8 @@ function displayRecording(recording) {
 	});
 
 }
+
+// end of file functions
 
 /*
 

@@ -22,6 +22,7 @@ const cp = require('child_process');
 const pyshell = require('python-shell');
 const Mousetrap = require('mousetrap');
 const opn = require('opn');
+const md5 = require('md5-file');
 
 // bind konami code for opening dev DevTools
 Mousetrap.bind('up up down down left right left right b a enter', function() {
