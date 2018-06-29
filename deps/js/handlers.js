@@ -326,9 +326,10 @@ $('#final-save-btn').click(function(e) {
 	currentStudy = copyAllStudyFiles(currentStudy);
 
 	addStudy(currentStudy);
-	hideAllSections();
-	$('#home-section').show();
-
+	updateHomeTable(function() {
+		hideAllSections();
+		$('#home-section').show();
+	});
 });
 
 // handler for home page 'new study' button
@@ -577,6 +578,16 @@ $('#edit-study-save-btn').click(function(e) {
 
 	saveStudies();
 
+	var toDelete = $('#edit-study-page').data('toDelete');
+	if(toDelete) {
+		_.forEach(toDelete, function(elm) {
+			fs.remove(elm);
+		})
+	};
+
+	$('#edit-study-page').removeData('toDelete');
+	$('#edit-study-page').removeData('editing');
+
 	$('#edit-study-page .edit-study-element-container').empty();
 
 	hideAllSections();
@@ -750,3 +761,31 @@ $('#import-saved-study-btn').tooltip({
 	placement: 'bottom',
 	title: 'Add exported study to storEEG'
 });
+
+$('#edit-study-delete-btn').click(function(e) {
+
+	var study = $('#edit-study-page').data('editing');
+
+	var idx = studies.findIndex(function(s) {
+		return s.uuid == study.uuid
+	});
+
+	studies.splice(idx, 1);
+
+	saveStudies();
+
+	try {
+		if(!_.isEmpty(study.Name)){
+			fs.remove(path.join(studyFolder, study.Name));
+		}
+	} catch(err) {
+		console.log('could not delete '+study.Name+' folder');
+		console.warn(err);
+	}
+
+	updateHomeTable(function() {
+		hideAllSections();
+		$('#home-section').show();
+	});
+
+})

@@ -174,6 +174,27 @@ function createRecordingObject(rec) {
 				e.preventDefault();
 				displayRecording(rec);
 			}));
+			var uploadbtn = $("<i class='fa fa-upload mx-1' aria-hidden='true'></i>").data('target', rec.uuid);
+			uploadbtn.click(function(e) {
+				var fileLocation = dialog.showOpenDialog({properties: ['openFile']});
+				if(!fileLocation) {
+					$('.popover').popover('hide');
+					return
+				}
+				var oldrec = $('#'+$(this).data('target')).data('studyElement');
+				var toDelete = $('#edit-study-page').data('toDelete');
+				if(toDelete) {
+					toDelete.push(oldrec.file);
+				} else {
+					toDelete = [oldrec.file];
+				};
+				$('#edit-study-page').data('toDelete', toDelete);
+				oldrec.file = fileLocation[0];
+				$('#'+$(this).data('target')).data('studyElement', oldrec);
+				$('#'+$(this).data('target')).text(oldrec.file.replace(/^.*[\\\/]/, ''));
+				$('.popover').popover('hide');
+			});
+			buttons = buttons.add(uploadbtn);
 			var tmp = $("<i class='fa fa-trash mx-1' aria-hidden='true'></i>").data('target', rec.uuid);
 			tmp.click(function(e) {
 				$('#'+$(this).data('target')).remove();
@@ -289,6 +310,12 @@ function findMatchingStudies(item) { // returns list of studies that have elemen
 
 function loadStudies() {
 
+	if(!fs.existsSync('studies.json')) {
+
+		jsonfile.writeFileSync('studies.json', []);
+
+	}
+
 	studies = jsonfile.readFileSync('studies.json', {
 		throws: false
 	});
@@ -331,7 +358,7 @@ function loadElements() {
 
 function saveStudies() {
 
-	jsonfile.writeFile('studies.json', studies);
+	jsonfile.writeFileSync('studies.json', studies);
 
 }
 
@@ -409,11 +436,23 @@ async function copyRecording(recording, studyName) {
 	// recording - object, recording object containing path of file to be copied
 	// studyName - string, name of the study (found in study.Name)
 
+	if(recording.file === path.join(studyFolder, studyName, recording.file.replace(/^.*[\\\/]/, ''))) {
+		console.log('study '+studyName+' file '+recording.file.replace(/^.*[\\\/]/, '')+' already exists');
+		return
+	};
+	if(!fs.existsSync(recording.file)) {
+		console.error('study '+studyName+' file '+recording.file.replace(/^.*[\\\/]/, '')+' does not exist');
+		return
+	};
+
 	try {
-		if(recording.file !== path.join(studyFolder, studyName, recording.file.replace(/^.*[\\\/]/, ''))) {
-		await fs.copy(recording.file, path.join(studyFolder, studyName, recording.file.replace(/^.*[\\\/]/, '')))
+		var fileExtension = '.'+recording.file.split('.').pop();
+		var newFileName = recording.file.replace(/^.*[\\\/]/, '');
+		newFileName = newFileName.replace(fileExtension,'');
+		newFileName = newFileName.replace(recording.uuid,'');
+		await fs.copy(recording.file, path.join(studyFolder, studyName, newFileName+'_'+recording.uuid+fileExtension));
+		// await fs.copy(recording.file, path.join(studyFolder, studyName, recording.file.replace(/^.*[\\\/]/, '').replace(fileExtension,recording.uuid+fileExtension)));
 		console.log('Copied study '+studyName+' file '+recording.file.replace(/^.*[\\\/]/, ''));
-		}
 	} catch (err) {
 		console.error(err)
 	}
@@ -425,11 +464,23 @@ async function copyStimulus(stimulus, studyName) {
 	// stimulus - object, stimulus object containing path of file to be copied
 	// studyName - string, name of the study (found in study.Name)
 
+	if(stimulus.stimulusLocation === path.join(studyFolder, studyName, stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''))) {
+		console.log('study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, '')+' already exists');
+		return
+	};
+	if(!fs.existsSync(stimulus.stimulusLocation)) {
+		console.error('study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, '')+' does not exist');
+		return
+	};
+
 	try {
-		if(stimulus.stimulusLocation !== path.join(studyFolder, studyName, 'stimuli', stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''))) {
-			await fs.copy(stimulus.stimulusLocation, path.join(studyFolder, studyName, 'stimuli', stimulus.stimulusLocation.replace(/^.*[\\\/]/, '')))
-			console.log('Copied study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''));
-		}
+		var fileExtension = '.'+stimulus.stimulusLocation.split('.').pop();
+		var newFileName = stimulus.stimulusLocation.replace(/^.*[\\\/]/, '');
+		newFileName = newFileName.replace(fileExtension,'');
+		newFileName = newFileName.replace(stimulus.uuid,'');
+		await fs.copy(stimulus.stimulusLocation, path.join(studyFolder, studyName, 'stimuli', newFileName+'_'+stimulus.uuid+fileExtension));
+		console.log('Copied study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''));
+
 	} catch (err) {
 		console.error(err)
 	}
@@ -491,12 +542,20 @@ function copyAllStudyFiles(study) {
 
 	_.forEach(study.recordings, function(rec,idx) {
 		copyRecording(rec, study.Name);
-		study.recordings[idx].file = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
+		var fileExtension = '.'+rec.file.split('.').pop();
+		var newFileName = rec.file.replace(/^.*[\\\/]/, '');
+		newFileName = newFileName.replace(fileExtension,'');
+		newFileName = newFileName.replace(rec.uuid,'');
+		study.recordings[idx].file = path.join(studyFolder, study.Name, newFileName+'_'+rec.uuid+fileExtension);
 	});
 
 	_.forEach(study.stimulus, function(stim,idx) {
 		copyStimulus(stim, study.Name);
-		study.stimulus[idx].stimulusLocation = path.join(studyFolder, study.Name, study.stimulus[idx].stimulusLocation.replace(/^.*[\\\/]/, ''));
+		var fileExtension = '.'+stim.stimulusLocation.split('.').pop();
+		var newFileName = stim.stimulusLocation.replace(/^.*[\\\/]/, '');
+		newFileName = newFileName.replace(fileExtension,'');
+		newFileName = newFileName.replace(stim.uuid,'');
+		study.stimulus[idx].stimulusLocation = path.join(studyFolder, study.Name, newFileName+'_'+stim.uuid+fileExtension);
 	});
 
 	return study
@@ -639,7 +698,7 @@ function createHomeTable() {
 	});
 };
 
-function updateHomeTable() {
+function updateHomeTable(callback) {
 
 	var data = [];
 
@@ -700,6 +759,10 @@ function updateHomeTable() {
 
 		//recordings
 	});
+
+	if(callback){
+		callback();
+	}
 
 }
 
