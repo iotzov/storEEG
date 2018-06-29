@@ -11,7 +11,6 @@ function exitProgram() {
 }
 
 function restartApp(){
-	console.log('oh jesus christ')
 	remote.BrowserWindow.getAllWindows()[0].reload();
 }
 
@@ -367,10 +366,6 @@ function studyComparison(one, two, key) {
 // each study's top folder is identical to its 'Name' property
 function writeStudyToFile(study, callback) {
 
-	if(!fs.existsSync(path.join(studyFolder, study.Name))) {
-		fs.mkdirSync(path.join(studyFolder, study.Name));
-	};
-
 	if(callback) {
 		jsonfile.writeFile(path.join(studyFolder, study.Name, 'studyInfo.json'), study, callback);
 	} else {
@@ -391,45 +386,23 @@ function writeAllStudies() {
 
 }
 
-// function copyRecordings(study, callback) {
-// 	// copies each file under the 'recordings' of a study to its top folder
-// 	// original file names are preserved
-//
-// 	// _.forEach(study.recordings, function(rec) {
-//   //
-// 	// 	var dest = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
-//   //
-// 	// 	fs.copy(rec.file, dest, (err) => {
-// 	// 		if(err) throw err;
-// 	// 		console.log('Copied ' + rec.file.replace(/^.*[\\\/]/, '') + ' successfully.');
-// 	// 		rec.file = dest;
-// 	// 	});
-//   //
-// 	// });
-//
-// 	for(var i=0; i<study.recordings.length; i++) {
-//
-// 		console.log(study.recordings[i].file.replace(/^.*[\\\/]/, ''));
-// 		console.log(study.recordings[i].file);
-//
-// 		var dest = path.join(studyFolder, study.Name, study.recordings[i].file.replace(/^.*[\\\/]/, ''));
-//
-// 		console.log(dest);
-//
-// 		fs.copy(study.recordings[i].file, dest, (err) => {
-// 			if(err) throw err;
-// 			console.log('Copied ' + study.recordings[i].file.replace(/^.*[\\\/]/, '') + ' successfully.');
-// 		});
-//
-// 		study.recordings[i].file = dest;
-//
-// 	};
-//
-// 	typeof callback === 'function' && callback(study, restartApp);
-//
-// }
+function loadStudiesFromFolders() {
 
-// File functions
+	fs.copySync('./studies.json', './studies.json.bakup');
+
+	studies = [];
+
+	_.forEach(fs.readdirSync(studyFolder), function(folder) {
+		try {
+		studies.push(jsonfile.readFileSync(path.join(studyFolder, folder, 'studyInfo.json')));
+	} catch (err) {
+		console.warn('Could not open '+folder);
+	}
+	});
+
+	saveStudies();
+
+}
 
 // copy passed recording file to `studies` folder
 async function copyRecording(recording, studyName) {
@@ -437,10 +410,12 @@ async function copyRecording(recording, studyName) {
 	// studyName - string, name of the study (found in study.Name)
 
 	try {
+		if(recording.file !== path.join(studyFolder, studyName, recording.file.replace(/^.*[\\\/]/, ''))) {
 		await fs.copy(recording.file, path.join(studyFolder, studyName, recording.file.replace(/^.*[\\\/]/, '')))
 		console.log('Copied study '+studyName+' file '+recording.file.replace(/^.*[\\\/]/, ''));
+		}
 	} catch (err) {
-		console.error(error)
+		console.error(err)
 	}
 
 }
@@ -451,10 +426,12 @@ async function copyStimulus(stimulus, studyName) {
 	// studyName - string, name of the study (found in study.Name)
 
 	try {
-		await fs.copy(stimulus.stimulusLocation, path.join(studyFolder, studyName, 'stimuli', stimulus.stimulusLocation.replace(/^.*[\\\/]/, '')))
-		console.log('Copied study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''));
+		if(stimulus.stimulusLocation !== path.join(studyFolder, studyName, 'stimuli', stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''))) {
+			await fs.copy(stimulus.stimulusLocation, path.join(studyFolder, studyName, 'stimuli', stimulus.stimulusLocation.replace(/^.*[\\\/]/, '')))
+			console.log('Copied study '+studyName+' file '+stimulus.stimulusLocation.replace(/^.*[\\\/]/, ''));
+		}
 	} catch (err) {
-		console.error(error)
+		console.error(err)
 	}
 
 }
@@ -510,6 +487,29 @@ function displayRecording(recording) {
 
 }
 
+function copyAllStudyFiles(study) {
+
+	_.forEach(study.recordings, function(rec,idx) {
+		copyRecording(rec, study.Name);
+		study.recordings[idx].file = path.join(studyFolder, study.Name, rec.file.replace(/^.*[\\\/]/, ''));
+	});
+
+	_.forEach(study.stimulus, function(stim,idx) {
+		copyStimulus(stim, study.Name);
+		study.stimulus[idx].stimulusLocation = path.join(studyFolder, study.Name, study.stimulus[idx].stimulusLocation.replace(/^.*[\\\/]/, ''));
+	});
+
+	return study
+
+}
+
+function copyStudyFilesForAllStudies() {
+
+	_.forEach(studies, function(study,idx) {
+		studies[idx] = copyAllStudyFiles(study);
+	})
+
+}
 // end of file functions
 
 /*

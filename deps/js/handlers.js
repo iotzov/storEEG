@@ -323,20 +323,17 @@ $('#new-study-link-page-save-btn').click(function(e) {
 $('#final-save-btn').click(function(e) {
 	e.preventDefault();
 
+	currentStudy = copyAllStudyFiles(currentStudy);
+
 	addStudy(currentStudy);
-
-	_.forEach(currentStudy.recordings, function(rec) {
-		copyRecording(rec, currentStudy.Name);
-	});
-
-	_.forEach(currentStudy.stimulus, function(stim) {
-		copyStimulus(stim, currentStudy.Name);
-	})
+	hideAllSections();
+	$('#home-section').show();
 
 });
 
 // handler for home page 'new study' button
 $('#add-new-study-btn').on('click', (event) => {
+	currentStudy = {};
 	hideAllSections();
 	$('#new-study-initial-page').show()
 	$('#mainNavBar').show()
@@ -572,6 +569,8 @@ $('#edit-study-save-btn').click(function(e) {
 
 	});
 
+	study = copyAllStudyFiles(study);
+
 	studies[studies.findIndex(function(s) {
 		return s.uuid == study.uuid
 	})] = study;
@@ -582,6 +581,7 @@ $('#edit-study-save-btn').click(function(e) {
 
 	hideAllSections();
 	$('#home-section').show(updateHomeTable);
+	currentStudy = {};
 
 });
 
@@ -649,7 +649,7 @@ $('.modify-study-btn.add').click(function(e) {
 $('#edit-study-back-btn').click(function(e) {
 	// Back button on the page for editing an already added study
 	// Shows the home page and resets the edit study page
-
+	currentStudy = {};
 	$('#studyElementsNavBar .navbar-brand').click();
 	$('.popover').popover('hide');
 
@@ -698,7 +698,7 @@ $('#editStudyInfoModal').on('shown.bs.modal', function(e) {
 
 	var study = $('#edit-study-page').data('editing');
 
-	var info = ['Name', 'Funding', 'HowToAcknowledge', 'studyDescription'];
+	var info = ['Name', 'Funding', 'HowToAcknowledge', 'studyDescription', 'publications'];
 
 	$('#editStudyInfoModal .modal-body').load('./forms/studyInfo.html', function(e) {
 		$('#edit-study-add-authors-btn').click(editStudyAddAuthor);
@@ -726,6 +726,7 @@ function editStudyInfoSave(e) {
 	// console.log($('#editStudyInfoModal .form-control').serializeObject());
 
 	var newInfo = $('#editStudyInfoModal .form-control').serializeObject();
+	// console.log(newInfo)
 	var study = $('#edit-study-page').data('editing');
 
 	_.forEach(newInfo, function(item, key) {
