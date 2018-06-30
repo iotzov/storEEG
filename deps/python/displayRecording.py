@@ -6,6 +6,7 @@ import mne
 mne.set_log_level('CRITICAL')
 
 rec_uuid = sys.argv[1]
+fileLocation = sys.argv[2];
 
 studies = json.load(open('studies.json'))
 
@@ -16,7 +17,8 @@ for elm in studies:
 
 recording = next((item for item in recordings if item['uuid'] == rec_uuid), None)
 
-data = mne.io.read_raw_edf(recording['file'])
+# data = mne.io.read_raw_edf(recording['file'])
+data = mne.io.read_raw_edf(fileLocation)
 locs = mne.channels.read_montage('biosemi64')
 
 # origNames = data.info['ch_names']
