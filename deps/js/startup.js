@@ -60,6 +60,8 @@ function setStudyFolder(studyFolderPath) {
 		jsonfile.writeFileSync('settings.json', settings);
 	}
 
+  studyFolder = studyFolderPath;
+
 }
 
 

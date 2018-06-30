@@ -789,3 +789,11 @@ $('#edit-study-delete-btn').click(function(e) {
 	});
 
 })
+
+$('#set-study-folder-btn').click(function(e) {
+
+	var folderLocation = dialog.showOpenDialog({properties: ['openDirectory']});
+
+	setStudyFolder(folderLocation[0]);
+
+})

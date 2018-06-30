@@ -204,7 +204,7 @@ function createRecordingObject(rec) {
 			return(buttons)
 		}
 	});
-	tempvar.text(rec.file.replace(/^.*[\\\/]/, ''));
+	tempvar.text(rec.file.replace(/^.*[\\\/]/, '').replace(rec.uuid, ''));
 
 	tempvar.data('studyElement', rec);
 
@@ -546,6 +546,7 @@ function copyAllStudyFiles(study) {
 		var newFileName = rec.file.replace(/^.*[\\\/]/, '');
 		newFileName = newFileName.replace(fileExtension,'');
 		newFileName = newFileName.replace(rec.uuid,'');
+		study.recordings[idx].originalLocation = study.recordings[idx].file;
 		study.recordings[idx].file = path.join(studyFolder, study.Name, newFileName+'_'+rec.uuid+fileExtension);
 	});
 
@@ -555,6 +556,7 @@ function copyAllStudyFiles(study) {
 		var newFileName = stim.stimulusLocation.replace(/^.*[\\\/]/, '');
 		newFileName = newFileName.replace(fileExtension,'');
 		newFileName = newFileName.replace(stim.uuid,'');
+		study.stimulus[idx].originalLocation = study.stimulus[idx].stimulusLocation;
 		study.stimulus[idx].stimulusLocation = path.join(studyFolder, study.Name, newFileName+'_'+stim.uuid+fileExtension);
 	});
 
@@ -704,43 +706,6 @@ function createHomeTable() {
 		event.preventDefault();
 		updateHomeTable();
 	});
-
-	$('.home-table-wrapper .edit-study-link').click(function(e) {
-
-		$('#edit-study-page .edit-study-element-container').empty();
-		$('#edit-study-page .edit-study-item-and-button-container').hide();
-
-		var study = getStudyByUUID($(this).data('uuid'));
-
-		currentStudy = study;
-
-		var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
-
-		for(var i=0; i < elements.length; i++) {
-
-			study[elements[i]].forEach(function(elm) {
-
-				$('#edit-study-page .'+elm.type+'.edit-study-element-container').append(createStudyInfoElement(elm));
-
-			});
-
-		};
-
-		study.recordings.forEach(function(rec) {
-
-			$('#edit-study-page .recordings.edit-study-element-container').append(createRecordingObject(rec));
-
-		});
-
-		hideAllSections();
-
-		$('.edit-study-element-container').trigger('elementsChanged');
-
-		$('#edit-study-page').data('editing', study);
-
-		$('#edit-study-page').show();
-		$('#studyElementsNavBar').show();
-	});
 };
 
 function updateHomeTable(callback) {
@@ -814,10 +779,48 @@ function updateHomeTable(callback) {
 function createEditLink(text, row, column) {
 
 	return [
-		"<a href='#' class='edit-study-link' data-uuid=",
+		"<a href='javascript:void(0)' onclick='openEditStudyPage(this)' class='edit-study-link' data-uuid=",
 		text,
-		">Edit</a>"
+		">View/Edit</a>"
 	].join('');
+
+}
+
+function openEditStudyPage(trigger) {
+
+	$('#edit-study-page .edit-study-element-container').empty();
+	$('#edit-study-page .edit-study-item-and-button-container').hide();
+
+	var study = getStudyByUUID($(trigger).data('uuid'));
+
+	currentStudy = study;
+
+	var elements = ['subject', 'stimulus', 'event', 'task', 'parameters'];
+
+	for(var i=0; i < elements.length; i++) {
+
+		study[elements[i]].forEach(function(elm) {
+
+			$('#edit-study-page .'+elm.type+'.edit-study-element-container').append(createStudyInfoElement(elm));
+
+		});
+
+	};
+
+	study.recordings.forEach(function(rec) {
+
+		$('#edit-study-page .recordings.edit-study-element-container').append(createRecordingObject(rec));
+
+	});
+
+	hideAllSections();
+
+	$('.edit-study-element-container').trigger('elementsChanged');
+
+	$('#edit-study-page').data('editing', study);
+
+	$('#edit-study-page').show();
+	$('#studyElementsNavBar').show();
 
 }
 
