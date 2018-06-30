@@ -29,9 +29,42 @@ Mousetrap.bind('up up down down left right left right b a enter', function() {
   remote.BrowserWindow.getFocusedWindow().webContents.openDevTools()
 });
 
+// study folder settings functions
+function getStudyFolder() {
+
+	if(fs.existsSync(path.join(__dirname, '..','settings.json'))) {
+
+		var settings = jsonfile.readFileSync('settings.json');
+		if(settings.studyFolder === 'default') {
+			return path.join(__dirname, '..','studies');
+		} else {
+			return settings.studyFolder;
+		}
+
+	} else {
+		return path.join(__dirname, '..','studies');
+	}
+
+}
+
+function setStudyFolder(studyFolderPath) {
+
+	if(fs.existsSync(path.join(__dirname, '..','settings.json'))) {
+		var settings = jsonfile.readFileSync('settings.json');
+		settings.studyFolder = studyFolderPath;
+		jsonfile.writeFileSync('settings.json', settings);
+	} else {
+		settings = {
+			studyFolder: studyFolderPath
+		};
+		jsonfile.writeFileSync('settings.json', settings);
+	}
+
+}
+
 
 // global variables
-const studyFolder = path.join(__dirname, '..', 'studies');
+var studyFolder = getStudyFolder();
 const pythonFolder = path.join(__dirname, '..', 'deps', 'python')
 var currentStudy = {};
 // var studies = [];

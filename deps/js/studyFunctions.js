@@ -569,6 +569,51 @@ function copyStudyFilesForAllStudies() {
 	})
 
 }
+
+function checkFileIntegrity() {
+
+	loadStudies();
+
+	studyFolder = getStudyFolder();
+
+	var totalRecs = 0;
+	var foundRecs = 0;
+	var recoveredRecs = 0;
+	var missingRecs = 0;
+
+	_.forEach(studies, function(study, studyidx) {
+
+		_.forEach(study.recordings, function(rec, recidx) {
+
+			totalRecs += 1;
+
+			if(fs.existsSync(rec.file)) {
+				foundRecs += 1;
+			} else {
+
+				if(fs.existsSync(path.join(studyFolder,study.Name,rec.file.replace(/^.*[\\\/]/, '')))) {
+					studies[studyidx].recordings[recidx].file = path.join(studyFolder,study.Name,rec.file.replace(/^.*[\\\/]/, ''));
+					recoveredRecs += 1;
+				} else {
+					console.error('study '+study.Name+' file '+rec.file.replace(/^.*[\\\/]/, '')+' cannot be found!');
+					missingRecs += 1;
+				}
+
+			}
+
+		})
+
+	})
+
+	console.log('total # of recordings: '+totalRecs);
+	console.log('found # of recordings: '+foundRecs);
+	console.log('recovered # of recordings: '+recoveredRecs);
+	console.log('missing # of recordings: '+missingRecs);
+
+	saveStudies();
+
+}
+
 // end of file functions
 
 /*
