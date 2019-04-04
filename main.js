@@ -13,6 +13,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1265,
     height: 853,
+    autoHideMenuBar: true,
     icon: __dirname + '/deps/img/repEEG_Icon.png',
     id: 'mainWindow'
   })
