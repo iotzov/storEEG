@@ -616,6 +616,19 @@ function checkFileIntegrity() {
 
 }
 
+function copyFromOriginals(study) {
+
+	_.forEach(study.recordings, function(rec) {
+		try {
+		fs.copySync(rec.originalLocation, rec.file)
+		console.log('copied '+rec.file)
+	} catch(err) {
+		console.warn(err);
+	}
+	})
+
+}
+
 // end of file functions
 
 /*
