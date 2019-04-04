@@ -614,6 +614,14 @@ function checkFileIntegrity() {
 
 	saveStudies();
 
+	var totalFound = foundRecs+recoveredRecs;
+
+	$('#main-area').prepend(
+		$('<div class="alert alert-success alert-dismissible fade show" role="alert">'+totalFound+' data files verified successfully.</div>').append(
+			$('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>')
+		)
+	);
+
 }
 
 function copyFromOriginals(study) {
